@@ -1,0 +1,70 @@
+window.addEventListener("DOMContentLoaded", function () {
+  var needSplit = document.querySelector("[text-split]");
+  var needLetters = document.querySelector("[letters-fade-in]");
+  var needHover = document.querySelector("[letters-fade-in-hover]");
+  if (!needSplit && !needLetters && !needHover) return;
+
+  function runAnimations() {
+    if (typeof gsap === "undefined" || typeof SplitType === "undefined") return;
+    gsap.registerPlugin(ScrollTrigger);
+
+    var mm = gsap.matchMedia();
+    mm.add("(prefers-reduced-motion: no-preference)", function () {
+      var splitSelector = "[text-split], [letters-fade-in], [letters-fade-in-hover]";
+      var splitTargets = document.querySelectorAll(splitSelector);
+      if (splitTargets.length === 0) return;
+
+      var typeSplit = new SplitType(splitTargets, { types: "words, chars", tagName: "span" });
+
+      function createScrollTrigger(triggerEl, timeline) {
+        ScrollTrigger.create({
+          trigger: triggerEl,
+          start: "top 70%",
+          once: true,
+          onEnter: function () { timeline.play(); }
+        });
+      }
+
+      var lettersFadeIn = document.querySelectorAll("[letters-fade-in]");
+      lettersFadeIn.forEach(function (el) {
+        var chars = el.querySelectorAll(".char");
+        if (chars.length === 0) return;
+        var tl = gsap.timeline({ paused: true });
+        tl.from(chars, {
+          opacity: 0,
+          duration: 0.25,
+          ease: "power1.out",
+          stagger: { amount: 0.8 }
+        });
+        createScrollTrigger(el, tl);
+        var rect = el.getBoundingClientRect();
+        if (rect.top < window.innerHeight && rect.bottom > 0) tl.play();
+      });
+
+      var lettersHover = document.querySelectorAll("[letters-fade-in-hover]");
+      lettersHover.forEach(function (el) {
+        var chars = el.querySelectorAll(".char");
+        if (chars.length === 0) return;
+        el.addEventListener("mouseenter", function () {
+          gsap.fromTo(chars, { opacity: 0 }, {
+            opacity: 1,
+            duration: 0.2,
+            ease: "power1.out",
+            stagger: { amount: 0.3 }
+          });
+        });
+        el.addEventListener("mouseleave", function () {
+          gsap.to(chars, { opacity: 1, duration: 0.2, ease: "power1.in", stagger: { amount: 0.3 } });
+        });
+      });
+
+      gsap.set(splitSelector, { opacity: 1 });
+    });
+  }
+
+  if ("requestIdleCallback" in window) {
+    requestIdleCallback(runAnimations, { timeout: 2000 });
+  } else {
+    setTimeout(runAnimations, 1);
+  }
+});

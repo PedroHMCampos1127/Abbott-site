@@ -1,0 +1,13 @@
+(function () {
+  var yearEl = document.querySelector('[data-year]');
+  if (!yearEl) return;
+
+  var startYear = parseInt(yearEl.getAttribute('data-year'), 10);
+  var currentYear = new Date().getFullYear();
+
+  if (!isNaN(startYear) && currentYear > startYear) {
+    yearEl.textContent = startYear + '\u2013' + currentYear;
+  } else {
+    yearEl.textContent = String(currentYear);
+  }
+})();

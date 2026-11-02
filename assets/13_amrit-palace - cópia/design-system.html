@@ -1,0 +1,712 @@
+<!DOCTYPE html>
+<!-- Design System extraído de https://amritpalace.com (Webflow, publicado em 17/09/2026). Todo o visual vem do CSS/JS original; o scaffold de documentação usa apenas classes .ds-* -->
+<html data-wf-domain="amritpalace.com" data-wf-page="68a25157e0edb92947ffe4a8" data-wf-site="68a25157e0edb92947ffe4a2" lang="pt-BR">
+<head>
+<meta charset="utf-8"/>
+<title>Amrit Palace — Design System</title>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<link href="https://cdn.prod.website-files.com" rel="preconnect" crossorigin="anonymous"/>
+<link href="https://cdn.prod.website-files.com/68a25157e0edb92947ffe4a2/css/amritpalace.webflow.shared.f70e57812.min.css" rel="stylesheet" type="text/css" integrity="sha384-9w5XgSX316qIviNzROngFrMME76dBRFamQgvagaLXUeC688HFAeerBGIZBANWPeg" crossorigin="anonymous"/>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link href="https://fonts.gstatic.com" rel="preconnect" crossorigin="anonymous"/>
+<script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.26/webfont.js" type="text/javascript"></script>
+<script type="text/javascript">WebFont.load({  google: {    families: ["Bad Script:300,400,500,600,700"]  }});</script>
+<script type="text/javascript">!function(o,c){var n=c.documentElement,t=" w-mod-";n.className+=t+"js",("ontouchstart"in o||o.DocumentTouch&&c instanceof DocumentTouch)&&(n.className+=t+"touch")}(window,document);</script>
+<link href="https://cdn.prod.website-files.com/68a25157e0edb92947ffe4a2/68bf08843cbc855ea7ecfe60_32x32.png" rel="shortcut icon" type="image/x-icon"/>
+
+<!-- ===== Estilos inline originais (copiados verbatim) ===== -->
+<style>
+::-webkit-scrollbar-button {transition: 0ms !important;width: 0px;height: 0px;}
+::-webkit-scrollbar-track {background: transparent;}
+::-webkit-scrollbar-thumb {-webkit-border-radius: 0px;border-radius: 0px;background: transparent;opacity:0;}
+::-webkit-resizer {width: 0px;height: 0px;}
+::-webkit-scrollbar {width: 0px;}
+
+[text-split] {opacity: 0;}
+html.w-editor [text-split] {opacity: 1;}
+
+.word {
+	overflow: hidden;
+  padding-bottom: 0.1em;
+  margin-bottom: -0.1em;
+  transform-origin: bottom;
+}
+
+  ::selection {
+  background-color: #d49653;
+  color: #2c2c2c;
+}
+
+::-moz-selection {
+  background-color: #d49653;
+  color: #2c2c2c;
+}
+</style>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@splidejs/splide@3.2.2/dist/css/splide-core.min.css">
+<style>
+.splide__track {
+  overflow: visible;
+}
+
+.splide__arrows {
+	display: none;
+}
+
+.splide__pagination {
+	display: none;
+}
+</style>
+
+<!-- ===== Scaffold de documentação (só .ds-*, usa tokens do site) ===== -->
+<style>
+:root{--ds-header-h:64px}
+.ds-nav{position:sticky;top:var(--ds-header-h);z-index:97;background-color:var(--dark);border-top:1px solid #d8cbb81a;border-bottom:1px solid #d8cbb81a;display:flex;gap:24px;overflow-x:auto;white-space:nowrap;padding:14px 28px;font-family:Satoshi,Arial,sans-serif;font-size:13px;font-weight:500;letter-spacing:-.01em;scrollbar-width:none}
+.ds-nav a{color:var(--biege);font-size:13px;text-transform:uppercase;transition:all .4s}
+.ds-nav a:hover,.ds-nav a.ds-active{color:var(--primary)}
+.ds-nav-brand{color:var(--primary);text-transform:uppercase;margin-right:8px}
+.ds-section{position:relative;z-index:10;background-color:var(--biege);color:var(--dark);padding:96px 28px;border-top:1px solid #2c2c2c33}
+.ds-section.ds-dark{background-color:var(--dark);color:var(--biege);border-top-color:#d8cbb81a}
+.ds-head{display:flex;flex-direction:column;gap:14px;margin-bottom:48px;max-width:100%}
+.ds-num{font-family:Satoshi,Arial,sans-serif;font-size:12px;text-transform:uppercase;letter-spacing:.04em;opacity:.65}
+.ds-desc{font-family:Satoshi,Arial,sans-serif;font-size:15px;line-height:1.4;max-width:62ch;opacity:.8}
+.ds-sub{font-family:Satoshi,Arial,sans-serif;font-size:12px;text-transform:uppercase;letter-spacing:.04em;opacity:.65;margin:48px 0 16px}
+.ds-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:12px}
+.ds-grid.ds-wide{grid-template-columns:repeat(auto-fill,minmax(320px,1fr))}
+.ds-card{border:1px solid #2c2c2c33;border-radius:3px;overflow:hidden;display:flex;flex-direction:column}
+.ds-dark .ds-card{border-color:#d8cbb859}
+.ds-swatch{height:120px;position:relative;overflow:hidden}
+.ds-meta{padding:12px 16px;display:flex;flex-direction:column;gap:4px;font-family:Satoshi,Arial,sans-serif;font-size:13px;line-height:1.4}
+.ds-meta b{font-weight:700}
+.ds-code{font-family:Satoshi,Arial,sans-serif;font-size:12px;opacity:.65;word-break:break-word}
+.ds-type-row{display:grid;grid-template-columns:170px minmax(0,1fr) 230px;align-items:center;gap:24px;padding:20px 0;border-top:1px solid #2c2c2c33}
+.ds-type-name{font-family:Satoshi,Arial,sans-serif;font-size:13px;font-weight:700}
+.ds-type-name span{display:block;font-weight:500;opacity:.65;font-size:12px;margin-top:4px}
+.ds-preview{min-width:0;overflow:hidden}
+.ds-preview.ds-on-dark{background-color:var(--dark);padding:16px 20px;border-radius:3px}
+.ds-preview.ds-on-footer{background-color:#292622;padding:16px 20px;border-radius:3px}
+.ds-spec{text-align:right;font-family:Satoshi,Arial,sans-serif;font-size:12px;line-height:1.5}
+.ds-spec b{font-size:14px;font-weight:700;display:block}
+.ds-note{font-family:Satoshi,Arial,sans-serif;font-size:13px;line-height:1.5;opacity:.7;margin-top:16px;max-width:80ch}
+.ds-stage{position:relative;padding:32px;border-radius:3px;display:flex;flex-wrap:wrap;gap:32px;align-items:flex-start;border:1px solid #2c2c2c33}
+.ds-stage.ds-on-dark{background-color:var(--dark);border-color:var(--dark)}
+.ds-stage.ds-on-primary{background-color:var(--primary);border-color:var(--primary)}
+.ds-stage.ds-on-footer{background-color:#292622;border-color:#292622}
+.ds-stage.ds-tall{padding-bottom:170px}
+.ds-state{display:flex;flex-direction:column;gap:12px;align-items:flex-start;min-width:0;max-width:100%}
+.ds-clip{width:100%;overflow:hidden}
+.ds-state-label{font-family:Satoshi,Arial,sans-serif;font-size:11px;text-transform:uppercase;letter-spacing:.06em;opacity:.65}
+.ds-on-dark .ds-state-label,.ds-on-footer .ds-state-label{color:var(--biege)}
+.ds-frame{transform:translateZ(0);position:relative;height:88px;overflow:hidden;border-radius:3px;margin-bottom:12px}
+.ds-frame>img.ds-bg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.ds-box{position:relative;height:200px;border-radius:3px;overflow:hidden}
+.ds-box>img.ds-bg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.ds-dd-static{position:relative;display:inline-block;width:110px;height:24px}
+.ds-dd-static .links_navs{position:absolute;display:block}
+.ds-fit{width:100%;max-width:440px}
+.ds-fit-sm{width:100%;max-width:360px}
+.ds-table{width:100%;border-collapse:collapse;font-family:Satoshi,Arial,sans-serif;font-size:13px;line-height:1.4}
+.ds-table th{text-align:left;font-weight:700;padding:10px 12px 10px 0;border-bottom:1px solid var(--dark)}
+.ds-table td{padding:10px 12px 10px 0;border-bottom:1px solid #2c2c2c33;vertical-align:top}
+.ds-dark .ds-table th{border-bottom-color:var(--biege)}
+.ds-dark .ds-table td{border-bottom-color:#d8cbb859}
+.ds-table-wrap{overflow-x:auto}
+.ds-replay{font-family:Satoshi,Arial,sans-serif;font-size:12px;font-weight:500;color:inherit;background:transparent;border:1px solid currentColor;border-radius:3px;padding:8px 14px;cursor:pointer;transition:all .4s;align-self:flex-start}
+.ds-replay:hover{color:var(--primary)}
+.ds-motion-demo{min-height:110px;display:flex;align-items:center;justify-content:flex-start;padding:16px;overflow:hidden}
+.ds-label-bar{position:relative;z-index:10;background-color:var(--dark);color:var(--biege);padding:14px 28px;font-family:Satoshi,Arial,sans-serif;font-size:12px;text-transform:uppercase;letter-spacing:.04em;display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
+.ds-label-bar span{opacity:.65}
+.ds-pulse-target{font-family:Satoshi,Arial,sans-serif;font-size:28px;font-weight:500;display:inline-block}
+.ds-icon-cell{height:96px;display:flex;align-items:center;justify-content:center;gap:12px}
+/* Estados forçados: declarações copiadas verbatim das regras :hover originais */
+.ds-force-hover.button{padding:6px;transform:scale(1.02)}
+.ds-force-hover.h-link{color:var(--primary)}
+.ds-force-hover.link_header{color:var(--primary)}
+.ds-force-hover.txt_footer{color:var(--primary)}
+.ds-force-hover.link_loc{color:var(--primary)}
+.ds-force-hover.spec_art_link{color:var(--primary)}
+@media screen and (max-width:991px){
+  .ds-section{padding:72px 20px}
+  .ds-nav,.ds-label-bar{padding-left:20px;padding-right:20px}
+  .ds-type-row{grid-template-columns:140px minmax(0,1fr) 190px}
+}
+@media screen and (max-width:767px){
+  .ds-section{padding:56px 16px}
+  .ds-nav,.ds-label-bar{padding-left:16px;padding-right:16px}
+  .ds-type-row{grid-template-columns:1fr;gap:10px}
+  .ds-spec{text-align:left}
+  .ds-stage{padding:20px;gap:20px}
+  .ds-grid.ds-wide{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body data-w-id="68a25157e0edb92947ffe4ad">
+
+<!-- ===================== HEADER (original) ===================== -->
+<div class="header"><div class="wrapper_header"><div class="flex_header"><div class="left-side"><div class="flexbox"><a href="#hero-section" aria-current="page" class="logo w-inline-block w--current"><img src="https://cdn.prod.website-files.com/68a25157e0edb92947ffe4a2/68ab69d9e852bb71813eafdf_Logo.png" loading="lazy" alt="Amrit Palace, logo, primary color, png"/></a><div class="menu_header"><a href="#ds-tokens" class="h-link w-inline-block"><div>Tokens</div></a><a href="#ds-type" class="h-link w-inline-block"><div>Tipografia</div></a><a href="#ds-components" class="h-link w-inline-block"><div>Componentes</div></a><div class="h-link"><div data-hover="false" data-delay="0" class="w-dropdown"><div class="link_header drop_locs w-dropdown-toggle"><div>Seções</div><div class="icon_drop w-icon-dropdown-toggle"></div></div><nav class="links_navs w-dropdown-list"><div class="title_locs"><div class="base_p dark">Choose section</div></div><div class="links_addresses"><a href="#ds-layout" class="link_loc w-dropdown-link">Layout</a><a href="#ds-motion" class="link_loc w-dropdown-link">Motion</a></div></nav></div></div><a href="#ds-icons" class="h-link w-inline-block"><div>Ícones</div></a></div></div></div><div class="right-side"><div class="right_links"><a href="#ds-colors" class="link_header w-inline-block"><div>Cores</div><div class="icon_box"><img src="https://cdn.prod.website-files.com/68a25157e0edb92947ffe4a2/68ab6aad6d37e1980d319ac9_menu-icon.png" loading="lazy" alt="Menu, icon, png" class="image"/></div></a><div class="line_splitter"></div><div class="link_header"><div data-hover="false" data-delay="0" class="w-dropdown"><div class="link_header drop_locs w-dropdown-toggle"><div>Order Now</div><div class="icon_drop w-icon-dropdown-toggle"></div></div><nav class="links_navs w-dropdown-list"><div class="title_locs"><div class="base_p dark">Choose restaurant</div></div><div class="links_addresses"><a href="https://order.toasttab.com/online/amrit-palace-ocala" target="_blank" class="link_loc w-dropdown-link">Amrit Palace Ocala</a><a href="https://order.toasttab.com/online/amrit-palace-gainesville" target="_blank" class="link_loc w-dropdown-link">Amrit Palace Gainesville</a></div></nav></div><div class="icon_box"><img src="https://cdn.prod.website-files.com/68a25157e0edb92947ffe4a2/68ab6aad663e114eb608fb96_order-icon.png" loading="lazy" alt="Order now, icon, png" class="image"/></div></div></div><div data-w-id="34cfe2f8-63a9-540e-1311-a4fee5f7e4ae" class="hamburger_menu"><div class="menu_txt close">Close</div><div class="menu_txt open">Menu</div><div class="hamburger_box"><div class="line_1"></div><div class="line_2"></div></div></div></div></div></div></div>
+
+<div class="mobile_menu"><div class="wrapper_menu"><div class="list_menu"><a href="#ds-tokens" class="mobile_menu_link w-inline-block"><div>tokens</div></a><a href="#ds-type" class="mobile_menu_link w-inline-block"><div>tipografia</div></a><a href="#ds-colors" class="mobile_menu_link w-inline-block"><div>cores</div></a><a href="#ds-components" class="mobile_menu_link w-inline-block"><div>componentes</div></a><a href="#ds-layout" class="mobile_menu_link w-inline-block"><div>layout</div></a><a href="#ds-motion" class="mobile_menu_link w-inline-block"><div>motion</div></a></div><div class="reserve_table"><div data-hover="false" data-delay="0" class="dropdown_mobile w-dropdown"><div class="dropdown_menu w-dropdown-toggle"><div>reserve a table</div><div class="icon_dropdown"><img src="https://cdn.prod.website-files.com/68a25157e0edb92947ffe4a2/68c9c21775852a6417f46e90_chevron-down.svg" loading="lazy" alt="chevron icon, svg, black"/></div></div><nav class="dropdown_reserves w-dropdown-list"><a href="https://www.opentable.com/r/amrit-palace-indian-restaurant-reservations-ocala?restref=276529&amp;lang=en-US&amp;ot_source=Restaurant%20website" target="_blank" class="link_location w-dropdown-link">Book — Ocala</a><a href="https://www.opentable.com/r/amrit-palace-gainesville-reservations-gainesville?restref=1493497&amp;lang=en-US&amp;ot_source=Restaurant%20website" target="_blank" class="link_location w-dropdown-link">Book — Gainesville</a></nav></div></div><div class="socials_contacts"><div class="address_menu"><div class="title_menu">Working Hours</div><div class="content_box"><div class="content_menu">Tue-Fri 11 AM — 10 PM<br/>Sat-Sun 12 AM — 10 PM<br/>Mon (Closed)</div></div></div><div class="address_menu"><div class="title_menu">Address</div><div class="content_box"><div class="content_menu">3415 SW College Rd <br/>Ocala, FL 34474</div><div class="content_menu">3105 SW 34th Street <br/>Gainesville, FL 32608</div></div></div></div></div></div>
+
+<div class="fixed_menu"><div class="right_links menu_fixed"><a href="#ds-colors" class="link_header link_menu w-inline-block"><div class="menu_rest">Cores</div><div class="icon_box"><img src="https://cdn.prod.website-files.com/68a25157e0edb92947ffe4a2/68ab6aad6d37e1980d319ac9_menu-icon.png" loading="lazy" alt="Menu, icon, png" class="image"/></div></a><div id="w-node-_61c9675a-f097-0b94-ac69-134a32975c7d-32975c76" class="line_splitter"></div><div class="link_header link_order"><div data-hover="false" data-delay="0" class="drop_mobile w-dropdown"><div class="link_header drop_locs w-dropdown-toggle"><div>Order Now</div><div class="icon_drop w-icon-dropdown-toggle"></div></div><nav class="links_navs w-dropdown-list"><div class="title_locs"><div class="base_p dark location_mobile">Choose restaurant</div></div><div class="links_addresses"><a href="https://order.toasttab.com/online/amrit-palace-ocala" target="_blank" class="link_loc w-dropdown-link">Amrit Palace Ocala</a><a href="https://order.toasttab.com/online/amrit-palace-gainesville" target="_blank" class="link_loc w-dropdown-link">Amrit Palace Gainesville</a></div></nav></div><div class="icon_box"><img src="https://cdn.prod.website-files.com/68a25157e0edb92947ffe4a2/68ab6aad663e114eb608fb96_order-icon.png" loading="lazy" alt="Order now, icon, png" class="image"/></div></div></div></div>
+
+<!-- ===================== 0. HERO (clone exato, texto adaptado) ===================== -->
+<section id="hero-section" data-w-id="d6067de9-d61e-13c2-9d76-58bd45bffd9e" class="hero_section"><div class="wrapper_hero special_main"><div id="hero-sentinel" class="sentinel"></div><div class="hero_headline"><h1 letters-fade-in="" text-split="" class="h1_hero">design<br/></h1><div class="flex_heading"><div id="w-node-_11f36968-8a56-e8e7-e367-3a06c52258de-47ffe4a8"><div letters-fade-in="" text-split="" class="caption_heading">amrit palace · v1</div></div><h1 letters-fade-in="" text-split="" class="h1_hero">system<br/></h1><div><div letters-fade-in="" text-split="" class="caption_heading">extraído em 2026</div></div></div></div><div class="bottom_part"><div class="p_box"><div class="base_p">Uma biblioteca viva do site Amrit Palace: tokens, tipografia, cores, componentes, layout e motion, montados com o CSS e o JS originais, sem aproximações e sem estilos inventados.</div></div><div class="review_box"><div class="review_wrapper"><div class="flex_review"><div class="stars_flex"><div class="star_icon"><img src="https://cdn.prod.website-files.com/68a25157e0edb92947ffe4a2/68ab6f5c7f6ef175306f18bb_star-icon.png" loading="lazy" alt="Star icon" class="image"/></div><div class="star_icon"><img src="https://cdn.prod.website-files.com/68a25157e0edb92947ffe4a2/68ab6f5c7f6ef175306f18bb_star-icon.png" loading="lazy" alt="Star icon" class="image"/></div><div class="star_icon"><img src="https://cdn.prod.website-files.com/68a25157e0edb92947ffe4a2/68ab6f5c7f6ef175306f18bb_star-icon.png" loading="lazy" alt="Star icon" class="image"/></div><div class="star_icon"><img src="https://cdn.prod.website-files.com/68a25157e0edb92947ffe4a2/68ab6f5c7f6ef175306f18bb_star-icon.png" loading="lazy" alt="Star icon" class="image"/></div><div class="star_icon"><img src="https://cdn.prod.website-files.com/68a25157e0edb92947ffe4a2/68ab6f5c7f6ef175306f18bb_star-icon.png" loading="lazy" alt="Star icon" class="image"/></div></div><div class="google_icon"><img src="https://cdn.prod.website-files.com/68a25157e0edb92947ffe4a2/68ab6f5c31e3e7b0a84252b6_google-icon.png" loading="lazy" alt="Google icon, png" class="image"/></div></div><div class="number_txt"><div class="big_number">3</div><div class="small_number">/3</div><div class="txt_review"><div class="title_review">Tokens</div><div class="base_caption">Base de <span class="reviews_count">1 700</span> regras CSS</div></div></div></div></div></div></div><div class="background_hero"><div class="overlay"></div><div class="background hero_spec"><img src="https://cdn.prod.website-files.com/68a25157e0edb92947ffe4a2/6900f221f61431ab7c171d52_mobile_hero.avif" loading="lazy" alt="" class="image mobile_main"/><img src="https://cdn.prod.website-files.com/68a25157e0edb92947ffe4a2/68ab6d83cbb46c5a59dea24b_Background%20Hero-min.avif" loading="lazy" alt="Amrit Palace, hall photo, avif" class="image desktop_main"/></div></div></section>
+
+<!-- ===================== NAV DE DOCUMENTAÇÃO ===================== -->
+<nav class="ds-nav" id="ds-nav">
+  <span class="ds-nav-brand">Amrit DS</span>
+  <a href="#ds-tokens">01 Tokens</a>
+  <a href="#ds-type">02 Tipografia</a>
+  <a href="#ds-colors">03 Cores &amp; Superfícies</a>
+  <a href="#ds-components">04 Componentes</a>
+  <a href="#ds-layout">05 Layout</a>
+  <a href="#ds-motion">06 Motion</a>
+  <a href="#ds-icons">07 Ícones</a>
+  <a href="#ds-footer">Footer</a>
+</nav>
+
+<!-- ===================== 1. TOKENS ===================== -->
+<section class="ds-section" id="ds-tokens">
+  <div class="ds-head">
+    <div class="ds-num">01 — Design Tokens</div>
+    <h2 class="h2">tokens</h2>
+    <div class="ds-desc">O site declara só 3 custom properties em <b>:root</b>. Todo o resto (espaçamento, raios, sombras, motion) é hard-coded no CSS do Webflow — listado abaixo como valores recorrentes, não como variáveis.</div>
+  </div>
+
+  <div class="ds-sub">Custom properties (:root)</div>
+  <div class="ds-grid">
+    <div class="ds-card"><div class="ds-swatch" style="background:var(--biege);border-bottom:1px solid #2c2c2c33"></div><div class="ds-meta"><b>--biege</b><span class="ds-code">#d8cbb8 · fundo da página, texto sobre escuro</span></div></div>
+    <div class="ds-card"><div class="ds-swatch" style="background:var(--dark)"></div><div class="ds-meta"><b>--dark</b><span class="ds-code">#2c2c2c · texto base, botões escuros, blocos</span></div></div>
+    <div class="ds-card"><div class="ds-swatch" style="background:var(--primary)"></div><div class="ds-meta"><b>--primary</b><span class="ds-code">#d49653 · hover de links, icon_box, cards do menu, wordmark</span></div></div>
+  </div>
+
+  <div class="ds-sub">Escala base</div>
+  <div class="ds-note" style="opacity:1;margin-top:0">O <b>body</b> usa <b>font-size: 1vw</b>, então <b>1em = 1% da largura da viewport</b> (14,4px em 1440px). Quase toda tipografia e boa parte dos tamanhos estão em <b>em</b>, o que faz o layout inteiro escalar com a tela. Os breakpoints aumentam os multiplicadores em <b>em</b> para compensar telas menores.</div>
+
+  <div class="ds-sub">Espaçamento (valores recorrentes)</div>
+  <div class="ds-table-wrap"><table class="ds-table">
+    <tr><th>Uso</th><th>Desktop</th><th>≤ 991px</th><th>≤ 767px</th><th>≤ 479px</th></tr>
+    <tr><td>Gutter lateral (.wrapper_base, .wrapper_header, .container)</td><td>28px</td><td>20px</td><td>16px</td><td>16px</td></tr>
+    <tr><td>Padding vertical de seção (.wrapper_base)</td><td>92px</td><td>72px</td><td>52px</td><td>42px</td></tr>
+    <tr><td>Header (.wrapper_header)</td><td>12px 28px</td><td>12px 20px</td><td>16px</td><td>12px 16px</td></tr>
+    <tr><td>Hero (.wrapper_hero)</td><td>10em 28px 24px</td><td>18em 20px 20px (special_main)</td><td>28em 16px 16px</td><td>32em 16px 28em</td></tr>
+    <tr><td>Gaps usados</td><td colspan="4">1px · 3px · 4px · 6px · 8px · 12px · 16px · 20px · 24px · 42px</td></tr>
+  </table></div>
+
+  <div class="ds-sub">Raios, z-index e motion</div>
+  <div class="ds-grid">
+    <div class="ds-card"><div class="ds-meta"><b>Radius 2px</b><span class="ds-code">.review_box</span></div></div>
+    <div class="ds-card"><div class="ds-meta"><b>Radius 3px</b><span class="ds-code">.button, .button_box, .icon_box, .box_testimonial, .links_navs.w--open</span></div></div>
+    <div class="ds-card"><div class="ds-meta"><b>Radius 4px</b><span class="ds-code">.box_featured, .middle_tabs, .close_widget</span></div></div>
+    <div class="ds-card"><div class="ds-meta"><b>Radius 6px / 8px</b><span class="ds-code">.ot-widget-wrap / .plyr (player via JS)</span></div></div>
+    <div class="ds-card"><div class="ds-meta"><b>z-index</b><span class="ds-code">header 99 · mobile_menu 98 · fixed_menu 99 · reserve widget 999 · caption_card 25 · wrapper_video 15 · wrapper_hero 10 · overlay 9 · background 5</span></div></div>
+    <div class="ds-card"><div class="ds-meta"><b>Sombras</b><span class="ds-code">Nenhuma. A profundidade vem de overlays, bordas translúcidas e blur.</span></div></div>
+    <div class="ds-card"><div class="ds-meta"><b>Easing botão</b><span class="ds-code">cubic-bezier(.25,.46,.45,.94) · .45s (.35s no dark)</span></div></div>
+    <div class="ds-card"><div class="ds-meta"><b>Transição de link</b><span class="ds-code">all .4s (ease)</span></div></div>
+  </div>
+</section>
+
+<!-- ===================== 2. TIPOGRAFIA ===================== -->
+<section class="ds-section" id="ds-type">
+  <div class="ds-head">
+    <div class="ds-num">02 — Typography</div>
+    <h2 class="h2">tipografia</h2>
+    <div class="ds-desc">Duas famílias: <b>TT Ramillas Variable</b> (serifa, peso 300, caixa alta) para títulos e <b>Satoshi</b> (400/500/700) para texto. Valores resolvidos a 1440px (1em = 14,4px) — redimensione a janela e a escala muda junto.</div>
+  </div>
+
+  <div class="ds-type-row"><div class="ds-type-name">Display / Hero<span>h1.h1_hero</span></div><div class="ds-preview ds-on-dark"><h1 class="h1_hero">flavors</h1></div><div class="ds-spec"><b>115.2px / 92.16px</b>8em / lh .8 · 300 · TT Ramillas · −0.04em · uppercase</div></div>
+  <div class="ds-type-row"><div class="ds-type-name">Heading 2<span>h2.h2</span></div><div class="ds-preview"><h2 class="h2">What Our Guests Say</h2></div><div class="ds-spec"><b>69.12px / 62.21px</b>4.8em / lh .9 · 300 · TT Ramillas · −0.04em · uppercase</div></div>
+  <div class="ds-type-row"><div class="ds-type-name">Heading 2 Biege<span>h2.h2.biege</span></div><div class="ds-preview ds-on-dark"><h2 class="h2 biege">Rooted in Experience</h2></div><div class="ds-spec"><b>64.8px / 55.08px</b>4.5em / lh .85 · 300 · TT Ramillas · mb 8px</div></div>
+  <div class="ds-type-row"><div class="ds-type-name">Heading 3<span>h3.h3</span></div><div class="ds-preview"><h3 class="h3">signature<br/>plates</h3></div><div class="ds-spec"><b>50.4px / 45.36px</b>3.5em / lh .9 · 300 · TT Ramillas · −0.03em · uppercase</div></div>
+  <div class="ds-type-row"><div class="ds-type-name">Quote<span>.testimonial_p</span></div><div class="ds-preview"><div class="testimonial_p">Always so delicious. The staff is incredible and attentive.</div></div><div class="ds-spec"><b>25.92px / 31.1px</b>1.8em / lh 1.2 · 300 · TT Ramillas</div></div>
+  <div class="ds-type-row"><div class="ds-type-name">Card Title<span>.title_catering</span></div><div class="ds-preview"><div class="title_catering">Buffet Displays</div></div><div class="ds-spec"><b>21.6px / 21.6px</b>1.5em / lh 1 · 300 · TT Ramillas · −0.035em</div></div>
+  <div class="ds-type-row"><div class="ds-type-name">Wordmark<span>.txt_lg</span></div><div class="ds-preview ds-on-footer"><div class="txt_lg">amrit palace</div></div><div class="ds-spec"><b>198.72px / 158.98px</b>13.8em / lh .8 · 500 · Satoshi · −0.016em · uppercase · --primary</div></div>
+  <div class="ds-type-row"><div class="ds-type-name">Number L<span>.big_number + .small_number</span></div><div class="ds-preview"><div class="number_txt"><div class="big_number">4.7</div><div class="small_number">/5</div></div></div><div class="ds-spec"><b>41.76px / 41.76px</b>2.9em · 500 · Satoshi · −0.04em<br/>small: 1em (14.4px) · ml 4px</div></div>
+  <div class="ds-type-row"><div class="ds-type-name">Bold M<span>.title_review</span></div><div class="ds-preview"><div class="title_review">Excellent</div></div><div class="ds-spec"><b>12.96px / 12.96px</b>.9em / lh 1 · 700 · Satoshi</div></div>
+  <div class="ds-type-row"><div class="ds-type-name">Medium M<span>.name_txt / .price_txt</span></div><div class="ds-preview"><div class="name_pr"><div class="name_txt">Butter Chicken</div><div class="price_box"><div class="price_txt">$19.99</div></div></div></div><div class="ds-spec"><b>12.96px / 12.96px</b>.9em / lh 1 · 500 · Satoshi</div></div>
+  <div class="ds-type-row"><div class="ds-type-name">Paragraph<span>.base_p (sobre escuro)</span></div><div class="ds-preview ds-on-dark"><div class="base_p">At Amrit Palace, every dish is a tribute to tradition and every moment is crafted for today.</div></div><div class="ds-spec"><b>12.96px / 18.14px</b>.9em / lh 1.4 · 500 · Satoshi · --biege</div></div>
+  <div class="ds-type-row"><div class="ds-type-name">Paragraph Dark<span>.base_p.dark</span></div><div class="ds-preview"><div class="base_p dark">Whether you're hosting a wedding, corporate gathering, or private celebration, our catering brings the warmth of Indian hospitality.</div></div><div class="ds-spec"><b>12.96px / 18.14px</b>.9em / lh 1.4 · 500 · Satoshi · --dark</div></div>
+  <div class="ds-type-row"><div class="ds-type-name">Regular S<span>.desc_txt</span></div><div class="ds-preview"><div class="desc_txt">Chicken cooked in a creamy tomato sauce, a staple dish celebrated for its rich and velvety texture.</div></div><div class="ds-spec"><b>12.24px / 15.91px</b>.85em / lh 1.3 · 500 · Satoshi<br/>.menu_highlight: lh 1.4 · 54ch</div></div>
+  <div class="ds-type-row"><div class="ds-type-name">Caption<span>.base_caption</span></div><div class="ds-preview"><div class="base_caption">Based on <span class="reviews_count">3 576</span> reviews</div></div><div class="ds-spec"><b>12.96px / 12.96px</b>.9em / lh 1 · 500 · Satoshi</div></div>
+  <div class="ds-type-row"><div class="ds-type-name">Eyebrow<span>.caption_heading.dark</span></div><div class="ds-preview"><div class="caption_heading dark">established 1996</div></div><div class="ds-spec"><b>12.24px / 12.24px</b>.85em / lh 1 · 500 · Satoshi · uppercase</div></div>
+  <div class="ds-type-row"><div class="ds-type-name">Meta<span>.txt_platform / .author_title</span></div><div class="ds-preview"><div class="author_box"><div class="txt_platform">Google</div><div class="author_title">Author</div><div class="author_name">James T.</div></div></div><div class="ds-spec"><b>11.52px · 12.96px</b>.8em 500 op .65 +0.01em · .9em op .65 · name .9em 500</div></div>
+  <div class="ds-type-row"><div class="ds-type-name">Nav Link<span>.h-link</span></div><div class="ds-preview ds-on-dark"><a href="#" class="h-link w-inline-block"><div>Catering</div></a></div><div class="ds-spec"><b>11.52px / 11.52px</b>.8em · 500 · Satoshi · --biege</div></div>
+  <div class="ds-type-row"><div class="ds-type-name">Footer<span>.title_footer / .txt_footer</span></div><div class="ds-preview ds-on-footer"><div class="title_footer">locations</div><div class="txt_footer">3415 SW College Rd Ocala, FL 34474</div></div><div class="ds-spec"><b>12.96px / 18.14px</b>.9em · uppercase (title) · lh 1.4 (txt) · --biege</div></div>
+  <div class="ds-note">Elemento puro: h1 = 9.6em / lh .8 (não aparece sem classe na home), p = 1.05em / lh 1.3, a = 1.05em. Body: Satoshi 500, letter-spacing −0.01em, line-height 1. A fonte Bad Script é carregada via WebFont mas não é usada em nenhuma regra da home.</div>
+</section>
+
+<!-- ===================== 3. CORES & SUPERFÍCIES ===================== -->
+<section class="ds-section ds-dark" id="ds-colors">
+  <div class="ds-head">
+    <div class="ds-num">03 — Colors &amp; Surfaces</div>
+    <h2 class="h2 biege">cores &amp; superfícies</h2>
+    <div class="ds-desc">Paleta quente e restrita: bege, quase-preto e âmbar. Profundidade via overlays escuros sobre fotografia, vidro com blur e bordas translúcidas — sem sombras.</div>
+  </div>
+
+  <div class="ds-sub">Fundos de seção</div>
+  <div class="ds-grid">
+    <div class="ds-card"><div class="ds-swatch" style="background:var(--biege)"></div><div class="ds-meta"><b>Página</b><span class="ds-code">body, .testimonials, .gift_card · var(--biege)</span></div></div>
+    <div class="ds-card"><div class="ds-swatch" style="background:#bfb4a3"></div><div class="ds-meta"><b>Catering</b><span class="ds-code">.catering · #bfb4a3</span></div></div>
+    <div class="ds-card"><div class="ds-swatch" style="background:var(--dark)"></div><div class="ds-meta"><b>Bloco escuro</b><span class="ds-code">.left_side · var(--dark)</span></div></div>
+    <div class="ds-card"><div class="ds-swatch" style="background:var(--primary)"></div><div class="ds-meta"><b>Card de menu</b><span class="ds-code">.box_featured, .mobile_menu · var(--primary)</span></div></div>
+    <div class="ds-card"><div class="ds-swatch" style="background:#292622"></div><div class="ds-meta"><b>Footer</b><span class="ds-code">.footer · #292622</span></div></div>
+  </div>
+
+  <div class="ds-sub">Overlays sobre fotografia (classes originais)</div>
+  <div class="ds-grid ds-wide">
+    <div class="ds-card"><div class="ds-box"><img class="ds-bg" src="https://cdn.prod.website-files.com/68a25157e0edb92947ffe4a2/68ab6d83cbb46c5a59dea24b_Background%20Hero-min.avif" alt=""/><div class="overlay"></div></div><div class="ds-meta"><b>.overlay</b><span class="ds-code">linear-gradient(#101010, #10101033) · hero</span></div></div>
+    <div class="ds-card"><div class="ds-box"><img class="ds-bg" src="https://cdn.prod.website-files.com/68a25157e0edb92947ffe4a2/68ab6d83cbb46c5a59dea24b_Background%20Hero-min.avif" alt=""/><div class="overlay_base"></div></div><div class="ds-meta"><b>.overlay_base</b><span class="ds-code">#0000008c · seção de vídeo</span></div></div>
+    <div class="ds-card"><div class="ds-box"><img class="ds-bg" src="https://cdn.prod.website-files.com/68a25157e0edb92947ffe4a2/68ab6d83cbb46c5a59dea24b_Background%20Hero-min.avif" alt=""/><div class="overlay_base fs"></div></div><div class="ds-meta"><b>.overlay_base.fs</b><span class="ds-code">#0000004d · fullsize "Rooted in Experience"</span></div></div>
+    <div class="ds-card"><div class="ds-box"><img class="ds-bg" src="https://cdn.prod.website-files.com/68a25157e0edb92947ffe4a2/68ab6d83cbb46c5a59dea24b_Background%20Hero-min.avif" alt=""/><div class="overlay special_store"></div></div><div class="ds-meta"><b>.overlay.special_store</b><span class="ds-code">linear-gradient(#101010bf, #10101000 50%, #101010bf) · página Store</span></div></div>
+  </div>
+
+  <div class="ds-sub">Vidro (glass) — header ao rolar</div>
+  <div class="ds-frame"><img class="ds-bg" src="https://cdn.prod.website-files.com/68a25157e0edb92947ffe4a2/68ab6d83cbb46c5a59dea24b_Background%20Hero-min.avif" alt=""/><div class="header is-colored"><div class="wrapper_header"><div class="flex_header"><div class="left-side"><div class="flexbox"><a href="#" class="logo w-inline-block"><img src="https://cdn.prod.website-files.com/68a25157e0edb92947ffe4a2/68ab69d9e852bb71813eafdf_Logo.png" loading="lazy" alt="logo"/></a><div class="menu_header"><a href="#" class="h-link w-inline-block"><div>Home</div></a><a href="#" class="h-link w-inline-block"><div>Catering</div></a><a href="#" class="h-link w-inline-block"><div>Gift Cards</div></a></div></div></div></div></div></div></div>
+  <div class="ds-note">.header.is-colored · backdrop-filter: blur(7px) · background #2c2c2c66 · border-bottom 1px #d8cbb81a. Em ≤991px o fundo vira #2c2c2cb8. Barra fixa mobile (≤479px, .fixed_menu): blur(9px) + linear-gradient(#0000, #000).</div>
+
+  <div class="ds-sub">Bordas, divisores e realces</div>
+  <div class="ds-grid">
+    <div class="ds-card"><div class="ds-swatch" style="background:var(--biege);display:flex;align-items:center;padding:0 16px"><div style="flex:1;border-top:1px solid #2c2c2c33"></div></div><div class="ds-meta"><b>#2c2c2c33</b><span class="ds-code">.box_testimonial, .header_testimonial, .review_box.testimonials_box</span></div></div>
+    <div class="ds-card"><div class="ds-swatch" style="background:var(--biege);display:flex;align-items:center;padding:0 16px"><div style="flex:1;border-top:1px solid #2c2c2c26"></div></div><div class="ds-meta"><b>#2c2c2c26</b><span class="ds-code">.flex_review</span></div></div>
+    <div class="ds-card"><div class="ds-swatch" style="background:var(--biege);display:flex;align-items:center;padding:0 16px"><div style="flex:1;border-top:1px solid #2c2c2c40"></div></div><div class="ds-meta"><b>#2c2c2c40</b><span class="ds-code">.link_loc (itens do dropdown)</span></div></div>
+    <div class="ds-card"><div class="ds-swatch" style="background:var(--primary);display:flex;align-items:center;padding:0 16px"><div style="flex:1;border-top:1px solid var(--dark)"></div></div><div class="ds-meta"><b>var(--dark) sólido</b><span class="ds-code">.featured_menu_item, .featured_menu_drinks</span></div></div>
+    <div class="ds-card"><div class="ds-swatch" style="background:#292622;display:flex;align-items:center;padding:0 16px"><div style="flex:1;border-top:1px solid #d8cbb859"></div></div><div class="ds-meta"><b>#d8cbb859</b><span class="ds-code">.address_hours, .address_box (footer)</span></div></div>
+    <div class="ds-card"><div class="ds-swatch" style="background:var(--dark);display:flex;align-items:center;justify-content:center"><div class="line_splitter"></div></div><div class="ds-meta"><b>.line_splitter</b><span class="ds-code">1×32px · var(--biege) · opacity .35</span></div></div>
+    <div class="ds-card"><div class="ds-swatch" style="background:#d49653;display:flex;align-items:center;justify-content:center;color:#2c2c2c;font-family:Satoshi,Arial,sans-serif;font-size:14px">::selection</div><div class="ds-meta"><b>Seleção de texto</b><span class="ds-code">bg #d49653 · cor #2c2c2c</span></div></div>
+    <div class="ds-card"><div class="ds-swatch" style="background:#d36b00"></div><div class="ds-meta"><b>#d36b00</b><span class="ds-code">pico de cor do @keyframes pulseAnim</span></div></div>
+    <div class="ds-card"><div class="ds-swatch" style="background:#dfdad5"></div><div class="ds-meta"><b>#dfdad5</b><span class="ds-code">color de .section.is--dark (wrapper do slider)</span></div></div>
+  </div>
+  <div class="ds-note">Gradientes: os únicos são os dos overlays acima e o da .fixed_menu. Não há gradiente em texto.</div>
+</section>
+
+<!-- ===================== 4. COMPONENTES ===================== -->
+<section class="ds-section" id="ds-components">
+  <div class="ds-head">
+    <div class="ds-num">04 — UI Components</div>
+    <h2 class="h2">componentes</h2>
+    <div class="ds-desc">Markup original, estilizado só pelo CSS do site. Estados lado a lado: só existem default e hover no CSS (não há :focus, :active ou :disabled definidos). Passe o mouse nos exemplos "live" para ver a transição real.</div>
+  </div>
+
+  <div class="ds-sub">Botão — variante clara (sobre escuro)</div>
+  <div class="ds-stage ds-on-dark">
+    <div class="ds-state"><span class="ds-state-label">Default</span><a href="#" class="button w-inline-block"><div class="button_box"><div>About Us</div></div></a></div>
+    <div class="ds-state"><span class="ds-state-label">Hover (forçado)</span><a href="#" class="button w-inline-block ds-force-hover"><div class="button_box"><div>About Us</div></div></a></div>
+    <div class="ds-state"><span class="ds-state-label">Live + letters-fade-in-hover</span><a text-split="" letters-fade-in-hover="" href="#" class="button w-inline-block"><div class="button_box"><div>About Us</div></div></a></div>
+  </div>
+  <div class="ds-note">.button: borda 1px var(--biege), radius 3px, padding 4px → hover padding 6px + scale(1.02), .45s cubic-bezier(.25,.46,.45,.94). .button_box: padding 16px 42px, radius 3px.</div>
+
+  <div class="ds-sub">Botão — variante escura (.dark) e bloco (.block_ver)</div>
+  <div class="ds-stage">
+    <div class="ds-state"><span class="ds-state-label">Default</span><a href="#" class="button dark w-inline-block"><div class="button_box dark"><div>Reserve a Table</div></div></a></div>
+    <div class="ds-state"><span class="ds-state-label">Hover (forçado)</span><a href="#" class="button dark w-inline-block ds-force-hover"><div class="button_box dark"><div>Reserve a Table</div></div></a></div>
+    <div class="ds-state"><span class="ds-state-label">Live</span><a text-split="" letters-fade-in-hover="" href="#" class="button dark w-inline-block"><div class="button_box dark"><div>Open Menu</div></div></a></div>
+    <div class="ds-state ds-fit-sm"><span class="ds-state-label">.block_ver + .special_big (100%)</span><a href="#" class="button dark block_ver w-inline-block"><div class="button_box dark special_big"><div>View Full Menu</div></div></a></div>
+  </div>
+  <div class="ds-note">.button.dark: borda var(--dark), display block, transition-duration .35s. .button_box.dark: fundo var(--dark), texto var(--biege).</div>
+
+  <div class="ds-sub">Links de navegação</div>
+  <div class="ds-stage ds-on-dark">
+    <div class="ds-state"><span class="ds-state-label">.h-link default</span><a href="#" class="h-link w-inline-block"><div>Catering</div></a></div>
+    <div class="ds-state"><span class="ds-state-label">.h-link hover</span><a href="#" class="h-link w-inline-block ds-force-hover"><div>Catering</div></a></div>
+    <div class="ds-state"><span class="ds-state-label">.link_header + .icon_box</span><a href="#" class="link_header w-inline-block"><div>Menu</div><div class="icon_box"><img src="https://cdn.prod.website-files.com/68a25157e0edb92947ffe4a2/68ab6aad6d37e1980d319ac9_menu-icon.png" loading="lazy" alt="Menu icon" class="image"/></div></a></div>
+    <div class="ds-state"><span class="ds-state-label">.link_header hover</span><a href="#" class="link_header w-inline-block ds-force-hover"><div>Menu</div><div class="icon_box"><img src="https://cdn.prod.website-files.com/68a25157e0edb92947ffe4a2/68ab6aad6d37e1980d319ac9_menu-icon.png" loading="lazy" alt="Menu icon" class="image"/></div></a></div>
+  </div>
+  <div class="ds-stage ds-on-footer" style="margin-top:12px">
+    <div class="ds-state"><span class="ds-state-label">.txt_footer default</span><a href="#" class="txt_footer w-inline-block"><div>Instagram</div></a></div>
+    <div class="ds-state"><span class="ds-state-label">.txt_footer hover</span><a href="#" class="txt_footer w-inline-block ds-force-hover"><div>Instagram</div></a></div>
+    <div class="ds-state"><span class="ds-state-label">.spec_art_link default</span><div class="txt_footer">Made by <a href="#" class="spec_art_link">Artemii Lebedev</a></div></div>
+    <div class="ds-state"><span class="ds-state-label">.spec_art_link hover</span><div class="txt_footer">Made by <a href="#" class="spec_art_link ds-force-hover">Artemii Lebedev</a></div></div>
+  </div>
+  <div class="ds-stage" style="margin-top:12px">
+    <div class="ds-state"><span class="ds-state-label">.base_p.dark.link_review</span><a href="#" class="w-inline-block"><div class="base_p dark link_review">Be sure to leave us a review!</div></a></div>
+    <div class="ds-state"><span class="ds-state-label">.base_p.dark.review_spec</span><div class="base_p dark review_spec">Have you already visited our restaurant and left with great memories?</div></div>
+  </div>
+
+  <div class="ds-sub">Dropdown (Webflow w-dropdown)</div>
+  <div class="ds-stage ds-on-dark ds-tall">
+    <div class="ds-state"><span class="ds-state-label">Live (clique)</span><div class="link_header"><div data-hover="false" data-delay="0" class="w-dropdown"><div class="link_header drop_locs w-dropdown-toggle"><div>Order Now</div><div class="icon_drop w-icon-dropdown-toggle"></div></div><nav class="links_navs w-dropdown-list"><div class="title_locs"><div class="base_p dark">Choose restaurant</div></div><div class="links_addresses"><a href="https://order.toasttab.com/online/amrit-palace-ocala" target="_blank" class="link_loc w-dropdown-link">Amrit Palace Ocala</a><a href="https://order.toasttab.com/online/amrit-palace-gainesville" target="_blank" class="link_loc w-dropdown-link">Amrit Palace Gainesville</a></div></nav></div></div></div>
+    <div class="ds-state" style="margin-left:auto;margin-right:60px"><span class="ds-state-label">Aberto (.w--open) · item em hover</span><div class="ds-dd-static"><nav class="links_navs w-dropdown-list w--open"><div class="title_locs"><div class="base_p dark">Choose restaurant</div></div><div class="links_addresses"><a href="#" class="link_loc w-dropdown-link ds-force-hover">Book — Ocala</a><a href="#" class="link_loc w-dropdown-link">Book — Gainesville</a></div></nav></div></div>
+  </div>
+  <div class="ds-note">.links_navs.w--open: fundo var(--biege), radius 3px, width 300%, right −52px. .title_locs opacity .65. .link_loc: borda-topo #2c2c2c40, padding 10px 12px, hover var(--primary) em .4s.</div>
+
+  <div class="ds-sub">Header — estados</div>
+  <div class="ds-state-label" style="margin-bottom:8px">Default (transparente sobre o hero)</div>
+  <div class="ds-frame"><img class="ds-bg" src="https://cdn.prod.website-files.com/68a25157e0edb92947ffe4a2/68ab6d83cbb46c5a59dea24b_Background%20Hero-min.avif" alt=""/><div class="header"><div class="wrapper_header"><div class="flex_header"><div class="left-side"><div class="flexbox"><a href="#" class="logo w-inline-block"><img src="https://cdn.prod.website-files.com/68a25157e0edb92947ffe4a2/68ab69d9e852bb71813eafdf_Logo.png" loading="lazy" alt="logo"/></a><div class="menu_header"><a href="#" class="h-link w-inline-block"><div>Home</div></a><a href="#" class="h-link w-inline-block"><div>Catering</div></a><a href="#" class="h-link w-inline-block"><div>About</div></a></div></div></div><div class="right-side"><div class="right_links"><a href="#" class="link_header w-inline-block"><div>Menu</div><div class="icon_box"><img src="https://cdn.prod.website-files.com/68a25157e0edb92947ffe4a2/68ab6aad6d37e1980d319ac9_menu-icon.png" loading="lazy" alt="" class="image"/></div></a><div class="line_splitter"></div><a href="#" class="link_header w-inline-block"><div>Order Now</div><div class="icon_box"><img src="https://cdn.prod.website-files.com/68a25157e0edb92947ffe4a2/68ab6aad663e114eb608fb96_order-icon.png" loading="lazy" alt="" class="image"/></div></a></div></div></div></div></div></div>
+  <div class="ds-state-label" style="margin-bottom:8px">.is-colored (aplicado por JS quando o hero sai da tela)</div>
+  <div class="ds-frame"><img class="ds-bg" src="https://cdn.prod.website-files.com/68a25157e0edb92947ffe4a2/68ac5358491181ca69dbe1f5_fullsize-min.avif" alt=""/><div class="header is-colored"><div class="wrapper_header"><div class="flex_header"><div class="left-side"><div class="flexbox"><a href="#" class="logo w-inline-block"><img src="https://cdn.prod.website-files.com/68a25157e0edb92947ffe4a2/68ab69d9e852bb71813eafdf_Logo.png" loading="lazy" alt="logo"/></a><div class="menu_header"><a href="#" class="h-link w-inline-block"><div>Home</div></a><a href="#" class="h-link w-inline-block"><div>Catering</div></a><a href="#" class="h-link w-inline-block"><div>About</div></a></div></div></div><div class="right-side"><div class="right_links"><a href="#" class="link_header w-inline-block"><div>Menu</div><div class="icon_box"><img src="https://cdn.prod.website-files.com/68a25157e0edb92947ffe4a2/68ab6aad6d37e1980d319ac9_menu-icon.png" loading="lazy" alt="" class="image"/></div></a><div class="line_splitter"></div><a href="#" class="link_header w-inline-block"><div>Order Now</div><div class="icon_box"><img src="https://cdn.prod.website-files.com/68a25157e0edb92947ffe4a2/68ab6aad663e114eb608fb96_order-icon.png" loading="lazy" alt="" class="image"/></div></a></div></div></div></div></div></div>
+  <div class="ds-note">Em ≤767px os links somem e aparece o .hamburger_menu ("Menu"/"Close" + 2 linhas de 28px), que abre o .mobile_menu (tela cheia em var(--primary), links em TT Ramillas 4.5em). Em ≤479px surge a .fixed_menu (barra inferior com Menu / Order Now). Diminua a janela para ver no header real.</div>
+
+  <div class="ds-sub">Review badge</div>
+  <div class="ds-stage ds-on-dark">
+    <div class="ds-state"><span class="ds-state-label">.review_box (hero)</span><div class="review_box"><div class="review_wrapper"><div class="flex_review"><div class="stars_flex"><div class="star_icon"><img src="https://cdn.prod.website-files.com/68a25157e0edb92947ffe4a2/68ab6f5c7f6ef175306f18bb_star-icon.png" loading="lazy" alt="" class="image"/></div><div class="star_icon"><img src="https://cdn.prod.website-files.com/68a25157e0edb92947ffe4a2/68ab6f5c7f6ef175306f18bb_star-icon.png" loading="lazy" alt="" class="image"/></div><div class="star_icon"><img src="https://cdn.prod.website-files.com/68a25157e0edb92947ffe4a2/68ab6f5c7f6ef175306f18bb_star-icon.png" loading="lazy" alt="" class="image"/></div><div class="star_icon"><img src="https://cdn.prod.website-files.com/68a25157e0edb92947ffe4a2/68ab6f5c7f6ef175306f18bb_star-icon.png" loading="lazy" alt="" class="image"/></div><div class="star_icon"><img src="https://cdn.prod.website-files.com/68a25157e0edb92947ffe4a2/68ab6f5c7f6ef175306f18bb_star-icon.png" loading="lazy" alt="" class="image"/></div></div><div class="google_icon"><img src="https://cdn.prod.website-files.com/68a25157e0edb92947ffe4a2/68ab6f5c31e3e7b0a84252b6_google-icon.png" loading="lazy" alt="" class="image"/></div></div><div class="number_txt"><div class="big_number">4.7</div><div class="small_number">/5</div><div class="txt_review"><div class="title_review">Excellent</div><div class="base_caption">Based on <span class="reviews_count">3 576</span> reviews</div></div></div></div></div></div>
+  </div>
+  <div class="ds-stage" style="margin-top:12px">
+    <div class="ds-state"><span class="ds-state-label">.review_box.testimonials_box (sobre bege)</span><div class="review_box testimonials_box"><div class="review_wrapper"><div class="flex_review"><div class="stars_flex"><div class="star_icon"><img src="https://cdn.prod.website-files.com/68a25157e0edb92947ffe4a2/68ab6f5c7f6ef175306f18bb_star-icon.png" loading="lazy" alt="" class="image"/></div><div class="star_icon"><img src="https://cdn.prod.website-files.com/68a25157e0edb92947ffe4a2/68ab6f5c7f6ef175306f18bb_star-icon.png" loading="lazy" alt="" class="image"/></div><div class="star_icon"><img src="https://cdn.prod.website-files.com/68a25157e0edb92947ffe4a2/68ab6f5c7f6ef175306f18bb_star-icon.png" loading="lazy" alt="" class="image"/></div><div class="star_icon"><img src="https://cdn.prod.website-files.com/68a25157e0edb92947ffe4a2/68ab6f5c7f6ef175306f18bb_star-icon.png" loading="lazy" alt="" class="image"/></div><div class="star_icon"><img src="https://cdn.prod.website-files.com/68a25157e0edb92947ffe4a2/68ab6f5c7f6ef175306f18bb_star-icon.png" loading="lazy" alt="" class="image"/></div></div><div class="google_icon"><img src="https://cdn.prod.website-files.com/68a25157e0edb92947ffe4a2/68ab6f5c31e3e7b0a84252b6_google-icon.png" loading="lazy" alt="" class="image"/></div></div><div class="number_txt"><div class="big_number">4.7</div><div class="small_number">/5</div><div class="txt_review"><div class="title_review">Excellent</div><div class="base_caption">Based on <span class="reviews_count">3 576</span> reviews</div></div></div></div></div></div>
+  </div>
+
+  <div class="ds-sub">Cards</div>
+  <div class="ds-grid ds-wide">
+    <div class="ds-state"><span class="ds-state-label">.box_featured + .featured_menu_item</span>
+      <div class="box_featured"><div class="top_menu"><div class="heading_featured"><h3 class="h3">signature<br/>plates</h3><div class="icon_plates"><img src="https://cdn.prod.website-files.com/68a25157e0edb92947ffe4a2/68ab6aad6d37e1980d319ac9_menu-icon.png" loading="lazy" alt="" class="image"/></div></div><div class="cms_list"><div class="featured_menu_item"><div class="menu_line"><div class="name_pr"><div class="name_txt">Butter Chicken</div><div class="price_box"><div class="price_txt">$19.99</div></div></div><div class="name_desc"><div class="desc_txt">Chicken cooked in a creamy tomato sauce, a staple dish celebrated for its rich and velvety texture.</div></div></div></div><div class="featured_menu_item"><div class="menu_line"><div class="name_pr"><div class="name_txt">Palak Paneer</div><div class="price_box"><div class="price_txt">$19.49</div></div></div><div class="name_desc"><div class="desc_txt">Creamy spinach sauce enveloping soft cheese cubes, a rich and comforting classic.</div></div></div></div></div></div></div>
+    </div>
+    <div class="ds-state"><span class="ds-state-label">.featured_menu_drinks (sobre bege)</span>
+      <div class="ds-clip"><div class="featured_menu_drinks"><div class="menu_line"><div class="name_pr"><div class="name_txt">Tamarind Margarita</div><div class="price_box"><div class="price_txt">$12.49</div></div></div><div class="name_desc"><div class="desc_txt">Tamarind with our signature in-house mix for a distinct take on the classic margarita. Pro-tip: make it spicy!</div></div></div></div><div class="featured_menu_drinks"><div class="menu_line"><div class="name_pr"><div class="name_txt">Tipsy Lassi</div><div class="price_box"><div class="price_txt">$10.99</div></div></div><div class="name_desc"><div class="desc_txt">Our renowned signature mango lassi with a boozy rum kick.</div></div></div></div></div>
+    </div>
+    <div class="ds-state"><span class="ds-state-label">.box_testimonial</span>
+      <div class="marquee_item"><div class="box_testimonial"><div class="header_testimonial"><div class="stars_flex testimonials"><div class="star_review"><img src="https://cdn.prod.website-files.com/68a25157e0edb92947ffe4a2/68ab6f5c7f6ef175306f18bb_star-icon.png" loading="lazy" alt="" class="image stars"/></div><div class="star_review"><img src="https://cdn.prod.website-files.com/68a25157e0edb92947ffe4a2/68ab6f5c7f6ef175306f18bb_star-icon.png" loading="lazy" alt="" class="image stars"/></div><div class="star_review"><img src="https://cdn.prod.website-files.com/68a25157e0edb92947ffe4a2/68ab6f5c7f6ef175306f18bb_star-icon.png" loading="lazy" alt="" class="image stars"/></div><div class="star_review"><img src="https://cdn.prod.website-files.com/68a25157e0edb92947ffe4a2/68ab6f5c7f6ef175306f18bb_star-icon.png" loading="lazy" alt="" class="image stars"/></div><div class="star_review"><img src="https://cdn.prod.website-files.com/68a25157e0edb92947ffe4a2/68ab6f5c7f6ef175306f18bb_star-icon.png" loading="lazy" alt="" class="image stars"/></div></div><div class="platform"><div class="txt_platform">Google</div></div></div><div class="testimonial_txt"><div class="testimonial_p">Always so delicious. The staff is incredible and attentive. My favorite restaurant in Ocala.</div></div><div class="author_box"><div class="author_title">Author</div><div class="author_name">James T.</div></div></div></div>
+    </div>
+    <div class="ds-state"><span class="ds-state-label">Slide de catering (.image_slider + .txt_slider)</span>
+      <div class="ds-clip"><div class="image_slider"><img src="https://cdn.prod.website-files.com/68a25157e0edb92947ffe4a2/68e46be43526b08d9492bd44_img-1.avif" alt="Buffet displays" class="image"/></div><div class="txt_slider center"><div class="title_catering">Buffet Displays</div><div class="desc_catering">Elegant and abundant buffet setups that showcase our dishes beautifully while making service smooth and efficient.</div></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== 5. LAYOUT & SPACING ===================== -->
+<section class="ds-section ds-dark" id="ds-layout">
+  <div class="ds-head">
+    <div class="ds-num">05 — Layout &amp; Spacing</div>
+    <h2 class="h2 biege">layout</h2>
+    <div class="ds-desc">Seções em largura total (100vw), alturas em vh (100vh, 135vh, 150vh) e telas divididas 45/55. Abaixo, os containers e três padrões reais clonados do site.</div>
+  </div>
+  <div class="ds-table-wrap"><table class="ds-table">
+    <tr><th>Container / grid</th><th>Regra</th></tr>
+    <tr><td>.wrapper_base</td><td>width 100% · padding 92px 28px (slider_special: pb 42px)</td></tr>
+    <tr><td>.wrapper_video</td><td>flex column, space-between · padding 42px 28px · 100% altura</td></tr>
+    <tr><td>.wrapper_footer</td><td>padding 62px 28px 20px</td></tr>
+    <tr><td>.sides → .left_side / .right_side</td><td>flex · 45% / 55% · left_side.biege é sticky top 0, 100vh</td></tr>
+    <tr><td>.flex_heading (hero)</td><td>grid .75fr 1.1fr .75fr · gap 12px</td></tr>
+    <tr><td>.flex_headline (catering)</td><td>grid .5fr 1.75fr .4fr · gap 12px</td></tr>
+    <tr><td>.card_flex (gift card)</td><td>grid 1fr 1fr 1fr · gap 16px</td></tr>
+    <tr><td>.content_line (footer)</td><td>grid 1fr .5fr 1fr · gap 16px</td></tr>
+    <tr><td>.links_footer</td><td>grid 5 × 1fr · gap 16px · mt 62px</td></tr>
+    <tr><td>Splide .slider1</td><td>perPage 3 · gap 8px → 2 / 12px (≤991) → 1 / 6px (≤767) → 1 / 4px (≤479)</td></tr>
+    <tr><td>Medidas de texto</td><td>.p_box 32ch · .base_box 44ch · .middle_p 47ch · .desc_fs 39ch · .p_gift 45ch · .desc_catering 46ch</td></tr>
+  </table></div>
+
+  <div class="ds-sub">Breakpoints</div>
+  <div class="ds-table-wrap"><table class="ds-table">
+    <tr><th>Breakpoint</th><th>O que muda</th></tr>
+    <tr><td>Desktop (padrão)</td><td>Gutter 28px, header com menu completo, telas divididas 45/55, slider de 3.</td></tr>
+    <tr><td>≤ 991px</td><td>Gutter 20px, seções 72px. Multiplicadores sobem: .base_p 1.5em, .h2 5.5em, .h-link 1.5em, .button_box 1.85em. Header .is-colored fica mais opaco (#2c2c2cb8). .left_side 50%. Slider com 2, marquee_item 42vw.</td></tr>
+    <tr><td>≤ 767px</td><td>Gutter 16px, seções 52px. Aparece hamburger + mobile_menu. .sides vira coluna (imagem primeiro). .h1_hero 11em, .h2 6.5em, .h3 5em, .base_p 2em. Footer empilha.</td></tr>
+    <tr><td>≤ 479px</td><td>Seções 42px, .menu_header escondido, .fixed_menu inferior com blur. .h1_hero 16em, .h2 10em (lh 1), .h3 9em, .base_p 3.6em, marquee_item 80vw, links do footer em 2 colunas.</td></tr>
+  </table></div>
+</section>
+
+<div class="ds-label-bar"><b>Padrão A — Vídeo full-bleed com conteúdo sticky</b><span>section.video_section · 100vh · .overlay_base</span></div>
+<section data-w-id="9942684d-3b27-b05a-9079-0dcb31086d94" class="video_section"><div class="wrapper_video"><div class="box_content"><h2 letters-fade-in="" text-split="" class="h2 biege">The Spirit of <br/>Indian Dining</h2><div class="base_p">From warm hospitality to bold flavors, every detail tells a story.</div><div class="button_s"><a text-split="" letters-fade-in-hover="" href="#ds-components" class="button w-inline-block"><div class="button_box"><div>About Us</div></div></a></div></div></div><div class="embed_video"><div class="overlay_base"></div><video data-lazy-load="true" data-src="https://cdn.prod.website-files.com/68a25157e0edb92947ffe4a2%2F68ab88ee4daaf51c42a59660_Amrit%20Palace%20%281%29-transcode.mp4" autoplay="true" loop="" playsinline="true" muted="" poster="https://cdn.prod.website-files.com/68a25157e0edb92947ffe4a2/69a5fe2eb039b97dd5da108d_amrit-poster.avif" class="video">Amrit Palace Restaurant</video></div></section>
+
+<div class="ds-label-bar"><b>Padrão B — Split 45/55 (card de menu + imagem)</b><span>section.featured_menu · 135vh · .sides</span></div>
+<section class="featured_menu"><div class="sides"><div class="left_side"><div class="box_featured"><div class="top_menu"><div class="heading_featured"><h3 letters-fade-in="" text-split="" class="h3">signature<br/>plates</h3><div class="icon_plates"><img src="https://cdn.prod.website-files.com/68a25157e0edb92947ffe4a2/68ab6aad6d37e1980d319ac9_menu-icon.png" loading="lazy" alt="Menu, icon, png" class="image"/></div></div><div class="cms_list"><div><div><div class="featured_menu_item"><div class="menu_line"><div class="name_pr"><div class="name_txt">Variety Tray</div><div class="price_box"><div class="price_txt">$17.99</div></div></div><div class="name_desc"><div class="desc_txt menu_highlight">A sampler platter perfect for sharing, featuring a mix of vegetable and meat samosas, aloo pakora, chicken pakora, cheese pakora, bhujia, and papadam.</div></div></div></div><div class="featured_menu_item"><div class="menu_line"><div class="name_pr"><div class="name_txt">Butter Chicken</div><div class="price_box"><div class="price_txt">$19.99</div></div></div><div class="name_desc"><div class="desc_txt menu_highlight">Chicken cooked in a creamy tomato sauce, a staple dish celebrated for its rich and velvety texture.</div></div></div></div><div class="featured_menu_item"><div class="menu_line"><div class="name_pr"><div class="name_txt">Lamb Curry</div><div class="price_box"><div class="price_txt">$19.29</div></div></div><div class="name_desc"><div class="desc_txt menu_highlight">Lamb simmered in a fragrant curry sauce with onions, garlic, ginger, and a hint of fenugreek creating a robust and aromatic dish.</div></div></div></div><div class="featured_menu_item"><div class="menu_line"><div class="name_pr"><div class="name_txt">Palak Paneer</div><div class="price_box"><div class="price_txt">$19.49</div></div></div><div class="name_desc"><div class="desc_txt menu_highlight">Creamy spinach sauce enveloping soft cheese cubes, a rich and comforting classic.</div></div></div></div><div class="featured_menu_item"><div class="menu_line"><div class="name_pr"><div class="name_txt">Chicken Tandoori</div><div class="price_box"><div class="price_txt">$21.79</div></div></div><div class="name_desc"><div class="desc_txt menu_highlight">Chicken marinated in yogurt, ginger, and garlic, then grilled in a clay oven for a smoky and succulent finish.</div></div></div></div><div class="featured_menu_item"><div class="menu_line"><div class="name_pr"><div class="name_txt">Chicken Tikka Masala</div><div class="price_box"><div class="price_txt">$21.99</div></div></div><div class="name_desc"><div class="desc_txt menu_highlight">Chicken chunks cooked in a rich tomato sauce with light cream, giving it a magical creamy texture.</div></div></div></div></div></div></div></div><div class="bottom_button"><a text-split="" letters-fade-in-hover="" href="#ds-components" class="button dark block_ver w-inline-block"><div class="button_box dark special_big"><div>View Full Menu</div></div></a></div></div></div><div data-w-id="e178ffa2-3411-02e1-c1e3-3e10067e722b" class="right_side home_menu"><div class="wrapper_side"><div class="heading_side"><div class="txt_content"><h3 letters-fade-in="" text-split="" class="h3">Signature Dishes.<br/>Classic Roots.</h3><div class="base_box"><div class="base_p dark special_p">Every item on our menu reflects decades of tradition — recipes passed down, refined through experience, and thoughtfully adapted for today’s palate.</div></div></div><div class="button_dark"><a letters-fade-in-hover="" text-split="" href="#ds-components" class="button dark w-inline-block"><div class="button_box dark"><div>Reserve a Table</div></div></a></div></div><div class="image_box"><img src="https://cdn.prod.website-files.com/68a25157e0edb92947ffe4a2/68ac4c4fc4648b01d408500b_Featured%20Menu.avif" loading="lazy" alt="Featured menu, food, photo, avif" class="image"/></div></div></div></div></section>
+
+<div class="ds-label-bar"><b>Padrão C — Headline central + slider</b><span>section.catering · .middle_headline · Splide .slider1</span></div>
+<section class="catering"><div class="wrapper_base slider_special"><div class="middle_headline"><div class="heading_center"><h1 letters-fade-in="" text-split="" class="h2">catering</h1><div class="flex_headline"><div><div letters-fade-in="" text-split="" class="caption_heading dark">Exceptional food</div></div><div><h1 letters-fade-in="" text-split="" class="h2">the amrit way</h1></div><div><div letters-fade-in="" text-split="" class="caption_heading dark">Anywhere</div></div></div></div><div class="middle_p"><div class="base_p dark">Whether you&#x27;re hosting a wedding, corporate gathering, or private celebration, our catering brings the warmth of Indian hospitality straight to your table.</div></div></div></div><header class="section is--dark"><div class="container"><div class="splide slider1"><div class="splide__track"><div class="splide__list"><div class="splide__slide"><div class="image_slider"><img src="https://cdn.prod.website-files.com/68a25157e0edb92947ffe4a2/68e46be43526b08d9492bd44_img-1.avif" alt="Catering, buffet displays" class="image"/></div><div class="txt_slider center"><div class="title_catering">Buffet Displays</div><div class="desc_catering">Elegant and abundant buffet setups that showcase our dishes beautifully while making service smooth and efficient.</div></div></div><div class="splide__slide"><div class="image_slider"><img src="https://cdn.prod.website-files.com/68a25157e0edb92947ffe4a2/68e46be3bdd582aff715479c_img-2.avif" alt="professional service team" class="image"/></div><div class="txt_slider center"><div class="title_catering">Professional Service Team</div><div class="desc_catering">Our experienced staff provides courteous, attentive service so your event runs seamlessly.</div></div></div><div class="splide__slide"><div class="image_slider"><img src="https://cdn.prod.website-files.com/68a25157e0edb92947ffe4a2/68e46be4c3b9f44298ee4f60_img-3.avif" alt="years of experience" class="image"/></div><div class="txt_slider center"><div class="title_catering">Years of Experience</div><div class="desc_catering">Decades of catering knowledge and event expertise to ensure a stress-free, memorable experience for you and your guests.</div></div></div></div></div></div></div></header></section>
+
+<!-- ===================== 6. MOTION ===================== -->
+<section class="ds-section" id="ds-motion">
+  <div class="ds-head">
+    <div class="ds-num">06 — Motion &amp; Interaction</div>
+    <h2 class="h2">motion</h2>
+    <div class="ds-desc">Movimento discreto e editorial: letras surgindo por opacidade (GSAP + SplitType), marquee contínuo, scroll suave (Lenis) e hovers de .4s. O GSAP só roda com prefers-reduced-motion: no-preference — o original respeita essa preferência.</div>
+  </div>
+
+  <div class="ds-grid ds-wide">
+    <div class="ds-card"><div class="ds-motion-demo" id="ds-demo-letters"><h3 letters-fade-in="" text-split="" class="h3">letters fade in</h3></div><div class="ds-meta"><b>[letters-fade-in]</b><span class="ds-code">GSAP · chars opacity 0→1 · 0.25s · power1.out · stagger amount 0.8 · ScrollTrigger start "top 70%", once</span><button class="ds-replay" data-ds-replay="letters">Replay</button></div></div>
+    <div class="ds-card"><div class="ds-motion-demo"><a text-split="" letters-fade-in-hover="" href="#" class="button dark w-inline-block"><div class="button_box dark"><div>Hover me</div></div></a></div><div class="ds-meta"><b>[letters-fade-in-hover]</b><span class="ds-code">mouseenter: chars 0→1 · 0.2s · power1.out · stagger 0.3 · combinado com .button hover (.35s)</span></div></div>
+    <div class="ds-card"><div class="ds-motion-demo"><span class="ds-pulse-target" id="ds-pulse">3 576</span></div><div class="ds-meta"><b>@keyframes pulseAnim (.pulse)</b><span class="ds-code">0.6s ease · scale 1→1.2→1 · cor → #d36b00 no meio</span><button class="ds-replay" data-ds-replay="pulse">Replay</button></div></div>
+    <div class="ds-card"><div class="ds-motion-demo"><a href="#" class="button dark w-inline-block"><div class="button_box dark"><div>Button lift</div></div></a></div><div class="ds-meta"><b>.button:hover</b><span class="ds-code">padding 4→6px + scale(1.02) · .45s cubic-bezier(.25,.46,.45,.94) · .dark .35s</span></div></div>
+    <div class="ds-card"><div class="ds-motion-demo" style="background:var(--dark)"><a href="#" class="h-link w-inline-block"><div>Hover link</div></a></div><div class="ds-meta"><b>Links (.h-link, .link_header, .txt_footer, .link_loc)</b><span class="ds-code">color → var(--primary) · transition all .4s</span></div></div>
+    <div class="ds-card"><div class="ds-motion-demo"><span class="ds-code" style="opacity:1;font-size:13px">Role a página: o header real ganha .is-colored (blur 7px) ao sair do hero.</span></div><div class="ds-meta"><b>Header on scroll</b><span class="ds-code">scroll + rAF / IntersectionObserver · .header transition all .45s</span></div></div>
+    <div class="ds-card"><div class="ds-motion-demo"><span class="ds-code" style="opacity:1;font-size:13px">Scroll suave ativo nesta página inteira.</span></div><div class="ds-meta"><b>Lenis 0.2.28</b><span class="ds-code">duration 1.2 · easing t => min(1, 1.001 − 2^(−10t)) · smoothTouch false · touchMultiplier 2</span></div></div>
+    <div class="ds-card"><div class="ds-motion-demo"><span class="ds-code" style="opacity:1;font-size:13px">Arraste o slider do Padrão C acima.</span></div><div class="ds-meta"><b>Splide 3.2.2</b><span class="ds-code">type slide · speed 800ms · perMove 1 · dragAngleThreshold 60 · sem setas/paginação</span></div></div>
+    <div class="ds-card"><div class="ds-motion-demo"><span class="ds-code" style="opacity:1;font-size:13px">Interações do Webflow (IX2) ligadas por data-w-id: hero, seção de vídeo, imagem do menu, imagens de drinks e cursor do gift card (Lottie).</span></div><div class="ds-meta"><b>Webflow Interactions + Lottie</b><span class="ds-code">definidas no runtime do Webflow (não estão no CSS) · Lottie com renderer canvas, loop</span></div></div>
+    <div class="ds-card"><div class="ds-motion-demo"><span class="ds-code" style="opacity:1;font-size:13px">Só framework: spinner do Webflow Commerce, não usado na home.</span></div><div class="ds-meta"><b>@keyframes spin</b><span class="ds-code">CSS base do Webflow</span></div></div>
+  </div>
+</section>
+
+<div class="ds-label-bar"><b>Marquee de depoimentos</b><span>.marquee_track · @keyframes marquee · 27s linear infinite · translateX(0 → −50%)</span></div>
+<section class="testimonials"><div class="wrapper_base special_marque"><div class="flexbox_testimonials"><div><h2 letters-fade-in="" text-split="" class="h2">What Our<br/>Guests Say</h2></div><div class="review_box testimonials_box"><div class="review_wrapper"><div class="flex_review"><div class="stars_flex"><div class="star_icon"><img src="https://cdn.prod.website-files.com/68a25157e0edb92947ffe4a2/68ab6f5c7f6ef175306f18bb_star-icon.png" loading="lazy" alt="" class="image"/></div><div class="star_icon"><img src="https://cdn.prod.website-files.com/68a25157e0edb92947ffe4a2/68ab6f5c7f6ef175306f18bb_star-icon.png" loading="lazy" alt="" class="image"/></div><div class="star_icon"><img src="https://cdn.prod.website-files.com/68a25157e0edb92947ffe4a2/68ab6f5c7f6ef175306f18bb_star-icon.png" loading="lazy" alt="" class="image"/></div><div class="star_icon"><img src="https://cdn.prod.website-files.com/68a25157e0edb92947ffe4a2/68ab6f5c7f6ef175306f18bb_star-icon.png" loading="lazy" alt="" class="image"/></div><div class="star_icon"><img src="https://cdn.prod.website-files.com/68a25157e0edb92947ffe4a2/68ab6f5c7f6ef175306f18bb_star-icon.png" loading="lazy" alt="" class="image"/></div></div><div class="google_icon"><img src="https://cdn.prod.website-files.com/68a25157e0edb92947ffe4a2/68ab6f5c31e3e7b0a84252b6_google-icon.png" loading="lazy" alt="" class="image"/></div></div><div class="number_txt"><div class="big_number">4.7</div><div class="small_number">/5</div><div class="txt_review"><div class="title_review">Excellent</div><div class="base_caption">Based on <span class="reviews_count">3 576</span> reviews</div></div></div></div></div></div></div><div class="marquee_reviews"><div class="w-embed"><style>
+.marquee_track {
+  will-change: transform;
+  animation: marquee 27s linear infinite;
+}
+
+@keyframes marquee {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+</style></div><div class="marquee"><div class="marquee_track" id="ds-marquee-track"><div class="marquee_list w-dyn-list"><div role="list" class="marquee_flex w-dyn-items"></div></div><div class="marquee_list w-dyn-list"><div role="list" class="marquee_flex w-dyn-items"></div></div></div></div></div><div class="wrapper_base special_marque"><div class="review_txt"><div class="base_p dark review_spec">Have you already visited our restaurant and left with great memories?</div><a href="#" class="w-inline-block"><div class="base_p dark link_review">Be sure to leave us a review!</div></a></div></div></section>
+
+<div class="ds-label-bar"><b>Gift card — Lottie + interação de cursor (IX2)</b><span>section.gift_card · 150vh · mova o mouse sobre a área</span></div>
+<section class="gift_card"><div class="wrapper_card cursor_card"><div class="center"><h2 letters-fade-in="" text-split="" class="h2 middle">gift a taste<br/>of tradition</h2></div><div class="caption_card"><div class="p_gift"><div class="base_p dark">Whether it’s a birthday, celebration, or a simple “thank you,” an Amrit Palace gift card brings people together over timeless flavors.</div></div><a letters-fade-in-hover="" text-split="" href="#" class="button dark w-inline-block"><div class="button_box dark"><div>Order Now</div></div></a></div><div class="special_b"><div class="card_flex"><div class="caption_box"><div letters-fade-in="" text-split="" class="caption_heading dark">Share the experience.</div></div><div id="w-node-bc70e26d-0de8-3403-0069-5b75b1ed9f6b-47ffe4a8" class="caption_box"><div letters-fade-in="" text-split="" class="caption_heading dark">Give the flavors they’ll remember.</div></div></div><div class="gift_card_box"><div data-preserve-aspect-ratio="xMidYMid slice" class="gc_curs" data-w-id="7b285d89-934c-dea8-e37a-1bd4fcb4e405" data-animation-type="lottie" data-src="https://cdn.prod.website-files.com/68a25157e0edb92947ffe4a2/68bf1845d8e6c5f227ba8d2f_57787a8b58369ec4d5498ac8c36d0c69_E-Cards.json" data-loop="1" data-direction="1" data-autoplay="1" data-is-ix2-target="0" data-renderer="canvas" data-default-duration="0" data-duration="0" data-loading="eager"></div></div></div></div></section>
+
+<!-- ===================== 7. ÍCONES ===================== -->
+<section class="ds-section" id="ds-icons">
+  <div class="ds-head">
+    <div class="ds-num">07 — Icons</div>
+    <h2 class="h2">ícones</h2>
+    <div class="ds-desc">Não há biblioteca de ícones: são PNG/SVG avulsos dentro de caixas com tamanho fixo (a img usa .image, object-fit cover, 100%). O único glifo de fonte é o chevron do dropdown (webflow-icons). A cor vem da própria imagem, não herda currentColor.</div>
+  </div>
+  <div class="ds-grid">
+    <div class="ds-card"><div class="ds-icon-cell" style="background:var(--dark)"><div class="icon_box"><img src="https://cdn.prod.website-files.com/68a25157e0edb92947ffe4a2/68ab6aad6d37e1980d319ac9_menu-icon.png" alt="" class="image"/></div></div><div class="ds-meta"><b>menu-icon.png em .icon_box</b><span class="ds-code">40×40 · padding 10px · bg var(--primary) · radius 3px (36px/8px ≤991)</span></div></div>
+    <div class="ds-card"><div class="ds-icon-cell" style="background:var(--dark)"><div class="icon_box"><img src="https://cdn.prod.website-files.com/68a25157e0edb92947ffe4a2/68ab6aad663e114eb608fb96_order-icon.png" alt="" class="image"/></div></div><div class="ds-meta"><b>order-icon.png em .icon_box</b><span class="ds-code">mesmo container</span></div></div>
+    <div class="ds-card"><div class="ds-icon-cell" style="background:var(--primary)"><div class="icon_plates"><img src="https://cdn.prod.website-files.com/68a25157e0edb92947ffe4a2/68ab6aad6d37e1980d319ac9_menu-icon.png" alt="" class="image"/></div></div><div class="ds-meta"><b>.icon_plates</b><span class="ds-code">32×32 · no card do menu</span></div></div>
+    <div class="ds-card"><div class="ds-icon-cell"><div class="star_icon"><img src="https://cdn.prod.website-files.com/68a25157e0edb92947ffe4a2/68ab6f5c7f6ef175306f18bb_star-icon.png" alt="" class="image"/></div><div class="star_review"><img src="https://cdn.prod.website-files.com/68a25157e0edb92947ffe4a2/68ab6f5c7f6ef175306f18bb_star-icon.png" alt="" class="image stars"/></div></div><div class="ds-meta"><b>star-icon.png</b><span class="ds-code">.star_icon 24px (pad 4px) · .star_review 1em (pad 2px, contain)</span></div></div>
+    <div class="ds-card"><div class="ds-icon-cell"><div class="google_icon"><img src="https://cdn.prod.website-files.com/68a25157e0edb92947ffe4a2/68ab6f5c31e3e7b0a84252b6_google-icon.png" alt="" class="image"/></div></div><div class="ds-meta"><b>google-icon.png</b><span class="ds-code">.google_icon 24×24</span></div></div>
+    <div class="ds-card"><div class="ds-icon-cell" style="background:var(--primary)"><div class="icon_dropdown"><img src="https://cdn.prod.website-files.com/68a25157e0edb92947ffe4a2/68c9c21775852a6417f46e90_chevron-down.svg" alt=""/></div></div><div class="ds-meta"><b>chevron-down.svg</b><span class="ds-code">.icon_dropdown · dropdown do menu mobile</span></div></div>
+    <div class="ds-card"><div class="ds-icon-cell" style="background:var(--dark)"><div class="link_header drop_locs"><div>Order Now</div><div class="icon_drop w-icon-dropdown-toggle"></div></div></div><div class="ds-meta"><b>.w-icon-dropdown-toggle</b><span class="ds-code">fonte webflow-icons · herda a cor do link</span></div></div>
+    <div class="ds-card"><div class="ds-icon-cell" style="background:var(--dark)"><a href="#" class="logo w-inline-block"><img src="https://cdn.prod.website-files.com/68a25157e0edb92947ffe4a2/68ab69d9e852bb71813eafdf_Logo.png" alt="logo"/></a><div class="middle_logo_footer"><img src="https://cdn.prod.website-files.com/68a25157e0edb92947ffe4a2/68ab69d9e852bb71813eafdf_Logo.png" alt="" class="image"/></div></div><div class="ds-meta"><b>Logo.png</b><span class="ds-code">.logo 2.3em (header) · .middle_logo_footer 42px</span></div></div>
+  </div>
+</section>
+
+<!-- ===================== FOOTER (original) ===================== -->
+<div class="ds-label-bar" id="ds-footer"><b>Footer — grid 1fr .5fr 1fr + 5 colunas + wordmark</b><span>section.footer · #292622</span></div>
+<section class="footer"><div class="wrapper_footer"><div class="content_line"><div class="address_hours only_hours"><div class="flexbox_box"><div class="address_box"><div class="title_footer">locations</div><div class="addresses_box"><div><div class="txt_footer">Ocala</div><div class="txt_footer">3415 SW College Rd Ocala, FL 34474</div></div><div><div class="txt_footer">Gainesville</div><div class="txt_footer">3105 SW 34th Street Gainesville, FL 32608</div></div></div></div><div class="right_fotoer_box"><div class="title_footer">HOURS</div><div class="txt_footer"><br/><br/><br/>Ocala <br/>Tue-Thu 11 AM — 9 PM<br/>Fri-Sat 12 PM — 10 PM<br/>Sunday 12 PM — 9 PM<br/>Mon (Closed)<br/><br/>Gainesville <br/>Tue-Thu 11 AM — 9 PM<br/>Fri-Sat 12 M — 10 PM<br/>Sunday 12 PM —9 PM<br/>Mon (Closed)</div></div></div></div><div id="w-node-fec112a8-dfda-1720-b88b-9e68da0a7250-da0a723d" class="middle_logo_footer"><img src="https://cdn.prod.website-files.com/68a25157e0edb92947ffe4a2/68ab69d9e852bb71813eafdf_Logo.png" loading="lazy" alt="Amrit Palace, logo" class="image"/></div><div class="address_hours"><div class="flexbox_box footer_flex"><div id="w-node-fec112a8-dfda-1720-b88b-9e68da0a7254-da0a723d" class="address_box address"><div class="title_footer">CONTACT</div><div class="middle_links_footer"><div class="phones_footer"><div><div class="txt_footer">Ocala</div><a fs-copyclip-message="Phone copied!" fs-copyclip-element="click" href="#" class="footer_link w-inline-block"><div class="txt_footer">+1 (352) 873-8500</div></a></div><div><div class="txt_footer">Gainesville</div><a fs-copyclip-message="Phone copied!" fs-copyclip-element="click" href="#" class="footer_link w-inline-block"><div class="txt_footer">+1 (352) 769-8500</div></a></div></div><a fs-copyclip-message="E-mail copied!" fs-copyclip-element="click" href="#" class="w-inline-block"><div class="txt_footer">E-mail Us</div></a></div></div><div id="w-node-fec112a8-dfda-1720-b88b-9e68da0a725c-da0a723d" class="right_fotoer_box newsletter"><div class="title_footer">NEWSLETTER</div><div><div class="txt_footer">Get the latest updates.</div><div class="txt_footer">Coming soon...</div></div></div></div></div></div><div class="links_footer"><div id="w-node-fec112a8-dfda-1720-b88b-9e68da0a7265-da0a723d" class="links_footer_list"><div class="title_links"><div class="txt_footer">Discover</div></div><div class="footer_links"><a href="#ds-tokens" class="txt_footer w-inline-block"><div>Tokens</div></a><a href="#ds-type" class="txt_footer w-inline-block"><div>Tipografia</div></a><a href="#ds-colors" class="txt_footer w-inline-block"><div>Cores</div></a><a href="#ds-components" class="txt_footer w-inline-block"><div>Componentes</div></a></div></div><div id="w-node-fec112a8-dfda-1720-b88b-9e68da0a7279-da0a723d" class="links_footer_list"><div class="title_links"><div class="txt_footer">Legals</div></div><div class="footer_links"><a href="#" class="txt_footer w-inline-block"><div>Privacy Policy</div></a><a href="#" class="txt_footer w-inline-block"><div>Terms and Conditions</div></a><a href="#" class="txt_footer w-inline-block"><div>Cookie Policy</div></a></div></div><div class="empty_div"></div><div id="w-node-fec112a8-dfda-1720-b88b-9e68da0a7288-da0a723d" class="links_footer_list"><div class="title_links"><div class="txt_footer">Actions</div></div><div class="footer_links"><a href="#ds-layout" class="txt_footer w-inline-block"><div>Layout</div></a><a href="#ds-motion" class="txt_footer w-inline-block"><div>Motion</div></a><a href="#ds-icons" class="txt_footer w-inline-block"><div>Ícones</div></a></div></div><div id="w-node-fec112a8-dfda-1720-b88b-9e68da0a7299-da0a723d" class="links_footer_list"><div class="title_links"><div class="txt_footer">Socials</div></div><div class="footer_links"><a href="https://www.instagram.com/amrit_palace/" target="_blank" class="txt_footer w-inline-block"><div>Instagram</div></a><a href="https://www.facebook.com/amritpalace/" target="_blank" class="txt_footer w-inline-block"><div>Facebook</div></a></div></div></div><div class="footer_txt_lg"><div class="txt_lg">amrit palace</div></div><div class="last_line"><div class="copyright"><div class="txt_footer">© <span data-year="">2025</span> Amrit Palace</div></div><div class="reserved"><div class="txt_footer">All Rights Reserved</div></div><div class="made_by"><div class="txt_footer">Made by <a href="https://artemiilebedev.com" target="_blank" class="spec_art_link">Artemii Lebedev</a></div></div></div></div></section>
+
+<!-- Marquee: os 4 depoimentos originais, duplicados em 2 listas como no site -->
+<template id="ds-testimonials-tpl"><div role="listitem" class="marquee_item w-dyn-item"><div class="box_testimonial"><div class="header_testimonial"><div class="stars_flex testimonials"><div class="star_review"><img src="https://cdn.prod.website-files.com/68a25157e0edb92947ffe4a2/68ab6f5c7f6ef175306f18bb_star-icon.png" loading="lazy" alt="" class="image stars"/></div><div class="star_review"><img src="https://cdn.prod.website-files.com/68a25157e0edb92947ffe4a2/68ab6f5c7f6ef175306f18bb_star-icon.png" loading="lazy" alt="" class="image stars"/></div><div class="star_review"><img src="https://cdn.prod.website-files.com/68a25157e0edb92947ffe4a2/68ab6f5c7f6ef175306f18bb_star-icon.png" loading="lazy" alt="" class="image stars"/></div><div class="star_review"><img src="https://cdn.prod.website-files.com/68a25157e0edb92947ffe4a2/68ab6f5c7f6ef175306f18bb_star-icon.png" loading="lazy" alt="" class="image stars"/></div><div class="star_review"><img src="https://cdn.prod.website-files.com/68a25157e0edb92947ffe4a2/68ab6f5c7f6ef175306f18bb_star-icon.png" loading="lazy" alt="" class="image stars"/></div></div><div class="platform"><div class="txt_platform"></div></div></div><div class="testimonial_txt"><div class="testimonial_p"></div></div><div class="author_box"><div class="author_title">Author</div><div class="author_name"></div></div></div></div></template>
+
+<!-- ===================== SCRIPTS ORIGINAIS (mesma ordem do site) ===================== -->
+<script src="https://d3e54v103j8qbb.cloudfront.net/js/jquery-3.5.1.min.dc5e7f18c8.js?site=68a25157e0edb92947ffe4a2" type="text/javascript" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
+<script>
+// Preenche o marquee antes do Webflow/GSAP inicializarem (mesmo conteúdo do site)
+(function(){
+  var data=[["Google","Always so delicious. The staff is incredible and attentive. My favorite restaurant in Ocala.","James T."],["Yelp","The restaurant is very clean, food is amazing and servers very attentive. You will not regret eating here.","Elizabeth M."],["Reddit","I had some of the best Indian food around… Tandoori Chicken, Rogan Josh and samosa chaat — everything was incredible.","Rahul S."],["MapQuest","Inassumong on the outside, GORGEOUS on the inside. I was dining alone and it was just stellar.","Marie R."]];
+  var tpl=document.getElementById("ds-testimonials-tpl");
+  document.querySelectorAll("#ds-marquee-track .marquee_flex").forEach(function(list){
+    data.forEach(function(d){
+      var n=tpl.content.cloneNode(true);
+      n.querySelector(".txt_platform").textContent=d[0];
+      n.querySelector(".testimonial_p").textContent=d[1];
+      n.querySelector(".author_name").textContent=d[2];
+      list.appendChild(n);
+    });
+  });
+})();
+</script>
+<script src="https://cdn.prod.website-files.com/68a25157e0edb92947ffe4a2/js/webflow.a7f35181.9f63b07b8b193ec8.js" type="text/javascript" integrity="sha384-tgq71rYNfdlwtHJWZ/c05eRioa3ZUHTvpeHg5e5tv/sD1hrxFMQITMNgIIcae+w8" crossorigin="anonymous"></script>
+
+<script defer>
+  document.addEventListener("DOMContentLoaded", () => {
+    const header = document.querySelector(".header");
+    const hamburger = document.querySelector(".hamburger_menu");
+    if (!header || !hamburger) return;
+
+    const hero = document.getElementById("hero-section");
+    const storeHero = document.getElementById("diff-hero");
+    const storeDiff = document.getElementById("store-diff");
+    const productSection = document.getElementById("product-section");
+
+    const classes = ["is-colored", "is-colored-diff", "store_h", "store_pr"];
+    let isScrollColored = false;
+    let isManualColored = false;
+
+    function addObserver(target, className) {
+      if (!target) return;
+      const observer = new IntersectionObserver(([entry]) => {
+        if (!entry.isIntersecting) {
+          classes.forEach(c => header.classList.remove(c));
+          header.classList.add(className);
+          isScrollColored = true;
+        } else {
+          header.classList.remove(className);
+          isScrollColored = false;
+        }
+      }, { threshold: 0 });
+      observer.observe(target);
+    }
+
+    addObserver(hero, "is-colored");
+    addObserver(storeHero, "is-colored-diff");
+    addObserver(storeDiff, "store_h");
+    addObserver(productSection, "store_pr");
+
+    hamburger.addEventListener("click", () => {
+      if (isScrollColored) return;
+      if (isManualColored) {
+        classes.forEach(c => header.classList.remove(c));
+        isManualColored = false;
+        return;
+      }
+      let classToAdd = null;
+      if (hero) classToAdd = "is-colored";
+      if (storeHero) classToAdd = "is-colored-diff";
+      if (storeDiff) classToAdd = "store_h";
+      if (productSection) classToAdd = "store_pr";
+      if (classToAdd) {
+        header.classList.add(classToAdd);
+        isManualColored = true;
+      }
+    });
+  });
+</script>
+
+<!-- Finsweet Attributes -->
+<script async type="module" src="https://cdn.jsdelivr.net/npm/@finsweet/attributes@2/attributes.js" fs-copyclip></script>
+
+<!-- Lenis Smooth Scroll -->
+<script src="https://cdn.jsdelivr.net/gh/studio-freight/lenis@0.2.28/bundled/lenis.js"></script>
+
+<style>
+  .pulse {
+    animation: pulseAnim 0.6s ease;
+  }
+  @keyframes pulseAnim {
+    0% { transform: scale(1); color: inherit; }
+    50% { transform: scale(1.2); color: #d36b00; }
+    100% { transform: scale(1); color: inherit; }
+  }
+</style>
+
+<!-- Lenis -->
+<script>
+  const lenis = new Lenis({
+    duration: 1.2,
+    easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+    direction: "vertical",
+    gestureDirection: "vertical",
+    smooth: true,
+    mouseMultiplier: 1,
+    smoothTouch: false,
+    touchMultiplier: 2,
+    infinite: false,
+  });
+
+  lenis.on("scroll", () => {});
+
+  function raf(time) {
+    lenis.raf(time);
+    requestAnimationFrame(raf);
+  }
+  requestAnimationFrame(raf);
+</script>
+
+<!-- GSAP Animations -->
+<script src="https://unpkg.com/split-type" defer></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.3/gsap.min.js" defer></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.3/ScrollTrigger.min.js" defer></script>
+<script defer type="text/javascript" src="https://cdn.prod.website-files.com/68a25157e0edb92947ffe4a2/69a708c1fc1c48959199d2bf_GSAP.txt"></script>
+<script defer type="text/javascript" src="https://cdn.prod.website-files.com/68a25157e0edb92947ffe4a2/69a709855cafbcca155ceedd_Video%20Lazy.txt"></script>
+<script defer type="text/javascript" src="https://cdn.prod.website-files.com/68a25157e0edb92947ffe4a2/69a709ab1dfcff352f54f098_Auto%20Year.txt"></script>
+
+<script>
+var Webflow = Webflow || [];
+Webflow.push(function() {
+	window.addEventListener('resize', function() {
+	    window.Webflow.require("lottie").lottie.resize();
+	});
+});
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/@splidejs/splide@3.2.2/dist/js/splide.min.js"></script>
+<script>
+function slider1() {
+
+let splides = $('.slider1');
+for ( let i = 0, splideLength = splides.length; i < splideLength; i++ ) {
+	new Splide( splides[ i ], {
+	perPage: 3,
+	perMove: 1,
+  focus: 0,
+  type: 'slide',
+  gap: '8px',
+  arrows: 'false',
+  pagination: 'slider',
+  speed : 800,
+  dragAngleThreshold: 60,
+  autoWidth: false,
+  rewind : false,
+  rewindSpeed : 600,
+  waitForTransition : false,
+  updateOnMove : true,
+  trimSpace: true,
+  breakpoints: {
+		991: {
+			perPage: 2,
+      gap: '12px',
+		},
+    767: {
+			perPage: 1,
+      gap: '6px',
+		},
+    479: {
+			perPage: 1,
+      gap: '4px',
+		}
+	}
+} ).mount();
+}
+
+}
+slider1();
+</script>
+
+<!-- ===================== SCRIPT DA DOCUMENTAÇÃO ===================== -->
+<script>
+(function(){
+  var root=document.documentElement;
+  var header=document.querySelector(".header");
+  var nav=document.getElementById("ds-nav");
+  // O header original esconde ao rolar para baixo (Webflow IX2); a nav acompanha a parte visível dele
+  var lastH=-1;
+  function setHeaderH(){
+    if(header){ var h=Math.max(0, Math.round(header.getBoundingClientRect().bottom)); if(h!==lastH){ lastH=h; root.style.setProperty("--ds-header-h", h+"px"); } }
+    requestAnimationFrame(setHeaderH);
+  }
+  requestAnimationFrame(setHeaderH);
+
+  // Navegação por âncora compatível com o Lenis
+  document.addEventListener("click", function(e){
+    var a=e.target.closest('a[href^="#ds-"], a[href="#hero-section"]');
+    if(!a) return;
+    var t=document.querySelector(a.getAttribute("href"));
+    if(!t) return;
+    e.preventDefault();
+    var goingUp=t.getBoundingClientRect().top<0;
+    var off=-((goingUp&&header?header.offsetHeight:0)+(nav?nav.offsetHeight:0));
+    if(t.id==="hero-section") off=0;
+    if(typeof lenis!=="undefined" && lenis.scrollTo){ lenis.scrollTo(t,{offset:off}); }
+    else { window.scrollTo({top:t.getBoundingClientRect().top+window.scrollY+off}); }
+  });
+  // Links "#" de demonstração não devem pular para o topo
+  document.addEventListener("click", function(e){
+    var a=e.target.closest('a[href="#"]'); if(a && !a.hasAttribute("fs-copyclip-element")) e.preventDefault();
+  });
+
+  // Destaque da seção ativa na nav
+  var links=[].slice.call(nav.querySelectorAll("a"));
+  var targets=links.map(function(l){ return document.querySelector(l.getAttribute("href")); });
+  var ticking=false;
+  function updateActive(){
+    var line=window.innerHeight*0.4, idx=-1;
+    targets.forEach(function(t,i){ if(t && t.getBoundingClientRect().top<line) idx=i; });
+    links.forEach(function(l,i){ l.classList.toggle("ds-active", i===idx); });
+    ticking=false;
+  }
+  window.addEventListener("scroll", function(){ if(!ticking){ ticking=true; requestAnimationFrame(updateActive); } }, {passive:true});
+  updateActive();
+
+  // Replay das animações (mesmos parâmetros do GSAP.txt / pulseAnim)
+  document.addEventListener("click", function(e){
+    var b=e.target.closest("[data-ds-replay]"); if(!b) return;
+    if(b.dataset.dsReplay==="letters" && window.gsap){
+      var chars=document.querySelectorAll("#ds-demo-letters .char");
+      if(chars.length) gsap.fromTo(chars,{opacity:0},{opacity:1,duration:0.25,ease:"power1.out",stagger:{amount:0.8}});
+    }
+    if(b.dataset.dsReplay==="pulse"){
+      var p=document.getElementById("ds-pulse"); p.classList.remove("pulse"); void p.offsetWidth; p.classList.add("pulse");
+    }
+  });
+
+  // Garantia de visibilidade: com reduced-motion o GSAP não roda e [text-split] ficaria em opacity 0
+  window.addEventListener("load", function(){
+    setTimeout(function(){
+      var reduce=window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      if(reduce || typeof gsap==="undefined" || typeof SplitType==="undefined"){
+        document.querySelectorAll("[text-split]").forEach(function(el){ el.style.opacity="1"; });
+      }
+    }, 2500);
+  });
+})();
+</script>
+</body>
+</html>

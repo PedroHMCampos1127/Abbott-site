@@ -1,0 +1,7 @@
+- **HTML5** — single-page semantic markup driving the entire barbershop landing layout
+- **CSS3 (vanilla)** — custom design system using CSS variables, grid/flex layouts, keyframes, transitions and responsive media queries (in `assets/css/styles.css`)
+- **JavaScript (vanilla)** — page interactions: scroll-aware nav, mobile menu, IntersectionObserver-based scroll reveal, testimonial slider with autoplay, smooth anchor scroll, hero parallax and animated stat counters (in `assets/js/interactions.js`)
+- **Iconify** — runtime icon library used to render Solar icon-set SVGs inline throughout the page (script `assets/iconify_654a1ef798a3.js`)
+- **Solar icon set (Iconify)** — provides the scissors, fire, crown, star, palette, waterdrop, magic-stick, face-scan, camera, chat-round-dots, share, play, map-point, phone, clock-circle, arrow-right and arrow-right-up icons
+- **Google Fonts** — Playfair Display (serif italic accents), Inter (sans body) and Bebas Neue (display headings); served via `assets/css2_13ddf91fdf43.css` plus local `.woff2` files in `assets/`
+- **IntersectionObserver API** — drives the `.reveal` scroll-into-view animation and the stat-number counter trigger

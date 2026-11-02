@@ -1,0 +1,718 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="js">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>DS Abbott — Design System · Guilherme Abbott Beach Tênis</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;1,400;1,500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/abbott.css">
+<style>
+/* ===== Scaffold de documentação (apenas .ds-*) ===== */
+.ds-section { padding: 9rem 0 8rem; position: relative; overflow: hidden; }
+.ds-section.is-alt { background: var(--fundo-2); }
+.ds-container { width: min(1320px, 100% - 2 * var(--gutter)); margin: 0 auto; }
+.ds-head { display: grid; grid-template-columns: 1.1fr 0.9fr; gap: 4rem; align-items: end; margin-bottom: 5rem; }
+.ds-head .section-title { margin-bottom: 0; }
+.ds-num { font-family: var(--serif); font-style: italic; color: var(--lavanda); font-size: 1.1rem; margin-right: 0.5rem; }
+.ds-lead { color: var(--gray-light); line-height: 1.8; font-size: 1rem; max-width: 46ch; }
+.ds-sub { display: flex; align-items: baseline; justify-content: space-between; gap: 2rem; margin: 5rem 0 1.8rem; padding-bottom: 1rem; border-bottom: 1px solid var(--line); }
+.ds-sub:first-of-type { margin-top: 0; }
+.ds-sub h3 { font-family: var(--display); font-weight: 400; font-size: 1.9rem; letter-spacing: 0.05em; }
+.ds-sub p { color: var(--gray); font-size: 0.85rem; max-width: 52ch; text-align: right; }
+.ds-code { font-family: ui-monospace, 'SF Mono', Menlo, monospace; font-size: 0.72rem; color: var(--lavanda); background: var(--lavanda-a08); padding: 0.15rem 0.45rem; border-radius: 4px; white-space: nowrap; }
+.ds-meta { font-family: ui-monospace, 'SF Mono', Menlo, monospace; font-size: 0.72rem; color: var(--gray); line-height: 1.6; }
+
+/* Nav do DS (sticky, rolagem horizontal no mobile) */
+.ds-topnav { position: sticky; top: 0; z-index: 900; background: rgba(10, 10, 20, 0.8); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); border-bottom: 1px solid var(--line); }
+.ds-topnav ul { list-style: none; display: flex; gap: 0.4rem; overflow-x: auto; scrollbar-width: none; width: min(1320px, 100% - 2 * var(--gutter)); margin: 0 auto; padding: 0.7rem 0; }
+.ds-topnav a { display: block; white-space: nowrap; padding: 0.5rem 1rem; border-radius: var(--radius-pill); font-size: 0.72rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--gray-light); transition: all 0.3s ease; }
+.ds-topnav a:hover { color: var(--texto); background: var(--lavanda-a08); }
+.ds-topnav a.is-active { background: var(--roxo); color: var(--texto); }
+
+/* Tokens */
+.ds-palette { display: grid; grid-template-columns: repeat(5, 1fr); border-radius: var(--radius-card); overflow: hidden; border: 1px solid var(--line); }
+.ds-swatch-big { min-height: 15rem; padding: 1.4rem; display: flex; flex-direction: column; justify-content: flex-end; gap: 0.2rem; transition: flex 0.6s var(--ease-out-expo), transform 0.6s var(--ease-out-expo); position: relative; }
+.ds-swatch-big:hover { transform: translateY(-8px); z-index: 2; box-shadow: var(--shadow-float); }
+.ds-swatch-big b { font-weight: 600; font-size: 1.05rem; }
+.ds-swatch-big span { font-size: 0.9rem; }
+.ds-swatch-big code { font-size: 0.7rem; opacity: 0.7; font-family: ui-monospace, Menlo, monospace; }
+.ds-grid { display: grid; gap: 1rem; }
+.ds-grid.c2 { grid-template-columns: repeat(2, 1fr); } .ds-grid.c3 { grid-template-columns: repeat(3, 1fr); }
+.ds-grid.c4 { grid-template-columns: repeat(4, 1fr); } .ds-grid.c6 { grid-template-columns: repeat(6, 1fr); }
+.ds-token { background: var(--cartoes); border: 1px solid var(--line); border-radius: var(--radius-md); padding: 1rem; display: flex; flex-direction: column; gap: 0.7rem; position: relative; overflow: hidden; }
+.ds-token-prev { height: 5.5rem; border-radius: 0.5rem; position: relative; overflow: hidden; }
+.ds-token-name { font-size: 0.85rem; font-weight: 600; }
+.ds-radius-prev { height: 5.5rem; background: var(--roxo-a25); border: 1px solid var(--lavanda); }
+.ds-shadow-prev { height: 5.5rem; margin: 0.6rem 1rem 1rem 0.2rem; background: var(--cartoes-2); border-radius: var(--radius-md); }
+.ds-space-row { display: grid; grid-template-columns: 110px 1fr 90px; align-items: center; gap: 1rem; padding: 0.55rem 0; border-bottom: 1px solid var(--line); }
+.ds-space-bar { height: 10px; border-radius: 10px; background: var(--grad-roxo); transform-origin: left; }
+.ds-ease { position: relative; height: 3rem; border-radius: 0.5rem; background: var(--fundo); border: 1px solid var(--line); overflow: hidden; }
+.ds-ease i { position: absolute; top: 50%; left: 0.6rem; width: 18px; height: 18px; margin-top: -9px; border-radius: 50%; background: var(--lavanda); box-shadow: 0 0 14px var(--lavanda); transition: left 1.2s var(--e); }
+.ds-token:hover .ds-ease i { left: calc(100% - 1.6rem); }
+
+/* Tipografia */
+.ds-type-row { display: grid; grid-template-columns: 170px 1fr 240px; gap: 2rem; align-items: center; padding: 2rem 0; border-bottom: 1px solid var(--line); }
+.ds-type-row:hover { background: linear-gradient(90deg, transparent, var(--lavanda-a08), transparent); }
+.ds-type-label { font-size: 0.72rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--gray); }
+.ds-type-spec { text-align: right; }
+.ds-type-spec b { display: block; font-family: ui-monospace, Menlo, monospace; font-size: 0.85rem; color: var(--texto); font-weight: 500; margin-bottom: 0.3rem; }
+.ds-type-row .hero-title, .ds-type-row .section-title, .ds-type-row .testimonial-quote { margin-bottom: 0; }
+
+/* Superfícies */
+.ds-surface { height: 9rem; border-radius: var(--radius-md); position: relative; overflow: hidden; border: 1px solid var(--line); }
+.ds-surface-photo { position: absolute; inset: 0; background: url('assets/img/bt-02.jpg') center/cover; }
+.ds-bgdemo { height: 15rem; border-radius: var(--radius-card); border: 1px solid var(--line); position: relative; overflow: hidden; background: var(--fundo); }
+.ds-bgdemo .bg-grain { position: absolute; inset: -50%; opacity: 0.25; z-index: 1; }
+.ds-bgdemo .testimonial-bg-text { font-size: 9rem; -webkit-text-stroke-color: rgba(183, 156, 255, 0.35); animation: marqueeScroll 14s linear infinite; }
+.ds-bgdemo .aurora-orb.o1 { width: 18rem; height: 18rem; top: -6rem; right: -4rem; }
+.ds-bgdemo .aurora-orb.o2 { width: 14rem; height: 14rem; bottom: -6rem; left: -3rem; }
+.ds-bgdemo .aurora-orb.o3 { width: 9rem; height: 9rem; }
+.ds-bgdemo .sand-edge { height: 60px; --sand-color: var(--roxo); }
+.ds-tile-label { position: absolute; left: 1rem; bottom: 1rem; z-index: 5; display: flex; flex-direction: column; gap: 0.25rem; }
+.ds-tile-label b { font-size: 0.85rem; font-weight: 600; }
+
+/* Componentes */
+.ds-states { display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 1rem; }
+.ds-state { background: var(--cartoes); border: 1px solid var(--line); border-radius: var(--radius-md); min-height: 9rem; padding: 1.4rem 1rem 2.6rem; display: grid; place-items: center; position: relative; }
+.ds-state.is-light { background: var(--texto); }
+.ds-state-label { position: absolute; left: 0.9rem; bottom: 0.7rem; font-size: 0.65rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--gray); }
+.ds-state.is-light .ds-state-label { color: var(--gray); }
+.ds-comp-note { margin-top: 1rem; }
+.ds-panel { background: var(--cartoes); border: 1px solid var(--line); border-radius: var(--radius-card); padding: 2.5rem; position: relative; overflow: hidden; }
+
+/* Forced states (declarações copiadas das regras :hover/:active/:focus do abbott.css) */
+.btn-primary.ds-force-hover { color: var(--fundo); box-shadow: 0 0 40px var(--roxo-a45); }
+.btn-primary.ds-force-hover::before { transform: translateX(0); }
+.btn-primary.ds-force-hover .iconify { transform: translateX(4px) rotate(-45deg); }
+.btn-primary.ds-force-active { transform: scale(0.97); }
+.ds-force-focus { outline: 2px solid var(--lavanda); outline-offset: 4px; }
+.btn.ds-force-focus { outline-offset: 0.5rem; }
+.btn-outline.ds-force-hover { color: var(--lavanda); }
+.btn-outline.ds-force-hover::after { transform: scaleX(1); transform-origin: left; }
+.btn-outline.ds-force-hover .iconify { transform: translateX(4px); }
+.button.ds-force-hover { padding: 7px; transform: scale(1.02); border-color: var(--lavanda); }
+.button.dark.ds-force-hover { border-color: var(--roxo); }
+.btn.ds-force-hover { background-color: var(--lavanda); border-color: var(--lavanda); }
+.btn.ds-force-hover .text-btn-01 > span:nth-child(1) { transform: translateY(-110%); }
+.btn.ds-force-hover .text-btn-01 > span:nth-child(2) { transform: translateY(0); }
+.btn.ds-force-active { background-color: var(--lavanda-dim); border-color: var(--lavanda-dim); }
+.btn.stroke-btn.ds-force-hover { background: var(--texto); color: var(--fundo); border-color: var(--texto); }
+.nav-cta.ds-force-hover { color: var(--fundo); }
+.nav-cta.ds-force-hover::before { transform: scale(1, 1); transform-origin: left; }
+.button_main_wrap.ds-force-hover { box-shadow: 2px 2px 0 0 var(--roxo); transform: translate(3px, 3px); }
+.btn-whats.ds-force-hover { transform: translateY(-3px); box-shadow: 0 18px 40px -12px var(--roxo); }
+.btn-whats.ds-force-hover::after { background: var(--roxo-dark); }
+.btn-icon.ds-force-hover { background: rgba(255, 255, 255, 0.08); border-color: var(--texto); transform: rotate(90deg); }
+.btn-primary.ds-force-disabled { opacity: 0.35; pointer-events: none; }
+.service-card.ds-force-hover { background: var(--cartoes); }
+.service-card.ds-force-hover::before { opacity: 1; }
+.service-card.ds-force-hover .service-arrow { opacity: 1; transform: translate(0, 0); }
+.service-card.ds-force-hover .service-icon { transform: scale(1.15) rotate(-8deg); }
+
+/* Layout */
+.ds-table { width: 100%; border-collapse: collapse; font-size: 0.88rem; }
+.ds-table th { text-align: left; font-size: 0.65rem; letter-spacing: 0.25em; text-transform: uppercase; color: var(--gray); font-weight: 500; padding: 0.8rem 1rem; border-bottom: 1px solid var(--line-strong); }
+.ds-table td { padding: 1rem; border-bottom: 1px solid var(--line); color: var(--gray-light); vertical-align: top; line-height: 1.6; }
+.ds-table td:first-child { color: var(--texto); white-space: nowrap; }
+.ds-pattern-label { width: min(1320px, 100% - 2 * var(--gutter)); margin: 6rem auto 2rem; display: flex; justify-content: space-between; align-items: baseline; gap: 2rem; padding-bottom: 1rem; border-bottom: 1px solid var(--line); }
+.ds-pattern-label h3 { font-family: var(--display); font-weight: 400; font-size: 2.2rem; letter-spacing: 0.05em; }
+.ds-pattern-label p { color: var(--gray); font-size: 0.85rem; text-align: right; max-width: 60ch; }
+.ds-cols { display: grid; grid-template-columns: repeat(12, 1fr); gap: 1rem; height: 7rem; }
+.ds-cols span { background: var(--roxo-a10); border: 1px dashed var(--line-strong); border-radius: 6px; display: grid; place-items: center; font-size: 0.7rem; color: var(--gray); }
+
+/* Motion gallery */
+.ds-motion-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; }
+.ds-motion-card { background: var(--cartoes); border: 1px solid var(--line); border-radius: var(--radius-card); padding: 1.2rem; display: flex; flex-direction: column; gap: 1rem; position: relative; overflow: hidden; }
+.ds-motion-stage { height: 11rem; border-radius: var(--radius-md); background: var(--fundo); border: 1px solid var(--line); display: grid; place-items: center; position: relative; overflow: hidden; padding: 1rem; text-align: center; }
+.ds-motion-name { font-family: var(--display); font-size: 1.35rem; letter-spacing: 0.05em; display: flex; justify-content: space-between; align-items: center; gap: 1rem; }
+.ds-replay { display: inline-flex; align-items: center; gap: 0.4rem; font-family: var(--sans); font-size: 0.65rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--lavanda); border: 1px solid var(--line-strong); border-radius: var(--radius-pill); padding: 0.45rem 0.8rem; transition: all 0.3s ease; position: relative; z-index: 3; }
+.ds-replay:hover { background: var(--lavanda); color: var(--fundo); }
+.ds-demo-title { font-family: var(--display); font-size: 2.4rem; letter-spacing: 0.04em; line-height: 1; }
+.ds-demo-box { width: 7rem; height: 7rem; border-radius: var(--radius-md); background: var(--grad-roxo); }
+.ds-demo-img { position: absolute; inset: 0; }
+
+/* Ícones */
+.ds-icons { display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 1px; background: var(--line); border: 1px solid var(--line); border-radius: var(--radius-card); overflow: hidden; }
+.ds-icon { background: var(--fundo); padding: 1.6rem 1rem; display: flex; flex-direction: column; align-items: center; gap: 0.9rem; text-align: center; transition: background 0.3s ease; }
+.ds-icon .iconify { font-size: 1.9rem; color: var(--lavanda); transition: transform 0.5s var(--ease-back); }
+.ds-icon:hover { background: var(--cartoes); }
+.ds-icon:hover .iconify { transform: scale(1.25) rotate(-8deg); }
+.ds-icon code { font-size: 0.62rem; color: var(--gray); font-family: ui-monospace, Menlo, monospace; word-break: break-all; }
+
+@media (max-width: 1024px) {
+  .ds-head { grid-template-columns: 1fr; gap: 1.5rem; }
+  .ds-palette { grid-template-columns: repeat(2, 1fr); }
+  .ds-grid.c4, .ds-grid.c6 { grid-template-columns: repeat(2, 1fr); }
+  .ds-grid.c3, .ds-motion-grid { grid-template-columns: 1fr 1fr; }
+  .ds-type-row { grid-template-columns: 1fr; gap: 0.8rem; }
+  .ds-type-spec { text-align: left; }
+  .ds-sub, .ds-pattern-label { flex-direction: column; align-items: flex-start; gap: 0.5rem; }
+  .ds-sub p, .ds-pattern-label p { text-align: left; }
+  .ds-table { display: block; overflow-x: auto; }
+}
+@media (max-width: 640px) {
+  .ds-section { padding: 6rem 0 5rem; }
+  .ds-palette, .ds-grid.c2, .ds-grid.c3, .ds-grid.c4, .ds-grid.c6, .ds-motion-grid { grid-template-columns: 1fr; }
+  .ds-swatch-big { min-height: 8rem; }
+  .ds-space-row { grid-template-columns: 80px 1fr 60px; }
+  .ds-cols { grid-template-columns: repeat(6, 1fr); }
+  .ds-cols span:nth-child(n+7) { display: none; }
+  .ds-panel { padding: 1.5rem; }
+}
+</style>
+</head>
+<body>
+
+<div class="page-curtain" aria-hidden="true"><div class="page-curtain-logo"><span>ABBOTT</span></div></div>
+<div class="bg-grain" aria-hidden="true"></div>
+<div class="cursor-ball" aria-hidden="true"></div>
+
+<!-- ================= NAV (Blade & Co) ================= -->
+<nav class="nav" id="nav">
+  <a href="#top" class="nav-logo">ABBOTT <span class="logo-ampersand">&amp;</span> BEACH <span class="logo-ball"></span></a>
+  <ul class="nav-links">
+    <li><a href="#tokens">Tokens</a></li>
+    <li><a href="#tipografia">Tipografia</a></li>
+    <li><a href="#componentes">Componentes</a></li>
+    <li><a href="#layout">Layout</a></li>
+    <li><a href="#motion">Motion</a></li>
+  </ul>
+  <a href="#padroes" class="nav-cta">Agendar aula</a>
+  <div class="nav-hamburger" id="hamburger" aria-label="Menu"><span></span><span></span><span></span></div>
+</nav>
+<div class="mobile-nav" id="mobileNav">
+  <a href="#tokens">Tokens</a><a href="#tipografia">Tipografia</a><a href="#cores">Cores</a><a href="#componentes">Componentes</a><a href="#layout">Layout</a><a href="#motion">Motion</a><a href="#icones">Ícones</a>
+</div>
+
+<!-- ================= 0 · HERO (clone do Blade & Co, texto adaptado) ================= -->
+<header class="hero has-bg" id="top">
+  <div class="bg-layer" aria-hidden="true">
+    <div class="aurora-orb o1"></div><div class="aurora-orb is-lavanda o2"></div><div class="aurora-orb is-deep o3"></div>
+    <div class="bg-dots"></div>
+    <span class="gold-line-decor" style="left:8%"></span><span class="gold-line-decor" style="left:33%"></span><span class="gold-line-decor" style="left:50%"></span>
+    <svg class="bg-court" data-draw data-delay="1.6" viewBox="0 0 1600 900" preserveAspectRatio="none">
+      <rect x="80" y="140" width="1440" height="620"/><line class="is-accent" x1="800" y1="110" x2="800" y2="790"/>
+      <line x1="80" y1="450" x2="420" y2="450"/><line x1="1180" y1="450" x2="1520" y2="450"/>
+    </svg>
+    <div class="ball-arc-wrap" data-ball><svg class="ball-arc" viewBox="0 0 1600 900" preserveAspectRatio="none"><path d="M60,820 C420,-120 1180,-120 1560,760"/></svg><div class="ball"></div></div>
+  </div>
+  <div class="hero-content">
+    <div class="hero-tag"><span class="hero-tag-line"></span><span class="hero-tag-text">Design system — Midnight e roxo</span></div>
+    <h1 class="hero-title">
+      <span data-hero="title">DS ABBOTT</span>
+      <span data-hero="title">BEACH <span class="title-gold">tênis</span></span>
+      <span data-hero="title" class="title-stroke">SYSTEM</span>
+    </h1>
+    <p class="hero-desc" data-hero="subtitle">Bebas Neue em caixa alta, itálicos Playfair em lavanda e fotografia em duotone roxo sobre o azul-noite. Linhas de quadra que se desenham, bolinhas em arco e revelações em máscara.</p>
+    <div class="hero-actions" data-hero="actions">
+      <a href="#tokens" class="btn-primary" data-magnetic><span>Explorar o sistema</span><span class="iconify" data-icon="solar:arrow-right-linear"></span></a>
+      <a href="#motion" class="btn-outline">Ver motion <span class="iconify" data-icon="solar:arrow-right-linear"></span></a>
+    </div>
+  </div>
+  <div class="hero-image"><img src="assets/img/bt-07.jpg" alt="Jogador sacando em quadra de areia" data-hero-img></div>
+  <div class="hero-badge" data-hero="badge" aria-hidden="true">
+    <svg viewBox="0 0 150 150"><defs><path id="circ" d="M75,75 m-58,0 a58,58 0 1,1 116,0 a58,58 0 1,1 -116,0"/></defs><text><textPath href="#circ">Aulas • Turmas • Clínicas • Torneios •</textPath></text></svg>
+    <div class="hero-badge-core"><span class="iconify" data-icon="solar:tennis-bold"></span></div>
+  </div>
+  <div class="hero-scroll" data-hero="scroll"><span class="hero-scroll-line"></span>Role para descer</div>
+</header>
+
+<!-- Marquees cruzados -->
+<div style="position:relative; z-index:3; padding: 2.5rem 0 1rem; overflow:hidden;">
+  <div class="marquee-section is-tilted"><div class="marquee-track">
+    <div class="marquee-item"><span>Aulas particulares</span><span class="dot"></span></div><div class="marquee-item"><span class="is-serif">turmas</span><span class="dot"></span></div><div class="marquee-item"><span>Clínicas</span><span class="dot"></span></div><div class="marquee-item"><span class="is-outline">Torneios</span><span class="dot"></span></div><div class="marquee-item"><span>Day use</span><span class="dot"></span></div><div class="marquee-item"><span class="is-serif">na areia</span><span class="dot"></span></div><div class="marquee-item"><span>Aulas particulares</span><span class="dot"></span></div><div class="marquee-item"><span class="is-serif">turmas</span><span class="dot"></span></div><div class="marquee-item"><span>Clínicas</span><span class="dot"></span></div><div class="marquee-item"><span class="is-outline">Torneios</span><span class="dot"></span></div><div class="marquee-item"><span>Day use</span><span class="dot"></span></div><div class="marquee-item"><span class="is-serif">na areia</span><span class="dot"></span></div>
+  </div></div>
+  <div class="marquee-section is-tilted-reverse"><div class="marquee-track is-reverse">
+    <div class="marquee-item"><span class="is-outline">Técnica</span><span class="dot"></span></div><div class="marquee-item"><span>Tática</span><span class="dot"></span></div><div class="marquee-item"><span class="is-serif">físico</span><span class="dot"></span></div><div class="marquee-item"><span>Dupla</span><span class="dot"></span></div><div class="marquee-item"><span class="is-outline">Smash</span><span class="dot"></span></div><div class="marquee-item"><span>Saque</span><span class="dot"></span></div><div class="marquee-item"><span class="is-serif">lob</span><span class="dot"></span></div><div class="marquee-item"><span class="is-outline">Técnica</span><span class="dot"></span></div><div class="marquee-item"><span>Tática</span><span class="dot"></span></div><div class="marquee-item"><span class="is-serif">físico</span><span class="dot"></span></div><div class="marquee-item"><span>Dupla</span><span class="dot"></span></div><div class="marquee-item"><span class="is-outline">Smash</span><span class="dot"></span></div><div class="marquee-item"><span>Saque</span><span class="dot"></span></div><div class="marquee-item"><span class="is-serif">lob</span><span class="dot"></span></div>
+  </div></div>
+</div>
+
+<nav class="ds-topnav" aria-label="Seções do design system"><ul>
+  <li><a href="#tokens">01 Tokens</a></li><li><a href="#tipografia">02 Tipografia</a></li><li><a href="#cores">03 Cores &amp; superfícies</a></li>
+  <li><a href="#componentes">04 Componentes</a></li><li><a href="#layout">05 Layout</a></li><li><a href="#padroes">Padrões</a></li><li><a href="#motion">06 Motion</a></li><li><a href="#icones">07 Ícones</a></li>
+</ul></nav>
+
+<!-- ================= 01 · TOKENS ================= -->
+<section class="ds-section has-bg" id="tokens">
+  <div class="bg-layer" aria-hidden="true"><div class="aurora-orb o1" ></div><div class="aurora-orb is-lavanda o2"></div><div class="aurora-orb is-deep o3"></div><span class="gold-line-decor" style="left:7%"></span><span class="gold-line-decor" style="left:31%"></span><span class="gold-line-decor" style="left:58%"></span><span class="gold-line-decor" style="left:86%"></span><div class="bg-dots"></div><svg class="bg-court" data-draw="scrub" viewBox="0 0 1600 900" preserveAspectRatio="none"><rect x="120" y="160" width="1360" height="580"/><line class="is-accent" x1="800" y1="120" x2="800" y2="780"/><line x1="120" y1="450" x2="380" y2="450"/><line x1="1220" y1="450" x2="1480" y2="450"/></svg><div class="testimonial-bg-text" data-giant>PALETA · PALETA · PALETA</div></div>
+  <div class="ds-container">
+    <div class="ds-head">
+      <div><div class="section-tag"><span class="section-tag-line"></span><span class="section-tag-text">01 — Design tokens</span></div>
+      <h2 class="section-title" data-anim="split">Tokens que vestem <span class="italic">a quadra</span> à noite</h2></div>
+      <p class="ds-lead" data-anim="element">Todas as custom properties de <span class="ds-code">:root</span> em <span class="ds-code">abbott.css</span>: paleta Midnight e roxo, derivados, gradientes, raios, sombras, espaçamento e curvas de movimento.</p>
+    </div>
+
+    <div class="ds-sub"><h3>Paleta principal</h3><p>As 5 cores da referência. Passe o mouse para destacar.</p></div>
+    <div class="ds-palette" data-anim="stagger-wrap">
+      <div class="ds-swatch-big" data-anim="stagger" style="background:#0A0A14;color:#F2EFFA"><b>#0A0A14</b><span>fundo</span><code>--fundo</code></div>
+      <div class="ds-swatch-big" data-anim="stagger" style="background:#17122B;color:#F2EFFA"><b>#17122B</b><span>cartões</span><code>--cartoes</code></div>
+      <div class="ds-swatch-big" data-anim="stagger" style="background:#6D3FE0;color:#F2EFFA"><b>#6D3FE0</b><span>roxo</span><code>--roxo</code></div>
+      <div class="ds-swatch-big" data-anim="stagger" style="background:#B79CFF;color:#0A0A14"><b>#B79CFF</b><span>lavanda</span><code>--lavanda</code></div>
+      <div class="ds-swatch-big" data-anim="stagger" style="background:#F2EFFA;color:#0A0A14"><b>#F2EFFA</b><span>texto</span><code>--texto</code></div>
+    </div>
+
+    <div class="ds-sub"><h3>Derivados e transparências</h3><p>Tons de apoio para profundidade, hover e linhas finas.</p></div>
+    <div class="ds-grid c6" data-anim="stagger-wrap">
+      <div class="ds-token" data-anim="stagger"><div class="ds-token-prev" style="background:var(--fundo-2)"></div><div class="ds-token-name">--fundo-2</div><div class="ds-meta">#0E0B1C</div></div><div class="ds-token" data-anim="stagger"><div class="ds-token-prev" style="background:var(--cartoes-2)"></div><div class="ds-token-name">--cartoes-2</div><div class="ds-meta">#201838</div></div><div class="ds-token" data-anim="stagger"><div class="ds-token-prev" style="background:var(--roxo-dark)"></div><div class="ds-token-name">--roxo-dark</div><div class="ds-meta">#4F2BB8</div></div><div class="ds-token" data-anim="stagger"><div class="ds-token-prev" style="background:var(--roxo-light)"></div><div class="ds-token-name">--roxo-light</div><div class="ds-meta">#8A63F2</div></div><div class="ds-token" data-anim="stagger"><div class="ds-token-prev" style="background:var(--lavanda-dim)"></div><div class="ds-token-name">--lavanda-dim</div><div class="ds-meta">#8E78C9</div></div><div class="ds-token" data-anim="stagger"><div class="ds-token-prev" style="background:var(--gray)"></div><div class="ds-token-name">--gray</div><div class="ds-meta">#77728C</div></div>
+      <div class="ds-token" data-anim="stagger"><div class="ds-token-prev" style="background:var(--gray-light)"></div><div class="ds-token-name">--gray-light</div><div class="ds-meta">#A9A3BF</div></div><div class="ds-token" data-anim="stagger"><div class="ds-token-prev" style="background:var(--line)"></div><div class="ds-token-name">--line</div><div class="ds-meta">rgba(183,156,255,.12)</div></div><div class="ds-token" data-anim="stagger"><div class="ds-token-prev" style="background:var(--line-strong)"></div><div class="ds-token-name">--line-strong</div><div class="ds-meta">rgba(183,156,255,.28)</div></div><div class="ds-token" data-anim="stagger"><div class="ds-token-prev" style="background:var(--roxo-a25)"></div><div class="ds-token-name">--roxo-a25</div><div class="ds-meta">rgba(109,63,224,.25)</div></div><div class="ds-token" data-anim="stagger"><div class="ds-token-prev" style="background:var(--roxo-a45)"></div><div class="ds-token-name">--roxo-a45</div><div class="ds-meta">rgba(109,63,224,.45)</div></div><div class="ds-token" data-anim="stagger"><div class="ds-token-prev" style="background:var(--lavanda-a08)"></div><div class="ds-token-name">--lavanda-a08</div><div class="ds-meta">rgba(183,156,255,.08)</div></div>
+    </div>
+
+    <div class="ds-sub"><h3>Gradientes</h3><p>Usados em painéis, texto e brilho de cards.</p></div>
+    <div class="ds-grid c4" data-anim="stagger-wrap">
+      <div class="ds-token" data-anim="stagger"><div class="ds-token-prev" style="background:var(--grad-roxo)"></div><div class="ds-token-name">--grad-roxo</div><div class="ds-meta">135° roxo-light → roxo → roxo-dark<br>.sides.is-reverse, timeline, barra do card destaque</div></div>
+      <div class="ds-token" data-anim="stagger"><div class="ds-token-prev" style="background:var(--grad-lavanda)"></div><div class="ds-token-name">--grad-lavanda</div><div class="ds-meta">120° texto → lavanda → roxo-light<br>.text-gradient</div></div>
+      <div class="ds-token" data-anim="stagger"><div class="ds-token-prev" style="background:var(--grad-night)"></div><div class="ds-token-name">--grad-night</div><div class="ds-meta">radial 80% 0% · #1B1336 → fundo<br>fundo do .hero</div></div>
+      <div class="ds-token" data-anim="stagger"><div class="ds-token-prev" style="background:var(--grad-card-glow),var(--cartoes)"></div><div class="ds-token-name">--grad-card-glow</div><div class="ds-meta">135° lavanda 10% → transparente<br>.service-card:hover::before</div></div>
+    </div>
+
+    <div class="ds-sub"><h3>Raios e sombras</h3><p>Do canto reto do Blade à pílula do Elyse e à sombra dura do Quoti.</p></div>
+    <div class="ds-grid c4" data-anim="stagger-wrap">
+      <div class="ds-token" data-anim="stagger"><div class="ds-radius-prev" style="border-radius:var(--radius-sm)"></div><div class="ds-token-name">--radius-sm · 3px</div><div class="ds-meta">.button / .button_box (Amrit)</div></div>
+      <div class="ds-token" data-anim="stagger"><div class="ds-radius-prev" style="border-radius:var(--radius-md)"></div><div class="ds-token-name">--radius-md · 0.75rem</div><div class="ds-meta">.slot, .btn-whats, tokens</div></div>
+      <div class="ds-token" data-anim="stagger"><div class="ds-radius-prev" style="border-radius:var(--radius-card)"></div><div class="ds-token-name">--radius-card · 1.25rem</div><div class="ds-meta">.pain-point_card, .services-grid</div></div>
+      <div class="ds-token" data-anim="stagger"><div class="ds-radius-prev" style="border-radius:var(--radius-pill)"></div><div class="ds-token-name">--radius-pill · 100vmax</div><div class="ds-meta">.btn-primary, .btn, .tag-pill, .nav-cta</div></div>
+      <div class="ds-token" data-anim="stagger"><div class="ds-shadow-prev" style="box-shadow:var(--shadow-hard);border:2px solid var(--lavanda);background:var(--roxo)"></div><div class="ds-token-name">--shadow-hard</div><div class="ds-meta">7px 7px 0 lavanda</div></div>
+      <div class="ds-token" data-anim="stagger"><div class="ds-shadow-prev" style="box-shadow:var(--shadow-hard-roxo);border:2px solid var(--texto);background:var(--lavanda)"></div><div class="ds-token-name">--shadow-hard-roxo</div><div class="ds-meta">7px 7px 0 roxo</div></div>
+      <div class="ds-token" data-anim="stagger"><div class="ds-shadow-prev" style="box-shadow:var(--shadow-glow)"></div><div class="ds-token-name">--shadow-glow</div><div class="ds-meta">anel 1px + halo roxo 60px</div></div>
+      <div class="ds-token" data-anim="stagger"><div class="ds-shadow-prev" style="box-shadow:var(--shadow-float)"></div><div class="ds-token-name">--shadow-float</div><div class="ds-meta">0 30px 80px preto 80%</div></div>
+    </div>
+
+    <div class="ds-sub"><h3>Espaçamento</h3><p>Escala em rem; seções usam 8–10rem verticais e gutter de 5rem (1.5rem no mobile).</p></div>
+    <div data-anim="stagger-wrap">
+      <div class="ds-space-row" data-anim="stagger"><span class="ds-code">--space-2</span><div><div class="ds-space-bar" style="width:5.0%"></div></div><span class="ds-meta">0.5rem · 8px</span></div><div class="ds-space-row" data-anim="stagger"><span class="ds-code">--space-4</span><div><div class="ds-space-bar" style="width:10.0%"></div></div><span class="ds-meta">1rem · 16px</span></div><div class="ds-space-row" data-anim="stagger"><span class="ds-code">--space-6</span><div><div class="ds-space-bar" style="width:15.0%"></div></div><span class="ds-meta">1.5rem · 24px</span></div><div class="ds-space-row" data-anim="stagger"><span class="ds-code">--space-8</span><div><div class="ds-space-bar" style="width:20.0%"></div></div><span class="ds-meta">2rem · 32px</span></div><div class="ds-space-row" data-anim="stagger"><span class="ds-code">--space-12</span><div><div class="ds-space-bar" style="width:30.0%"></div></div><span class="ds-meta">3rem · 48px</span></div><div class="ds-space-row" data-anim="stagger"><span class="ds-code">--space-16</span><div><div class="ds-space-bar" style="width:40.0%"></div></div><span class="ds-meta">4rem · 64px</span></div><div class="ds-space-row" data-anim="stagger"><span class="ds-code">--space-20</span><div><div class="ds-space-bar" style="width:50.0%"></div></div><span class="ds-meta">5rem · 80px</span></div><div class="ds-space-row" data-anim="stagger"><span class="ds-code">--space-32</span><div><div class="ds-space-bar" style="width:80.0%"></div></div><span class="ds-meta">8rem · 128px</span></div><div class="ds-space-row" data-anim="stagger"><span class="ds-code">--space-40</span><div><div class="ds-space-bar" style="width:100.0%"></div></div><span class="ds-meta">10rem · 160px</span></div>
+    </div>
+
+    <div class="ds-sub"><h3>Curvas de movimento</h3><p>Passe o mouse em cada card: a bolinha percorre a curva real.</p></div>
+    <div class="ds-grid c4" data-anim="stagger-wrap">
+      <div class="ds-token" data-anim="stagger"><div class="ds-ease" style="--e:var(--ease-out-expo)"><i></i></div><div class="ds-token-name">--ease-out-expo</div><div class="ds-meta">cubic-bezier(0.16, 1, 0.3, 1) · padrão de reveals e botões</div></div>
+      <div class="ds-token" data-anim="stagger"><div class="ds-ease" style="--e:var(--ease-out-quart)"><i></i></div><div class="ds-token-name">--ease-out-quart</div><div class="ds-meta">cubic-bezier(0.25, 1, 0.5, 1) · nav</div></div>
+      <div class="ds-token" data-anim="stagger"><div class="ds-ease" style="--e:var(--ease-amrit)"><i></i></div><div class="ds-token-name">--ease-amrit</div><div class="ds-meta">cubic-bezier(0.25, 0.46, 0.45, 0.94) · moldura .button</div></div>
+      <div class="ds-token" data-anim="stagger"><div class="ds-ease" style="--e:var(--ease-back)"><i></i></div><div class="ds-token-name">--ease-back</div><div class="ds-meta">cubic-bezier(0.34, 1.56, 0.64, 1) · selos e ícones</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= 02 · TIPOGRAFIA ================= -->
+<section class="ds-section is-alt has-bg" id="tipografia">
+  <div class="sand-edge is-top" aria-hidden="true" style="--sand-color:#0A0A14"><svg viewBox="0 0 2880 90" preserveAspectRatio="none"><path class="is-ghost" d="M0,0 H2880 V58 C2640,90 2400,22 2160,60 C1920,90 1680,28 1440,58 C1200,90 960,22 720,60 C480,90 240,28 0,58 Z"/><path d="M0,0 H2880 V40 C2640,84 2400,10 2160,45 C1920,80 1680,14 1440,40 C1200,84 960,10 720,45 C480,80 240,14 0,40 Z"/></svg></div>
+  <div class="bg-layer" aria-hidden="true"><div class="aurora-orb o1" style="top:auto;bottom:-20vw;right:auto;left:-10vw"></div><div class="aurora-orb is-lavanda o2"></div><div class="aurora-orb is-deep o3"></div><span class="gold-line-decor" style="left:12%"></span><span class="gold-line-decor" style="left:44%"></span><span class="gold-line-decor" style="left:71%"></span><span class="gold-line-decor" style="left:93%"></span><div class="ball-arc-wrap" data-ball><svg class="ball-arc" viewBox="0 0 1600 900" preserveAspectRatio="none"><path d="M1560,820 C1180,-40 520,-60 60,640"/></svg><div class="ball"></div></div><div class="testimonial-bg-text" data-giant>TIPOGRAFIA · TIPOGRAFIA · TIPOGRAFIA</div></div>
+  <div class="ds-container">
+    <div class="ds-head">
+      <div><div class="section-tag"><span class="section-tag-line"></span><span class="section-tag-text">02 — Tipografia</span></div>
+      <h2 class="section-title" data-anim="split">Bebas que <span class="stroke">grita</span>, Playfair que <span class="italic">sussurra</span></h2></div>
+      <p class="ds-lead" data-anim="element">Três famílias do Blade &amp; Co: <b>Bebas Neue</b> (display), <b>Playfair Display</b> itálica (acento) e <b>Inter</b> (texto). Valores reais do CSS; <span class="ds-code">clamp()</span> resolvido a 1440px.</p>
+    </div>
+    <div data-anim="stagger-wrap">
+      <div class="ds-type-row" data-anim="stagger"><div class="ds-type-label">Display / Hero</div><div class="hero-title">Beach Tênis</div><div class="ds-type-spec"><b>106.6px / 98px</b><span class="ds-meta">clamp(3.5rem, 7.4vw, 7.6rem) · lh .92 · Bebas 400 · ls .035em</span></div></div>
+      <div class="ds-type-row" data-anim="stagger"><div class="ds-type-label">Display stroke</div><div class="hero-title"><span class="title-stroke">Na areia</span></div><div class="ds-type-spec"><b>106.6px / 98px</b><span class="ds-meta">.title-stroke · stroke 1.5px · hover preenche em lavanda</span></div></div>
+      <div class="ds-type-row" data-anim="stagger"><div class="ds-type-label">Heading 2</div><div class="section-title">Aulas que <span class="italic">evoluem</span></div><div class="ds-type-spec"><b>63.4px / 63.4px</b><span class="ds-meta">.section-title · clamp(2.5rem, 4.4vw, 4.6rem) · lh 1 · ls .04em</span></div></div>
+      <div class="ds-type-row" data-anim="stagger"><div class="ds-type-label">Heading 3</div><div class="service-name">Turma intermediária</div><div class="ds-type-spec"><b>27.2px / 32.6px</b><span class="ds-meta">.service-name · 1.7rem · ls .08em · Bebas</span></div></div>
+      <div class="ds-type-row" data-anim="stagger"><div class="ds-type-label">Heading 4 serif</div><div class="title_catering">Formação Nível II</div><div class="ds-type-spec"><b>28px / 30.8px</b><span class="ds-meta">.title_catering · 1.75rem · lh 1.1 · Playfair 400 · ls −.02em</span></div></div>
+      <div class="ds-type-row" data-anim="stagger"><div class="ds-type-label">Acento itálico</div><div><span class="hero-title"><span class="title-gold" style="margin:0">com quem joga e ensina</span></span></div><div class="ds-type-spec"><b>0.5em do pai</b><span class="ds-meta">.title-gold · Playfair italic 400 · --lavanda</span></div></div>
+      <div class="ds-type-row" data-anim="stagger"><div class="ds-type-label">Citação</div><div class="testimonial-quote">“Em três meses saí do zero para o meu primeiro torneio.”</div><div class="ds-type-spec"><b>25.6px / 43.5px</b><span class="ds-meta">.testimonial-quote · 1.6rem · lh 1.7 · Playfair italic</span></div></div>
+      <div class="ds-type-row" data-anim="stagger"><div class="ds-type-label">Número</div><div class="stat-number">320<sup>+</sup></div><div class="ds-type-spec"><b>54.4px / 54.4px</b><span class="ds-meta">.stat-number · 3.4rem · Bebas · --lavanda</span></div></div>
+      <div class="ds-type-row" data-anim="stagger"><div class="ds-type-label">Paragraph L</div><p class="about-text">Aulas para quem nunca pegou numa raquete e para quem quer subir de categoria. Técnica, tática e preparo físico na areia.</p><div class="ds-type-spec"><b>16px / 30.4px</b><span class="ds-meta">.about-text · 1rem · lh 1.9 · Inter 400 · --gray-light</span></div></div>
+      <div class="ds-type-row" data-anim="stagger"><div class="ds-type-label">Paragraph M</div><p class="body-m">Turmas de até 4 alunos por professor, com aquecimento, fundamentos e jogo orientado.</p><div class="ds-type-spec"><b>14.4px / 25.2px</b><span class="ds-meta">.body-m · .9rem · lh 1.75 · Inter 400</span></div></div>
+      <div class="ds-type-row" data-anim="stagger"><div class="ds-type-label">Eyebrow</div><div class="section-tag" style="margin:0"><span class="section-tag-line"></span><span class="section-tag-text">Quem sou eu</span></div><div class="ds-type-spec"><b>10.4px · ls .35em</b><span class="ds-meta">.section-tag-text / .hero-tag-text · uppercase · --lavanda</span></div></div>
+      <div class="ds-type-row" data-anim="stagger"><div class="ds-type-label">Caption</div><div class="caption">60 min · Arena Abbott</div><div class="ds-type-spec"><b>11.2px · ls .2em</b><span class="ds-meta">.caption / .stat-label / .service-duration · uppercase · --gray</span></div></div>
+      <div class="ds-type-row" data-anim="stagger"><div class="ds-type-label">Gradiente</div><div class="section-title text-gradient" style="margin:0">Midnight</div><div class="ds-type-spec"><b>herda o tamanho</b><span class="ds-meta">.text-gradient · background-clip text · --grad-lavanda</span></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= 03 · CORES & SUPERFÍCIES ================= -->
+<section class="ds-section has-bg" id="cores">
+  <div class="sand-edge is-top" aria-hidden="true" style="--sand-color:#0E0B1C"><svg viewBox="0 0 2880 90" preserveAspectRatio="none"><path class="is-ghost" d="M0,0 H2880 V58 C2640,90 2400,22 2160,60 C1920,90 1680,28 1440,58 C1200,90 960,22 720,60 C480,90 240,28 0,58 Z"/><path d="M0,0 H2880 V40 C2640,84 2400,10 2160,45 C1920,80 1680,14 1440,40 C1200,84 960,10 720,45 C480,80 240,14 0,40 Z"/></svg></div>
+  <div class="bg-layer" aria-hidden="true"><div class="aurora-orb o1" style="top:30%;right:-15vw"></div><div class="aurora-orb is-lavanda o2"></div><div class="aurora-orb is-deep o3"></div><span class="gold-line-decor" style="left:5%"></span><span class="gold-line-decor" style="left:26%"></span><span class="gold-line-decor" style="left:52%"></span><span class="gold-line-decor" style="left:79%"></span><div class="bg-dots"></div><svg class="bg-court" data-draw="scrub" viewBox="0 0 1600 900" preserveAspectRatio="none"><rect x="120" y="160" width="1360" height="580"/><line class="is-accent" x1="800" y1="120" x2="800" y2="780"/><line x1="120" y1="450" x2="380" y2="450"/><line x1="1220" y1="450" x2="1480" y2="450"/></svg><div class="testimonial-bg-text" data-giant>SUPERFÍCIES · SUPERFÍCIES · SUPERFÍCIES</div></div>
+  <div class="ds-container">
+    <div class="ds-head">
+      <div><div class="section-tag"><span class="section-tag-line"></span><span class="section-tag-text">03 — Cores &amp; superfícies</span></div>
+      <h2 class="section-title" data-anim="split">Camadas de <span class="italic">noite,</span> vidro e luz roxa</h2></div>
+      <p class="ds-lead" data-anim="element">Fundos, vidro, duotone, linhas e o sistema de fundo animado que se repete em todas as dobras: aurora, grão, linhas de quadra, texto gigante, bolinha em arco e borda de areia.</p>
+    </div>
+
+    <div class="ds-sub"><h3>Fundos e superfícies</h3><p>Superfícies reais com as classes do sistema.</p></div>
+    <div class="ds-grid c3" data-anim="stagger-wrap">
+      <div class="ds-token" data-anim="stagger"><div class="ds-surface" style="background:var(--fundo)"></div><div class="ds-token-name">Página</div><div class="ds-meta">body · var(--fundo)</div></div>
+      <div class="ds-token" data-anim="stagger"><div class="ds-surface" style="background:var(--fundo-2)"></div><div class="ds-token-name">Seção alternada</div><div class="ds-meta">.ds-section.is-alt / .pain-point_wrap · var(--fundo-2)</div></div>
+      <div class="ds-token" data-anim="stagger"><div class="ds-surface" style="background:var(--cartoes)"></div><div class="ds-token-name">Cartão</div><div class="ds-meta">.left_side, .slot, .ds-token · var(--cartoes)</div></div>
+      <div class="ds-token" data-anim="stagger"><div class="ds-surface"><div class="ds-surface-photo"></div><div class="beliefs-card" style="position:absolute;inset:1rem;min-height:0;padding:1rem"><div class="beliefs-card-bg"></div><span class="beliefs-card-num">(vidro)</span></div></div><div class="ds-token-name">Vidro recortado</div><div class="ds-meta">.beliefs-card-bg · lavanda 8% + blur(10px) + canto chanfrado</div></div>
+      <div class="ds-token" data-anim="stagger"><div class="ds-surface duo"><img src="assets/img/bt-05.jpg" alt="" class="img-full-cover"></div><div class="ds-token-name">Foto duotone</div><div class="ds-meta">.duo · grayscale + roxo mix-blend color · hover revela a cor</div></div>
+      <div class="ds-token" data-anim="stagger"><div class="ds-surface" style="background:var(--grad-roxo)"></div><div class="ds-token-name">Painel roxo</div><div class="ds-meta">.sides.is-reverse .left_side · --grad-roxo</div></div>
+    </div>
+
+    <div class="ds-sub"><h3>Linhas, divisórias e brilhos</h3><p>Sempre 1px; a cor sobe de 12% para 28% quando a linha estrutura conteúdo.</p></div>
+    <div class="ds-grid c4" data-anim="stagger-wrap">
+      <div class="ds-token" data-anim="stagger"><div class="ds-token-prev" style="display:grid;align-items:center;padding:0 1rem;background:var(--fundo)"><div style="height:1px;background:var(--line)"></div></div><div class="ds-token-name">--line</div><div class="ds-meta">bordas de seção, marquee, nav.scrolled</div></div>
+      <div class="ds-token" data-anim="stagger"><div class="ds-token-prev" style="display:grid;align-items:center;padding:0 1rem;background:var(--fundo)"><div style="height:1px;background:var(--line-strong)"></div></div><div class="ds-token-name">--line-strong</div><div class="ds-meta">.spec-row, .faq-dropdown, inputs</div></div>
+      <div class="ds-token" data-anim="stagger"><div class="ds-token-prev" style="display:flex;justify-content:space-around;background:var(--fundo)"><span class="gold-line-decor" style="position:relative;opacity:.6"></span><span class="gold-line-decor" style="position:relative;opacity:.6"></span><span class="gold-line-decor" style="position:relative;opacity:.6"></span></div><div class="ds-token-name">.gold-line-decor</div><div class="ds-meta">linhas verticais com parallax (nome herdado do Blade)</div></div>
+      <div class="ds-token" data-anim="stagger"><div class="ds-token-prev" style="display:grid;place-items:center;background:var(--fundo)"><span class="ball" style="position:relative"></span></div><div class="ds-token-name">Brilho da bolinha</div><div class="ds-meta">.ball · glow 24px lavanda + 60px roxo</div></div>
+    </div>
+
+    <div class="ds-sub"><h3>Sistema de fundo animado</h3><p>Peças do <span class="ds-code">.bg-layer</span>. Toda dobra combina pelo menos três delas.</p></div>
+    <div class="ds-grid c3" data-anim="stagger-wrap">
+      <div class="ds-bgdemo" data-anim="stagger"><div class="bg-layer"><div class="aurora-orb o1"></div><div class="aurora-orb is-lavanda o2"></div><div class="aurora-orb is-deep o3" style="top:30%;left:40%"></div></div><div class="ds-tile-label"><b>.aurora-orb</b><span class="ds-meta">blur 90px · auroraDrift 18–26s alternate · + scrub no scroll</span></div></div>
+      <div class="ds-bgdemo" data-anim="stagger"><div class="bg-grain" style="animation-duration:.6s"></div><div class="ds-tile-label"><b>.bg-grain</b><span class="ds-meta">feTurbulence · fixo · grainShift 1.2s steps(6) · opacity .07</span></div></div>
+      <div class="ds-bgdemo" data-anim="stagger"><svg class="bg-court" data-draw data-delay=".5" viewBox="0 0 400 240" preserveAspectRatio="none"><rect x="30" y="40" width="340" height="160"/><line class="is-accent" x1="200" y1="25" x2="200" y2="215"/><line x1="30" y1="120" x2="110" y2="120"/><line x1="290" y1="120" x2="370" y2="120"/></svg><div class="ds-tile-label"><b>.bg-court [data-draw]</b><span class="ds-meta">DrawSVG 0→100% · scrub no scroll ou timed</span></div></div>
+      <div class="ds-bgdemo" data-anim="stagger"><div class="testimonial-bg-text">BEACH TÊNIS BEACH TÊNIS</div><div class="ds-tile-label"><b>.testimonial-bg-text [data-giant]</b><span class="ds-meta">22vw · stroke 1px lavanda 9% · xPercent 0→−35 scrub</span></div></div>
+      <div class="ds-bgdemo" data-anim="stagger"><div class="ball-arc-wrap" id="demoBall"><svg class="ball-arc" viewBox="0 0 400 240" preserveAspectRatio="none"><path d="M20,220 C120,-40 280,-40 380,200"/></svg><div class="ball"></div></div><button class="ds-replay" style="position:absolute;top:1rem;right:1rem" data-replay="ball" data-target="#demoBall">Replay</button><div class="ds-tile-label"><b>.ball-arc + .ball [data-ball]</b><span class="ds-meta">MotionPath no arco de um lob · scrub 1.2</span></div></div>
+      <div class="ds-bgdemo" data-anim="stagger" style="background:var(--fundo)"><div class="sand-edge is-top"><svg viewBox="0 0 2880 90" preserveAspectRatio="none"><path class="is-ghost" d="M0,0 H2880 V58 C2640,90 2400,22 2160,60 C1920,90 1680,28 1440,58 C1200,90 960,22 720,60 C480,90 240,28 0,58 Z"/><path d="M0,0 H2880 V40 C2640,84 2400,10 2160,45 C1920,80 1680,14 1440,40 C1200,84 960,10 720,45 C480,80 240,14 0,40 Z"/></svg></div><div class="bg-dots"></div><div class="ds-tile-label"><b>.sand-edge + .bg-dots</b><span class="ds-meta">onda de areia 24s linear (releitura do papel rasgado Quoti) · grade pontilhada com máscara</span></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= 04 · COMPONENTES ================= -->
+<section class="ds-section is-alt has-bg" id="componentes">
+  <div class="sand-edge is-top" aria-hidden="true" style="--sand-color:#0A0A14"><svg viewBox="0 0 2880 90" preserveAspectRatio="none"><path class="is-ghost" d="M0,0 H2880 V58 C2640,90 2400,22 2160,60 C1920,90 1680,28 1440,58 C1200,90 960,22 720,60 C480,90 240,28 0,58 Z"/><path d="M0,0 H2880 V40 C2640,84 2400,10 2160,45 C1920,80 1680,14 1440,40 C1200,84 960,10 720,45 C480,80 240,14 0,40 Z"/></svg></div>
+  <div class="bg-layer" aria-hidden="true"><div class="aurora-orb o1" ></div><div class="aurora-orb is-lavanda o2"></div><div class="aurora-orb is-deep o3"></div><span class="gold-line-decor" style="left:7%"></span><span class="gold-line-decor" style="left:31%"></span><span class="gold-line-decor" style="left:58%"></span><span class="gold-line-decor" style="left:86%"></span><div class="ball-arc-wrap" data-ball><svg class="ball-arc" viewBox="0 0 1600 900" preserveAspectRatio="none"><path d="M40,780 C380,-60 1100,-80 1560,700"/></svg><div class="ball"></div></div><svg class="bg-court" data-draw="scrub" viewBox="0 0 1600 900" preserveAspectRatio="none"><path d="M260,860 L1340,860 L1110,260 L490,260 Z"/><path class="is-accent" d="M372,560 L1228,560"/><path d="M800,860 L800,260"/><path d="M180,560 L372,560 M1228,560 L1420,560"/></svg><div class="testimonial-bg-text" data-giant>COMPONENTES · COMPONENTES · COMPONENTES</div></div>
+  <div class="ds-container">
+    <div class="ds-head">
+      <div><div class="section-tag"><span class="section-tag-line"></span><span class="section-tag-text">04 — Componentes</span></div>
+      <h2 class="section-title" data-anim="split">Peças com <span class="italic">reação</span> em cada toque</h2></div>
+      <p class="ds-lead" data-anim="element">Markup e classes das referências, recoloridos. Estados lado a lado; os forçados copiam as declarações exatas das regras de <span class="ds-code">:hover</span>, <span class="ds-code">:active</span> e <span class="ds-code">:focus-visible</span>.</p>
+    </div>
+
+    <div class="ds-sub"><h3>.btn-primary · Blade &amp; Co</h3><p>Pílula roxa; lavanda varre da esquerda, brilho passa a cada 4.5s, seta gira 45°. Magnético com [data-magnetic].</p></div>
+    <div class="ds-states" data-anim="stagger-wrap">
+      <div class="ds-state" data-anim="stagger"><a class="btn-primary" href="#"><span>Agendar aula</span><span class="iconify" data-icon="solar:arrow-right-linear"></span></a><span class="ds-state-label">default</span></div>
+      <div class="ds-state" data-anim="stagger"><a class="btn-primary ds-force-hover" href="#"><span>Agendar aula</span><span class="iconify" data-icon="solar:arrow-right-linear"></span></a><span class="ds-state-label">hover</span></div>
+      <div class="ds-state" data-anim="stagger"><a class="btn-primary ds-force-active" href="#"><span>Agendar aula</span><span class="iconify" data-icon="solar:arrow-right-linear"></span></a><span class="ds-state-label">active</span></div>
+      <div class="ds-state" data-anim="stagger"><a class="btn-primary ds-force-focus" href="#"><span>Agendar aula</span><span class="iconify" data-icon="solar:arrow-right-linear"></span></a><span class="ds-state-label">focus-visible</span></div>
+      <div class="ds-state" data-anim="stagger"><a class="btn-primary ds-force-disabled" href="#"><span>Agendar aula</span><span class="iconify" data-icon="solar:arrow-right-linear"></span></a><span class="ds-state-label">disabled</span></div>
+      <div class="ds-state" data-anim="stagger"><a class="btn-primary" href="#" data-magnetic=".4"><span>Live magnético</span><span class="iconify" data-icon="solar:arrow-right-linear"></span></a><span class="ds-state-label">live · passe o mouse</span></div>
+    </div>
+
+    <div class="ds-sub"><h3>.btn-outline · .nav-cta · .btn-icon</h3><p>Secundários: sublinhado que cresce, contorno que enche, ícone que gira 90°.</p></div>
+    <div class="ds-states" data-anim="stagger-wrap">
+      <div class="ds-state" data-anim="stagger"><a class="btn-outline" href="#">Ver horários <span class="iconify" data-icon="solar:arrow-right-linear"></span></a><span class="ds-state-label">.btn-outline default</span></div>
+      <div class="ds-state" data-anim="stagger"><a class="btn-outline ds-force-hover" href="#">Ver horários <span class="iconify" data-icon="solar:arrow-right-linear"></span></a><span class="ds-state-label">.btn-outline hover</span></div>
+      <div class="ds-state" data-anim="stagger"><a class="nav-cta" href="#">Agendar aula</a><span class="ds-state-label">.nav-cta default</span></div>
+      <div class="ds-state" data-anim="stagger"><a class="nav-cta ds-force-hover" href="#">Agendar aula</a><span class="ds-state-label">.nav-cta hover</span></div>
+      <div class="ds-state" data-anim="stagger"><button class="btn-icon" aria-label="Fechar"><span class="iconify" data-icon="solar:close-circle-linear"></span></button><span class="ds-state-label">.btn-icon default</span></div>
+      <div class="ds-state" data-anim="stagger"><button class="btn-icon ds-force-hover" aria-label="Fechar"><span class="iconify" data-icon="solar:close-circle-linear"></span></button><span class="ds-state-label">.btn-icon hover</span></div>
+    </div>
+
+    <div class="ds-sub"><h3>.button + .button_box · Amrit Palace</h3><p>A moldura "respira": padding 4→7px e scale 1.02 em .45s. Combina com [letters-fade-in-hover].</p></div>
+    <div class="ds-states" data-anim="stagger-wrap">
+      <div class="ds-state" data-anim="stagger"><a class="button" href="#"><div class="button_box">Quem sou eu</div></a><span class="ds-state-label">default</span></div>
+      <div class="ds-state" data-anim="stagger"><a class="button ds-force-hover" href="#"><div class="button_box">Quem sou eu</div></a><span class="ds-state-label">hover</span></div>
+      <div class="ds-state" data-anim="stagger"><a class="button" href="#"><div class="button_box" letters-fade-in-hover>Live + letras</div></a><span class="ds-state-label">live · letters-fade-in-hover</span></div>
+      <div class="ds-state" data-anim="stagger"><a class="button dark" href="#"><div class="button_box dark">Ver cursos</div></a><span class="ds-state-label">.dark default</span></div>
+      <div class="ds-state" data-anim="stagger"><a class="button dark ds-force-hover" href="#"><div class="button_box dark">Ver cursos</div></a><span class="ds-state-label">.dark hover</span></div>
+    </div>
+
+    <div class="ds-sub"><h3>.btn / .stroke-btn · Elyse</h3><p>Pílula em Playfair itálica; o texto troca de linha (.text-btn-01) no hover.</p></div>
+    <div class="ds-states" data-anim="stagger-wrap">
+      <div class="ds-state" data-anim="stagger"><a class="btn" href="#"><span class="text-btn-01"><span>Aula experimental</span><span>Aula experimental</span></span></a><span class="ds-state-label">default</span></div>
+      <div class="ds-state" data-anim="stagger"><a class="btn ds-force-hover" href="#"><span class="text-btn-01"><span>Aula experimental</span><span>Aula experimental</span></span></a><span class="ds-state-label">hover</span></div>
+      <div class="ds-state" data-anim="stagger"><a class="btn ds-force-active" href="#"><span class="text-btn-01"><span>Aula experimental</span><span>Aula experimental</span></span></a><span class="ds-state-label">active</span></div>
+      <div class="ds-state" data-anim="stagger"><a class="btn ds-force-focus" href="#"><span class="text-btn-01"><span>Aula experimental</span><span>Aula experimental</span></span></a><span class="ds-state-label">focus-visible</span></div>
+      <div class="ds-state" data-anim="stagger"><a class="btn stroke-btn" href="#"><span class="text-btn-01"><span>Saiba mais</span><span>Saiba mais</span></span></a><span class="ds-state-label">.stroke-btn default</span></div>
+      <div class="ds-state" data-anim="stagger"><a class="btn stroke-btn ds-force-hover" href="#"><span class="text-btn-01"><span>Saiba mais</span><span>Saiba mais</span></span></a><span class="ds-state-label">.stroke-btn hover</span></div>
+    </div>
+
+    <div class="ds-sub"><h3>.button_main_wrap · Quoti &nbsp;+&nbsp; .btn-whats</h3><p>Texto que rola com GSAP e sombra dura que "afunda"; WhatsApp com borda cônica girando.</p></div>
+    <div class="ds-states" data-anim="stagger-wrap">
+      <div class="ds-state" data-anim="stagger"><a class="button_main_wrap" href="#"><span class="button_main_element">Reservar quadra</span><span class="button_hover_element">Bora jogar!</span></a><span class="ds-state-label">live · passe o mouse</span></div>
+      <div class="ds-state" data-anim="stagger"><a class="button_main_wrap ds-force-hover" href="#"><span class="button_main_element">Reservar quadra</span></a><span class="ds-state-label">hover (sombra)</span></div>
+      <div class="ds-state" data-anim="stagger"><a class="button_main_wrap is-dark" href="#"><span class="button_main_element">Turmas</span><span class="button_hover_element">Ver vagas</span></a><span class="ds-state-label">.is-dark live</span></div>
+      <div class="ds-state" data-anim="stagger"><a class="btn-whats" href="#"><span class="iconify" data-icon="ri:whatsapp-fill"></span>Chamar no WhatsApp</a><span class="ds-state-label">.btn-whats default</span></div>
+      <div class="ds-state" data-anim="stagger"><a class="btn-whats ds-force-hover" href="#"><span class="iconify" data-icon="ri:whatsapp-fill"></span>Chamar no WhatsApp</a><span class="ds-state-label">.btn-whats hover</span></div>
+    </div>
+
+    <div class="ds-sub"><h3>Tags e selos</h3><p>.tag-pill (da paleta de referência), stickers do Quoti e o divisor .line_splitter do Amrit.</p></div>
+    <div class="ds-panel" data-anim="element" style="display:flex;flex-wrap:wrap;gap:1.2rem;align-items:center">
+      <span class="tag-pill">Beach tênis</span><span class="tag-pill"><span class="pulse-dot"></span>Vagas abertas</span><span class="tag-pill is-solid">Novo</span><span class="tag-pill is-outline">Iniciante</span>
+      <span class="line_splitter"></span>
+      <span class="sticker"><span class="iconify" data-icon="solar:tennis-bold"></span></span><span class="sticker is-roxo"><span class="iconify" data-icon="solar:cup-star-bold"></span></span>
+    </div>
+
+    <div class="ds-sub"><h3>Cards de aula · .service-card (Blade)</h3><p>Grade com gap de 1px; hover acende o brilho, o ícone gira e a seta entra pela diagonal. Spotlight segue o mouse.</p></div>
+    <div class="services-grid" data-anim="stagger-wrap">
+      <div class="service-card" data-anim="stagger" data-spotlight><span class="iconify service-arrow" data-icon="solar:arrow-right-up-linear"></span><span class="iconify service-icon" data-icon="solar:user-bold"></span><div class="service-name">Aula particular</div><p class="service-desc">Um a um, com plano de evolução e vídeo-análise dos seus golpes.</p><div class="service-price-row"><div class="service-price">R$ 150 <small>/ aula</small></div><div class="service-duration">60 min</div></div></div>
+      <div class="service-card is-featured ds-force-hover" data-anim="stagger" data-spotlight><span class="iconify service-arrow" data-icon="solar:arrow-right-up-linear"></span><span class="iconify service-icon" data-icon="solar:users-group-rounded-bold"></span><div class="service-name">Turma (até 4)</div><p class="service-desc">Fundamentos, jogo orientado e a energia do grupo. Estado hover forçado.</p><div class="service-price-row"><div class="service-price">R$ 320 <small>/ mês</small></div><div class="service-duration">2x semana</div></div></div>
+      <div class="service-card" data-anim="stagger" data-spotlight><span class="iconify service-arrow" data-icon="solar:arrow-right-up-linear"></span><span class="iconify service-icon" data-icon="solar:cup-first-bold"></span><div class="service-name">Clínica de torneio</div><p class="service-desc">Tática de dupla, saque e preparação mental para competir.</p><div class="service-price-row"><div class="service-price">R$ 220 <small>/ dia</small></div><div class="service-duration">4 horas</div></div></div>
+    </div>
+    <p class="ds-meta ds-comp-note">Valores de preço são exemplos.</p>
+
+    <div class="ds-sub"><h3>Cards de vidro · .beliefs-card (Elyse)</h3><p>Canto chanfrado, blur 10px. Ideal para pilares do método.</p></div>
+    <div class="ds-grid c3" data-anim="stagger-wrap" style="position:relative">
+      <div class="beliefs-card" data-anim="stagger"><div class="beliefs-card-bg"></div><span class="beliefs-card-num">(01)</span><div><div class="beliefs-card-heading">Técnica</div><p class="body-m">Empunhadura, base e golpe limpo antes de força.</p></div></div>
+      <div class="beliefs-card" data-anim="stagger"><div class="beliefs-card-bg"></div><span class="beliefs-card-num">(02)</span><div><div class="beliefs-card-heading">Tática</div><p class="body-m">Leitura de jogo, posicionamento e comunicação na dupla.</p></div></div>
+      <div class="beliefs-card" data-anim="stagger"><div class="beliefs-card-bg"></div><span class="beliefs-card-num">(03)</span><div><div class="beliefs-card-heading">Físico</div><p class="body-m">Explosão e resistência específicas para a areia.</p></div></div>
+    </div>
+
+    <div class="ds-sub"><h3>Cards de foto · .pain-point_card (Quoti)</h3><p>Borda 2px + sombra dura 7px. Três variantes; em movimento no Padrão B.</p></div>
+    <div class="ds-grid c3" data-anim="stagger-wrap">
+      <div data-anim="stagger"><div class="pain-point_card" style="width:100%;min-width:0;transform:rotate(-3deg)"><div class="pain-point_img"><img src="assets/img/bt-04.jpg" alt=""></div><div class="pain-point_title">Mar como quadra</div><p class="pain-point_text">Padrão roxo · --shadow-hard</p></div></div>
+      <div data-anim="stagger"><div class="pain-point_card is-lavanda" style="width:100%;min-width:0;transform:rotate(2deg)"><div class="pain-point_img"><img src="assets/img/bt-08.jpg" alt=""></div><div class="pain-point_title">Raquete certa</div><p class="pain-point_text">.is-lavanda · --shadow-hard-roxo</p></div></div>
+      <div data-anim="stagger"><div class="pain-point_card is-dark" style="width:100%;min-width:0;transform:rotate(-1.5deg)"><div class="pain-point_img"><img src="assets/img/bt-06.jpg" alt=""></div><div class="pain-point_title">Arena cheia</div><p class="pain-point_text">.is-dark · borda roxa</p></div></div>
+    </div>
+
+    <div class="ds-sub"><h3>Números · [data-number] (Elyse) + .about-stats (Blade)</h3><p>Contam de 0 ao valor ao entrar na tela, 2.2s power2.out.</p></div>
+    <div class="ds-panel" data-anim="element"><div class="about-stats" style="margin:0;border:0;padding:0;justify-content:space-between">
+      <div><div class="stat-number"><span data-number="12">12</span><sup>anos</sup></div><div class="stat-label">de quadra</div></div>
+      <div><div class="stat-number"><span data-number="320">320</span><sup>+</sup></div><div class="stat-label">alunos formados</div></div>
+      <div><div class="stat-number"><span data-number="18">18</span></div><div class="stat-label">títulos em torneios</div></div>
+      <div><div class="stat-number"><span data-number="6">6</span></div><div class="stat-label">certificações</div></div>
+    </div></div>
+
+    <div class="ds-sub"><h3>Agenda de horários · .schedule / .slot</h3><p>Estados: padrão, .is-hot (destaque), .is-free (vaga), .is-full (lotado). Hover levanta 4px.</p></div>
+    <div class="ds-panel" data-anim="element"><div class="schedule" data-anim="stagger-wrap">
+      <div></div><div class="schedule-head">Seg</div><div class="schedule-head">Ter</div><div class="schedule-head">Qua</div><div class="schedule-head">Qui</div><div class="schedule-head">Sex</div><div class="schedule-head">Sáb</div>
+      <div class="schedule-time">06:30</div><div class="slot" data-anim="stagger"><strong>Turma A</strong><span>Iniciante</span></div><div class="slot is-free" data-anim="stagger"><strong>Livre</strong>Reservar</div><div class="slot" data-anim="stagger"><strong>Turma A</strong><span>Iniciante</span></div><div class="slot is-full" data-anim="stagger"><strong>Lotado</strong></div><div class="slot" data-anim="stagger"><strong>Turma A</strong><span>Iniciante</span></div><div class="slot is-hot" data-anim="stagger"><strong>Clínica</strong><span>Saque</span></div>
+      <div class="schedule-time">18:00</div><div class="slot is-hot" data-anim="stagger"><strong>Turma B</strong><span>Intermediário</span></div><div class="slot" data-anim="stagger"><strong>Particular</strong><span>1:1</span></div><div class="slot is-free" data-anim="stagger"><strong>Livre</strong>Reservar</div><div class="slot" data-anim="stagger"><strong>Turma B</strong><span>Intermediário</span></div><div class="slot is-free" data-anim="stagger"><strong>Livre</strong>Reservar</div><div class="slot" data-anim="stagger"><strong>Day use</strong><span>Jogo livre</span></div>
+    </div></div>
+
+    <div class="ds-sub"><h3>Timeline de conquistas · .timeline</h3><p>A linha enche em gradiente conforme a rolagem (scrub).</p></div>
+    <div class="ds-grid c2">
+      <div class="timeline">
+        <div class="timeline-line"><div class="timeline-line-fill"></div></div>
+        <div class="timeline-item" data-anim="element"><div class="timeline-year">2014</div><div class="timeline-title">Primeira raquete</div><p class="body-m">Do tênis para a areia: começo nas quadras públicas.</p></div>
+        <div class="timeline-item" data-anim="element"><div class="timeline-year">2018</div><div class="timeline-title">Campeão estadual</div><p class="body-m">Título na categoria A em dupla mista.</p></div>
+        <div class="timeline-item" data-anim="element"><div class="timeline-year">2021</div><div class="timeline-title">Certificação de professor</div><p class="body-m">Formação técnica e início das turmas próprias.</p></div>
+        <div class="timeline-item" data-anim="element" style="padding-bottom:0"><div class="timeline-year">2026</div><div class="timeline-title">Arena Abbott</div><p class="body-m">Mais de 300 alunos e equipe de competição.</p></div>
+      </div>
+      <div class="ds-panel" data-anim="clip" style="padding:0;min-height:26rem"><div class="duo" style="position:absolute;inset:0"><img src="assets/img/bt-02.jpg" alt="" class="img-full-cover" data-anim="img-paralax"></div></div>
+    </div>
+    <p class="ds-meta ds-comp-note">Datas e títulos são conteúdo de exemplo.</p>
+
+    <div class="ds-sub"><h3>Depoimentos · .testimonial-slider (Blade)</h3><p>Troca a cada 5.5s com fadeIn (sobe + desfoca → foca); bolinhas viram pílula quando ativas.</p></div>
+    <div class="ds-panel has-bg" data-anim="element" style="padding:5rem 2rem">
+      <div class="bg-layer"><div class="testimonial-bg-text" style="font-size:12rem;left:50%;transform:translate(-50%,-50%)">“ ”</div></div>
+      <div class="testimonial-slider">
+        <div class="testimonial-item"><div class="testimonial-stars"><span class="iconify" data-icon="solar:star-bold"></span><span class="iconify" data-icon="solar:star-bold"></span><span class="iconify" data-icon="solar:star-bold"></span><span class="iconify" data-icon="solar:star-bold"></span><span class="iconify" data-icon="solar:star-bold"></span></div><p class="testimonial-quote">“Em três meses saí do zero para o meu primeiro torneio. O Gui explica o porquê de cada movimento.”</p><div class="testimonial-author-name">Marina S.</div><div class="testimonial-author-title">Aluna · Turma B</div></div>
+        <div class="testimonial-item"><div class="testimonial-stars"><span class="iconify" data-icon="solar:star-bold"></span><span class="iconify" data-icon="solar:star-bold"></span><span class="iconify" data-icon="solar:star-bold"></span><span class="iconify" data-icon="solar:star-bold"></span><span class="iconify" data-icon="solar:star-bold"></span></div><p class="testimonial-quote">“A clínica de saque mudou meu jogo. Saí com um plano claro do que treinar.”</p><div class="testimonial-author-name">Rafael M.</div><div class="testimonial-author-title">Aluno · Clínica</div></div>
+        <div class="testimonial-item"><div class="testimonial-stars"><span class="iconify" data-icon="solar:star-bold"></span><span class="iconify" data-icon="solar:star-bold"></span><span class="iconify" data-icon="solar:star-bold"></span><span class="iconify" data-icon="solar:star-bold"></span><span class="iconify" data-icon="solar:star-bold"></span></div><p class="testimonial-quote">“Aula leve, divertida e muito técnica. Melhor horário da minha semana.”</p><div class="testimonial-author-name">Carla P.</div><div class="testimonial-author-title">Aluna · Particular</div></div>
+        <div class="testimonial-nav"><button class="testimonial-dot" data-index="0" aria-label="Depoimento 1"></button><button class="testimonial-dot" data-index="1" aria-label="Depoimento 2"></button><button class="testimonial-dot" data-index="2" aria-label="Depoimento 3"></button></div>
+      </div>
+    </div>
+
+    <div class="ds-sub"><h3>FAQ · .faq-dropdown (Elyse)</h3><p>grid-template-rows 0fr→1fr; texto entra da direita (slideFromRight); ícone gira 45° e fica roxo.</p></div>
+    <div data-anim="stagger-wrap">
+      <div class="faq-dropdown" data-dropdown data-anim="stagger"><button class="faq-dropdown-toggle" data-dropdown-toggle aria-expanded="false">Nunca joguei. Posso começar? <span class="faq-dropdown-icon"><span class="iconify" data-icon="solar:add-circle-linear"></span></span></button><div class="faq-dropdown-list"><div class="faq-dropdown-box"><p>Sim. As turmas iniciantes começam do zero: empunhadura, posição e os primeiros golpes. Raquete e bolinhas são emprestadas na aula experimental.</p></div></div></div>
+      <div class="faq-dropdown" data-dropdown data-anim="stagger"><button class="faq-dropdown-toggle" data-dropdown-toggle aria-expanded="false">Preciso ter dupla? <span class="faq-dropdown-icon"><span class="iconify" data-icon="solar:add-circle-linear"></span></span></button><div class="faq-dropdown-list"><div class="faq-dropdown-box"><p>Não. As turmas são montadas por nível e as duplas giram durante a aula.</p></div></div></div>
+      <div class="faq-dropdown" data-dropdown data-anim="stagger"><button class="faq-dropdown-toggle" data-dropdown-toggle aria-expanded="false">E se chover? <span class="faq-dropdown-icon"><span class="iconify" data-icon="solar:add-circle-linear"></span></span></button><div class="faq-dropdown-list"><div class="faq-dropdown-box"><p>A aula é remarcada sem custo, avisada pelo WhatsApp até 1 hora antes.</p></div></div></div>
+    </div>
+
+    <div class="ds-sub"><h3>Formulário · .form-group (Blade) + .chip</h3><p>Linha inferior lavanda cresce no foco; chips para escolher nível.</p></div>
+    <div class="ds-panel" data-anim="element">
+      <div class="form-row">
+        <div class="form-group"><label for="f-nome">Nome</label><input id="f-nome" type="text" placeholder="Seu nome"><span class="form-line"></span></div>
+        <div class="form-group"><label for="f-tel">WhatsApp</label><input id="f-tel" type="tel" placeholder="(11) 90000-0000"><span class="form-line"></span></div>
+      </div>
+      <div class="form-group" style="margin-top:2rem"><label>Nível</label><div class="chip-group"><button class="chip is-active">Nunca joguei</button><button class="chip">Iniciante</button><button class="chip">Intermediário</button><button class="chip">Avançado</button></div></div>
+      <div style="margin-top:2.5rem;display:flex;gap:1.5rem;flex-wrap:wrap;align-items:center"><a class="btn-primary" href="#" data-magnetic><span>Quero minha aula experimental</span><span class="iconify" data-icon="solar:arrow-right-linear"></span></a><span class="caption">Resposta em até 2h</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= 05 · LAYOUT ================= -->
+<section class="ds-section has-bg" id="layout">
+  <div class="sand-edge is-top" aria-hidden="true" style="--sand-color:#0E0B1C"><svg viewBox="0 0 2880 90" preserveAspectRatio="none"><path class="is-ghost" d="M0,0 H2880 V58 C2640,90 2400,22 2160,60 C1920,90 1680,28 1440,58 C1200,90 960,22 720,60 C480,90 240,28 0,58 Z"/><path d="M0,0 H2880 V40 C2640,84 2400,10 2160,45 C1920,80 1680,14 1440,40 C1200,84 960,10 720,45 C480,80 240,14 0,40 Z"/></svg></div>
+  <div class="bg-layer" aria-hidden="true"><div class="aurora-orb o1" style="top:auto;bottom:-20vw;right:auto;left:-10vw"></div><div class="aurora-orb is-lavanda o2"></div><div class="aurora-orb is-deep o3"></div><span class="gold-line-decor" style="left:12%"></span><span class="gold-line-decor" style="left:44%"></span><span class="gold-line-decor" style="left:71%"></span><span class="gold-line-decor" style="left:93%"></span><div class="bg-dots"></div><svg class="bg-court" data-draw="scrub" viewBox="0 0 1600 900" preserveAspectRatio="none"><rect x="120" y="160" width="1360" height="580"/><line class="is-accent" x1="800" y1="120" x2="800" y2="780"/><line x1="120" y1="450" x2="380" y2="450"/><line x1="1220" y1="450" x2="1480" y2="450"/></svg><div class="testimonial-bg-text" data-giant>LAYOUT · LAYOUT · LAYOUT</div></div>
+  <div class="ds-container">
+    <div class="ds-head">
+      <div><div class="section-tag"><span class="section-tag-line"></span><span class="section-tag-text">05 — Layout &amp; espaçamento</span></div>
+      <h2 class="section-title" data-anim="split">Grade de <span class="italic">quadra,</span> ritmo de rally</h2></div>
+      <p class="ds-lead" data-anim="element">Telas divididas 50/50 (Amrit/Sable), seções full-bleed com 8–10rem de respiro, faixa horizontal com pin (Quoti) e grade de 12 colunas.</p>
+    </div>
+    <div class="ds-sub"><h3>Grade de 12 colunas</h3><p>.ds-container: min(1320px, 100% − 2 × gutter) · gap 1rem.</p></div>
+    <div class="ds-cols" data-anim="stagger-wrap"><span data-anim="stagger">1</span><span data-anim="stagger">2</span><span data-anim="stagger">3</span><span data-anim="stagger">4</span><span data-anim="stagger">5</span><span data-anim="stagger">6</span><span data-anim="stagger">7</span><span data-anim="stagger">8</span><span data-anim="stagger">9</span><span data-anim="stagger">10</span><span data-anim="stagger">11</span><span data-anim="stagger">12</span></div>
+    <div class="ds-sub"><h3>Containers e seções</h3><p>Valores aplicados no abbott.css.</p></div>
+    <table class="ds-table" data-anim="element">
+      <tr><th>Classe</th><th>Regra</th><th>Uso</th></tr>
+      <tr><td>.hero</td><td>grid 1fr 1fr · min-height 100vh · .hero-content padding 8rem 5rem 5rem</td><td>Abertura</td></tr>
+      <tr><td>.sides / .left_side / .right_side</td><td>flex · 50% / 50% · min-height 100vh · .is-reverse inverte · .left_side.is-sticky gruda no topo</td><td>Quem sou eu</td></tr>
+      <tr><td>.mwg001-container / .mwg001-cards</td><td>100vh com pin · faixa max-content · padding lateral 110vw · gap 2rem</td><td>Fotos passando</td></tr>
+      <tr><td>.catering_cards</td><td>grid 3 colunas · gap 1.5rem · card 9:10</td><td>Cursos e certificações</td></tr>
+      <tr><td>.services-grid</td><td>grid 3 colunas · gap 1px sobre --line</td><td>Aulas e planos</td></tr>
+      <tr><td>.ds-section</td><td>padding 9rem 0 8rem · .is-alt usa --fundo-2 · borda .sand-edge entre seções</td><td>Toda dobra</td></tr>
+    </table>
+    <div class="ds-sub"><h3>Breakpoints</h3><p>O que muda em cada largura.</p></div>
+    <table class="ds-table" data-anim="element">
+      <tr><th>Breakpoint</th><th>O que muda</th></tr>
+      <tr><td>Desktop (padrão)</td><td>Nav completa, hero 50/50, sides 50/50, 3 colunas de cards, cursor bolinha, botões magnéticos.</td></tr>
+      <tr><td>≤ 1200px</td><td>.services-grid em 2 colunas; agenda rola na horizontal.</td></tr>
+      <tr><td>≤ 1024px</td><td>Gutter 1.5rem, hamburger com menu em clip-path, hero empilha (foto embaixo), .sides vira coluna, sticky desliga, cursos em 2 colunas, cards de foto 50vw.</td></tr>
+      <tr><td>≤ 767px</td><td>Uma coluna para cards e form, cards de foto 78vw, borda de areia 50px.</td></tr>
+      <tr><td>≤ 480px</td><td>Hero title clamp(2.8rem, 15vw, 3.6rem), section-title 2.4rem, botões compactos.</td></tr>
+      <tr><td>prefers-reduced-motion</td><td>Animações e cortina desligadas; tudo aparece estático.</td></tr>
+    </table>
+  </div>
+</section>
+
+<!-- ================= PADRÕES REAIS ================= -->
+<div id="padroes"></div>
+<div class="ds-pattern-label"><h3>Padrão A — Quem sou eu (split)</h3><p>.sides 50/50 inspirado no Sable/Amrit: texto + lista de especificações à esquerda, foto com cortina dupla à direita; a segunda linha inverte e vira painel roxo.</p></div>
+<section class="sides has-bg">
+  <div class="left_side has-bg">
+    <div class="bg-layer"><span class="gold-line-decor" style="left:85%"></span><div class="aurora-orb is-deep o2"></div></div>
+    <div class="section-tag"><span class="section-tag-line"></span><span class="section-tag-text">Quem sou eu</span></div>
+    <h2 class="section-title" data-anim="split">Jogo, ensino <span class="italic">e estratégia.</span></h2>
+    <p class="about-text" data-anim="element" style="max-width:46ch">Guilherme Abbott, professor e atleta de beach tênis. Aulas que unem técnica de base, leitura de jogo e preparo físico para a areia. Texto de exemplo.</p>
+    <ul class="spec-list" data-anim="stagger-wrap">
+      <li class="spec-row" data-anim="stagger"><strong>Experiência</strong><span>12 anos · quadra e areia</span></li>
+      <li class="spec-row" data-anim="stagger"><strong>Especialidade</strong><span>Dupla · saque · smash</span></li>
+      <li class="spec-row" data-anim="stagger"><strong>Alunos</strong><span>Iniciante ao avançado</span></li>
+    </ul>
+  </div>
+  <div class="right_side" data-anim="img-overlay"><div class="duo"><img src="assets/img/bt-04.jpg" alt="Jogador alcançando a bola no mar" class="img-full-cover"></div><div class="img-overlay is-roxo"></div><div class="img-overlay"></div></div>
+</section>
+<section class="sides is-reverse has-bg">
+  <div class="left_side has-bg">
+    <div class="bg-layer"><div class="testimonial-bg-text" data-giant style="font-size:16vw;-webkit-text-stroke-color:rgba(242,239,250,.12)">ABBOTT</div></div>
+    <div class="section-tag"><span class="section-tag-line"></span><span class="section-tag-text">Método</span></div>
+    <h2 class="section-title" data-anim="split">Cada aula, <span class="italic">um plano.</span></h2>
+    <p class="about-text" data-anim="element" style="max-width:44ch">Diagnóstico na primeira aula, metas por mês e vídeo dos seus golpes. Você sabe exatamente o que está evoluindo.</p>
+    <div class="about-stats" data-anim="element"><div><div class="stat-number" style="color:var(--texto)"><span data-number="4">4</span></div><div class="stat-label" style="color:rgba(242,239,250,.7)">alunos por turma</div></div><div><div class="stat-number" style="color:var(--texto)"><span data-number="60">60</span><sup>min</sup></div><div class="stat-label" style="color:rgba(242,239,250,.7)">de aula</div></div></div>
+    <div style="margin-top:2.5rem" data-anim="element"><a class="button" href="#"><div class="button_box" letters-fade-in-hover>Conhecer o método</div></a></div>
+  </div>
+  <div class="right_side" data-anim="img-overlay"><div class="duo"><img src="assets/img/bt-06.jpg" alt="Vista aérea de quadras de beach tênis" class="img-full-cover" data-anim="img-paralax"></div><div class="img-overlay is-roxo"></div><div class="img-overlay"></div></div>
+</section>
+
+<div class="ds-pattern-label"><h3>Padrão B — Fotos passando no scroll</h3><p>.pain-point_wrap do Quoti: a seção trava (pin) e os cards de foto atravessam a tela girando ±7–13°, com parallax interno na imagem.</p></div>
+<section class="pain-point_wrap has-bg">
+  <div class="bg-layer" aria-hidden="true"><div class="aurora-orb o1" style="top:30%;right:-15vw"></div><div class="aurora-orb is-lavanda o2"></div><div class="aurora-orb is-deep o3"></div><span class="gold-line-decor" style="left:5%"></span><span class="gold-line-decor" style="left:26%"></span><span class="gold-line-decor" style="left:52%"></span><span class="gold-line-decor" style="left:79%"></span><div class="ball-arc-wrap" data-ball><svg class="ball-arc" viewBox="0 0 1600 900" preserveAspectRatio="none"><path d="M80,700 C500,80 1000,120 1540,820"/></svg><div class="ball"></div></div><div class="testimonial-bg-text" data-giant>NA AREIA · NA AREIA · NA AREIA</div></div>
+  <div class="pain-point_contain"><div class="section-tag"><span class="section-tag-line"></span><span class="section-tag-text">Na quadra</span></div><h2 class="section-title" data-anim="split">Momentos que contam <span class="italic">a história</span></h2></div>
+  <div class="mwg001-container"><div class="mwg001-cards">
+    <div class="pain-point_card"><div class="pain-point_img"><img src="assets/img/bt-07.jpg" alt=""></div><div class="pain-point_title">Saque de quem compete</div><p class="pain-point_text">Torneio aberto · categoria A</p></div>
+    <div class="pain-point_card is-lavanda"><div class="pain-point_img"><img src="assets/img/bt-02.jpg" alt=""></div><div class="pain-point_title">Turma da manhã</div><p class="pain-point_text">Fundamentos e jogo orientado</p></div>
+    <div class="pain-point_card is-dark"><div class="pain-point_img"><img src="assets/img/bt-04.jpg" alt=""></div><div class="pain-point_title">Treino no mar</div><p class="pain-point_text">Explosão e equilíbrio</p></div>
+    <div class="pain-point_card"><div class="pain-point_img"><img src="assets/img/bt-08.jpg" alt=""></div><div class="pain-point_title">Equipamento certo</div><p class="pain-point_text">Raquete, bola e peso ideal</p></div>
+    <div class="pain-point_card is-lavanda"><div class="pain-point_img"><img src="assets/img/bt-05.jpg" alt=""></div><div class="pain-point_title">Final em dupla</div><p class="pain-point_text">Comunicação e leitura</p></div>
+    <div class="pain-point_card is-dark"><div class="pain-point_img"><img src="assets/img/bt-06.jpg" alt=""></div><div class="pain-point_title">Arena lotada</div><p class="pain-point_text">Day use de sábado</p></div>
+    <div class="pain-point_card"><div class="pain-point_img"><img src="assets/img/bt-01.jpg" alt=""></div><div class="pain-point_title">Do tênis à areia</div><p class="pain-point_text">Onde tudo começou</p></div>
+  </div></div>
+</section>
+
+<div class="ds-pattern-label"><h3>Padrão C — Cursos e certificações</h3><p>.catering_card do Amrit: foto em duotone com cortina, título serif centralizado e selo que gira ao passar o mouse.</p></div>
+<section class="ds-section has-bg" style="padding-top:4rem">
+  <div class="bg-layer" aria-hidden="true"><div class="aurora-orb o1" ></div><div class="aurora-orb is-lavanda o2"></div><div class="aurora-orb is-deep o3"></div><span class="gold-line-decor" style="left:7%"></span><span class="gold-line-decor" style="left:31%"></span><span class="gold-line-decor" style="left:58%"></span><span class="gold-line-decor" style="left:86%"></span><div class="bg-dots"></div><svg class="bg-court" data-draw="scrub" viewBox="0 0 1600 900" preserveAspectRatio="none"><rect x="120" y="160" width="1360" height="580"/><line class="is-accent" x1="800" y1="120" x2="800" y2="780"/><line x1="120" y1="450" x2="380" y2="450"/><line x1="1220" y1="450" x2="1480" y2="450"/></svg><div class="testimonial-bg-text" data-giant>CURSOS · CURSOS · CURSOS</div></div>
+  <div class="ds-container">
+    <div class="ds-head"><div><div class="section-tag"><span class="section-tag-line"></span><span class="section-tag-text">Formação</span></div><h2 class="section-title" data-anim="split">Cursos que <span class="italic">sustentam</span> cada aula</h2></div><p class="ds-lead" letters-fade-in>Certificações e formações feitas para ensinar com método, segurança e atualização constante.</p></div>
+    <div class="catering_cards" data-anim="stagger-wrap">
+      <div class="catering_card" data-anim="stagger"><div class="catering_img" data-anim="img-overlay"><div class="duo"><img src="assets/img/bt-08.jpg" alt="" class="img-full-cover"></div><span class="tag-pill is-solid catering_badge">2021</span><span class="catering_seal"><span class="iconify" data-icon="solar:diploma-bold"></span></span><div class="img-overlay is-roxo"></div><div class="img-overlay"></div></div><div class="title_catering">Professor Nível II</div><p class="desc_catering">Formação técnica em fundamentos, metodologia de ensino e planejamento de turmas. Exemplo.</p></div>
+      <div class="catering_card" data-anim="stagger"><div class="catering_img" data-anim="img-overlay"><div class="duo"><img src="assets/img/bt-02.jpg" alt="" class="img-full-cover"></div><span class="tag-pill is-solid catering_badge">2023</span><span class="catering_seal"><span class="iconify" data-icon="solar:medal-ribbon-star-bold"></span></span><div class="img-overlay is-roxo"></div><div class="img-overlay"></div></div><div class="title_catering">Tática para duplas</div><p class="desc_catering">Posicionamento, transições e padrões de jogo para competição. Exemplo.</p></div>
+      <div class="catering_card" data-anim="stagger"><div class="catering_img" data-anim="img-overlay"><div class="duo"><img src="assets/img/bt-05.jpg" alt="" class="img-full-cover"></div><span class="tag-pill is-solid catering_badge">2025</span><span class="catering_seal"><span class="iconify" data-icon="solar:heart-pulse-bold"></span></span><div class="img-overlay is-roxo"></div><div class="img-overlay"></div></div><div class="title_catering">Preparação física na areia</div><p class="desc_catering">Força, agilidade e prevenção de lesões específicas da modalidade. Exemplo.</p></div>
+    </div>
+  </div>
+</section>
+
+<div class="ds-pattern-label"><h3>Padrão D — CTA final com stickers</h3><p>Display heading do Quoti: palavras sobem da máscara e stickers aparecem com back.out(1.7).</p></div>
+<section class="ds-section is-alt has-bg" style="padding:7rem 0 8rem;text-align:center">
+  <div class="sand-edge is-top" aria-hidden="true" style="--sand-color:#0A0A14"><svg viewBox="0 0 2880 90" preserveAspectRatio="none"><path class="is-ghost" d="M0,0 H2880 V58 C2640,90 2400,22 2160,60 C1920,90 1680,28 1440,58 C1200,90 960,22 720,60 C480,90 240,28 0,58 Z"/><path d="M0,0 H2880 V40 C2640,84 2400,10 2160,45 C1920,80 1680,14 1440,40 C1200,84 960,10 720,45 C480,80 240,14 0,40 Z"/></svg></div>
+  <div class="bg-layer" aria-hidden="true"><div class="aurora-orb o1" style="top:auto;bottom:-20vw;right:auto;left:-10vw"></div><div class="aurora-orb is-lavanda o2"></div><div class="aurora-orb is-deep o3"></div><span class="gold-line-decor" style="left:12%"></span><span class="gold-line-decor" style="left:44%"></span><span class="gold-line-decor" style="left:71%"></span><span class="gold-line-decor" style="left:93%"></span><div class="ball-arc-wrap" data-ball><svg class="ball-arc" viewBox="0 0 1600 900" preserveAspectRatio="none"><path d="M1560,820 C1180,-40 520,-60 60,640"/></svg><div class="ball"></div></div><svg class="bg-court" data-draw="scrub" viewBox="0 0 1600 900" preserveAspectRatio="none"><path d="M260,860 L1340,860 L1110,260 L490,260 Z"/><path class="is-accent" d="M372,560 L1228,560"/><path d="M800,860 L800,260"/><path d="M180,560 L372,560 M1228,560 L1420,560"/></svg></div>
+  <div class="ds-container" data-sticker="component">
+    <h2 class="hero-title is-flow" style="margin:0 auto 2rem;max-width:15ch">
+      <span data-sticker="text">Aprenda beach tênis</span>
+      <span class="sticker" data-sticker="first"><span class="iconify" data-icon="solar:tennis-bold"></span></span>
+      <span data-sticker="text">com quem</span> <span class="title-gold" data-sticker="text">joga e ensina</span>
+      <span class="sticker is-roxo" data-sticker="second"><span class="iconify" data-icon="solar:sun-2-bold"></span></span>
+    </h2>
+    <p class="about-text" data-anim="element" style="max-width:46ch;margin:0 auto 2.5rem">Aulas, horários e conquistas em um só lugar. A primeira aula é experimental.</p>
+    <div data-anim="element" style="display:flex;gap:1.2rem;justify-content:center;flex-wrap:wrap"><a class="btn-whats" href="#" data-magnetic><span class="iconify" data-icon="ri:whatsapp-fill"></span>Chamar no WhatsApp</a><a class="btn stroke-btn" href="#"><span class="text-btn-01"><span>Ver horários</span><span>Ver horários</span></span></a></div>
+  </div>
+</section>
+
+<!-- ================= 06 · MOTION ================= -->
+<section class="ds-section has-bg" id="motion">
+  <div class="sand-edge is-top" aria-hidden="true" style="--sand-color:#0E0B1C"><svg viewBox="0 0 2880 90" preserveAspectRatio="none"><path class="is-ghost" d="M0,0 H2880 V58 C2640,90 2400,22 2160,60 C1920,90 1680,28 1440,58 C1200,90 960,22 720,60 C480,90 240,28 0,58 Z"/><path d="M0,0 H2880 V40 C2640,84 2400,10 2160,45 C1920,80 1680,14 1440,40 C1200,84 960,10 720,45 C480,80 240,14 0,40 Z"/></svg></div>
+  <div class="bg-layer" aria-hidden="true"><div class="aurora-orb o1" style="top:30%;right:-15vw"></div><div class="aurora-orb is-lavanda o2"></div><div class="aurora-orb is-deep o3"></div><span class="gold-line-decor" style="left:5%"></span><span class="gold-line-decor" style="left:26%"></span><span class="gold-line-decor" style="left:52%"></span><span class="gold-line-decor" style="left:79%"></span><div class="bg-dots"></div><svg class="bg-court" data-draw="scrub" viewBox="0 0 1600 900" preserveAspectRatio="none"><rect x="120" y="160" width="1360" height="580"/><line class="is-accent" x1="800" y1="120" x2="800" y2="780"/><line x1="120" y1="450" x2="380" y2="450"/><line x1="1220" y1="450" x2="1480" y2="450"/></svg><div class="ball-arc-wrap" data-ball><svg class="ball-arc" viewBox="0 0 1600 900" preserveAspectRatio="none"><path d="M80,700 C500,80 1000,120 1540,820"/></svg><div class="ball"></div></div><div class="testimonial-bg-text" data-giant>MOTION · MOTION · MOTION</div></div>
+  <div class="ds-container">
+    <div class="ds-head">
+      <div><div class="section-tag"><span class="section-tag-line"></span><span class="section-tag-text">06 — Motion &amp; interação</span></div>
+      <h2 class="section-title" data-anim="split">Tudo entra <span class="italic">como um lob:</span> sobe, segura, cai</h2></div>
+      <p class="ds-lead" data-anim="element">GSAP 3.13 (ScrollTrigger, SplitText, DrawSVG, MotionPath) + Lenis. Cada card tem Replay. Respeita <span class="ds-code">prefers-reduced-motion</span>.</p>
+    </div>
+    <div class="ds-motion-grid">
+      <div class="ds-motion-card" data-anim="element" data-spotlight><div class="ds-motion-stage"><div class="ds-demo-title" data-demo style="animation:fadeUp 1s var(--ease-out-expo) both">FADE UP</div></div><div class="ds-motion-name">fadeUp<button class="ds-replay" data-replay="css"><span class="iconify" data-icon="solar:play-bold"></span>Replay</button></div><div class="ds-meta">Blade · @keyframes fadeUp · translateY 40px → 0 + opacity · .8–1s · --ease-out-expo · hero-tag, linhas</div></div><div class="ds-motion-card" data-anim="element" data-spotlight><div class="ds-motion-stage"><div class="ds-demo-img duo" data-demo><img class="img-full-cover" src="assets/img/bt-07.jpg" alt="" style="opacity:0;animation:heroImgReveal 1.8s var(--ease-out-expo) forwards"></div></div><div class="ds-motion-name">heroImgReveal<button class="ds-replay" data-replay="css"><span class="iconify" data-icon="solar:play-bold"></span>Replay</button></div><div class="ds-meta">Blade · scale 1.25 → 1.05 + opacity · 1.8s · --ease-out-expo · foto do hero (duotone)</div></div><div class="ds-motion-card" data-anim="element" data-spotlight><div class="ds-motion-stage"><div class="ds-demo-box reveal" data-demo></div></div><div class="ds-motion-name">.reveal → .visible<button class="ds-replay" data-replay="reveal"><span class="iconify" data-icon="solar:play-bold"></span>Replay</button></div><div class="ds-meta">Blade · IntersectionObserver threshold .1 · translateY 40px + blur 6px → 0 · .9s · delays .1–.4s</div></div><div class="ds-motion-card" data-anim="element" data-spotlight><div class="ds-motion-stage"><div class="ds-demo-title" data-demo>LINHAS QUE<br>SAEM DA MÁSCARA</div></div><div class="ds-motion-name">Split lines<button class="ds-replay" data-replay="split"><span class="iconify" data-icon="solar:play-bold"></span>Replay</button></div><div class="ds-meta">Elyse [data-anim="split"] · SplitText lines + mask · yPercent 110 → 0, rotate 2.5° → 0 · 1.1s · stagger .1 · power3.inOut</div></div><div class="ds-motion-card" data-anim="element" data-spotlight><div class="ds-motion-stage"><div class="ds-demo-title" data-demo style="font-size:3.2rem">ABBOTT</div></div><div class="ds-motion-name">Chars mask<button class="ds-replay" data-replay="chars"><span class="iconify" data-icon="solar:play-bold"></span>Replay</button></div><div class="ds-meta">Elyse [data-hero="title"] · SplitText chars + mask · yPercent 115 → 0, rotate 10° · 1.4s · stagger .045 · power4.out</div></div><div class="ds-motion-card" data-anim="element" data-spotlight><div class="ds-motion-stage"><div class="ds-demo-img" data-demo data-anim="img-overlay"><div class="duo" style="position:absolute;inset:0"><img class="img-full-cover" src="assets/img/bt-04.jpg" alt=""></div><div class="img-overlay is-roxo"></div><div class="img-overlay"></div></div></div><div class="ds-motion-name">Cortina dupla<button class="ds-replay" data-replay="overlay"><span class="iconify" data-icon="solar:play-bold"></span>Replay</button></div><div class="ds-meta">Elyse [data-anim="img-overlay"] · .img-overlay.is-roxo + .img-overlay height 101% → 0 · 1.5s · stagger .18 · imagem scale 1.35 → 1</div></div><div class="ds-motion-card" data-anim="element" data-spotlight><div class="ds-motion-stage"><div class="ds-demo-img duo" data-demo data-slice-reveal><img class="img-full-cover" src="assets/img/bt-06.jpg" alt=""></div></div><div class="ds-motion-name">30 fatias<button class="ds-replay" data-replay="slices"><span class="iconify" data-icon="solar:play-bold"></span>Replay</button></div><div class="ds-meta">Elyse [data-slice-reveal] · --mask-gradient com 30 faixas que crescem de baixo para cima · .9s cada · offset .025s</div></div><div class="ds-motion-card" data-anim="element" data-spotlight><div class="ds-motion-stage"><div class="ds-demo-img duo" data-demo style="inset:1.2rem 30%"><img class="img-full-cover" src="assets/img/bt-08.jpg" alt=""></div></div><div class="ds-motion-name">Clip inset<button class="ds-replay" data-replay="clip"><span class="iconify" data-icon="solar:play-bold"></span>Replay</button></div><div class="ds-meta">Elyse small-image · [data-anim="clip"] · clip-path inset(100% 0 0 0) → inset(0) · 1.2s · power3.inOut</div></div><div class="ds-motion-card" data-anim="element" data-spotlight><div class="ds-motion-stage"><div class="ds-demo-box" data-demo></div></div><div class="ds-motion-name">Element blur-rise<button class="ds-replay" data-replay="element"><span class="iconify" data-icon="solar:play-bold"></span>Replay</button></div><div class="ds-meta">Elyse [data-anim="element"] reinterpretado · y 4rem + blur 10px → 0 · 1.2s · expo.out · reverte ao voltar</div></div><div class="ds-motion-card" data-anim="element" data-spotlight><div class="ds-motion-stage"><div data-demo data-anim="stagger-wrap" style="display:flex;gap:.6rem;align-items:flex-end"><div class="ds-demo-box" data-anim="stagger" style="width:2.6rem;height:3rem"></div><div class="ds-demo-box" data-anim="stagger" style="width:2.6rem;height:5rem"></div><div class="ds-demo-box" data-anim="stagger" style="width:2.6rem;height:7rem"></div><div class="ds-demo-box" data-anim="stagger" style="width:2.6rem;height:4rem"></div></div></div><div class="ds-motion-name">Stagger cascade<button class="ds-replay" data-replay="stagger"><span class="iconify" data-icon="solar:play-bold"></span>Replay</button></div><div class="ds-meta">Elyse [data-anim="stagger-wrap"] > [data-anim="stagger"] · yPercent 40 + scale .96 → 1 · 1s · stagger .12 · expo.out</div></div><div class="ds-motion-card" data-anim="element" data-spotlight><div class="ds-motion-stage"><p class="ds-demo-title" data-demo letters-fade-in>LETRA POR LETRA</p></div><div class="ds-motion-name">Letters fade in<button class="ds-replay" data-replay="letters"><span class="iconify" data-icon="solar:play-bold"></span>Replay</button></div><div class="ds-meta">Amrit [letters-fade-in] · chars opacity 0 → 1 · .25s · stagger amount .8 · power1.out · top 75%</div></div><div class="ds-motion-card" data-anim="element" data-spotlight><div class="ds-motion-stage"><div data-demo data-sticker="component"><span class="ds-demo-title" data-sticker="text">BORA JOGAR</span> <span class="sticker" data-sticker="first"><span class="iconify" data-icon="solar:tennis-bold"></span></span></div></div><div class="ds-motion-name">Sticker pop<button class="ds-replay" data-replay="sticker"><span class="iconify" data-icon="solar:play-bold"></span>Replay</button></div><div class="ds-meta">Quoti [data-sticker] · palavras yPercent 105 → 0 (1s, stagger .05) + sticker scale 0 → 1 back.out(1.7)</div></div><div class="ds-motion-card" data-anim="element" data-spotlight><div class="ds-motion-stage"><div class="stat-number" style="font-size:4.5rem"><span data-demo data-number="320">320</span><sup>+</sup></div></div><div class="ds-motion-name">Contador<button class="ds-replay" data-replay="number"><span class="iconify" data-icon="solar:play-bold"></span>Replay</button></div><div class="ds-meta">Elyse [data-number] · 0 → valor · 2.2s · power2.out · dispara a 90% da tela</div></div><div class="ds-motion-card" data-anim="element" data-spotlight><div class="ds-motion-stage"><span class="stat-number pulse" data-demo style="font-size:4.5rem">18</span></div><div class="ds-motion-name">Pulse<button class="ds-replay" data-replay="pulse"><span class="iconify" data-icon="solar:play-bold"></span>Replay</button></div><div class="ds-meta">Amrit @keyframes pulseAnim · scale 1 → 1.2 → 1 + cor lavanda · .6s ease</div></div><div class="ds-motion-card" data-anim="element" data-spotlight><div class="ds-motion-stage"><svg class="bg-court" data-demo data-draw viewBox="0 0 400 220" preserveAspectRatio="none"><path d="M70,205 L330,205 L280,30 L120,30 Z"/><path class="is-accent" d="M95,118 L305,118"/><path d="M200,205 L200,30"/></svg></div><div class="ds-motion-name">Linhas de quadra<button class="ds-replay" data-replay="draw"><span class="iconify" data-icon="solar:play-bold"></span>Replay</button></div><div class="ds-meta">Quoti DrawSVG · drawSVG 0 → 100% · 2.2s power2.inOut stagger .12 (timed) ou scrub 1 no fundo das dobras</div></div><div class="ds-motion-card" data-anim="element" data-spotlight><div class="ds-motion-stage"><div class="ball-arc-wrap" data-demo><svg class="ball-arc" viewBox="0 0 400 220" preserveAspectRatio="none"><path d="M20,200 C110,-30 290,-30 380,190"/></svg><div class="ball"></div></div></div><div class="ds-motion-name">Lob da bolinha<button class="ds-replay" data-replay="ball"><span class="iconify" data-icon="solar:play-bold"></span>Replay</button></div><div class="ds-meta">MotionPath · .ball percorre o arco · scrub 1.2 no fundo / 2.4s power1.inOut no replay</div></div><div class="ds-motion-card" data-anim="element" data-spotlight><div class="ds-motion-stage"><a class="button_main_wrap" href="#motion"><span class="button_main_element">PASSE O MOUSE</span><span class="button_hover_element">BORA JOGAR!</span></a></div><div class="ds-motion-name">Botão que rola<span class="ds-meta">hover</span></div><div class="ds-meta">Quoti .button_main_wrap · main scale .8 + sobe · hover yPercent −120 · .35s power2.out · sombra dura afunda 3px</div></div><div class="ds-motion-card" data-anim="element" data-spotlight><div class="ds-motion-stage"><a class="btn-primary" href="#motion" data-magnetic><span>Agendar aula</span><span class="iconify" data-icon="solar:arrow-right-linear"></span></a></div><div class="ds-motion-name">Varredura + brilho<span class="ds-meta">hover</span></div><div class="ds-meta">Blade .btn-primary · ::before translateX −101% → 0 · .5s expo · ::after shineSweep 4.5s infinito · seta −45°</div></div><div class="ds-motion-card" data-anim="element" data-spotlight><div class="ds-motion-stage"><a class="btn" href="#motion"><span class="text-btn-01"><span>Aula experimental</span><span>Aula experimental</span></span></a></div><div class="ds-motion-name">Texto que troca<span class="ds-meta">hover</span></div><div class="ds-meta">Elyse .text-btn-01 · dois spans em grid · translateY 110% · .55s --ease-out-expo</div></div><div class="ds-motion-card" data-anim="element" data-spotlight><div class="ds-motion-stage"><a class="button" href="#motion"><div class="button_box" letters-fade-in-hover>Quem sou eu</div></a></div><div class="ds-motion-name">Moldura que respira<span class="ds-meta">hover</span></div><div class="ds-meta">Amrit .button · padding 4 → 7px + scale 1.02 · .45s --ease-amrit · + letters-fade-in-hover</div></div><div class="ds-motion-card" data-anim="element" data-spotlight><div class="ds-motion-stage"><div class="marquee-section is-tilted" style="width:120%"><div class="marquee-track" style="animation-duration:10s"><div class="marquee-item"><span>Saque</span><span class="dot"></span></div><div class="marquee-item"><span class="is-serif">lob</span><span class="dot"></span></div><div class="marquee-item"><span>Smash</span><span class="dot"></span></div><div class="marquee-item"><span>Saque</span><span class="dot"></span></div><div class="marquee-item"><span class="is-serif">lob</span><span class="dot"></span></div><div class="marquee-item"><span>Smash</span><span class="dot"></span></div><div class="marquee-item"><span>Saque</span><span class="dot"></span></div><div class="marquee-item"><span class="is-serif">lob</span><span class="dot"></span></div><div class="marquee-item"><span>Smash</span><span class="dot"></span></div><div class="marquee-item"><span>Saque</span><span class="dot"></span></div><div class="marquee-item"><span class="is-serif">lob</span><span class="dot"></span></div><div class="marquee-item"><span>Smash</span><span class="dot"></span></div></div></div></div><div class="ds-motion-name">Marquee<span class="ds-meta">contínuo</span></div><div class="ds-meta">Blade @keyframes marqueeScroll · translateX 0 → −50% · 30s linear · reverse 38s · pausa no hover · faixa inclinada −2°</div></div><div class="ds-motion-card" data-anim="element" data-spotlight><div class="ds-motion-stage"><div class="bg-layer"><div class="aurora-orb o1" style="width:14rem;height:14rem;top:-5rem;right:-3rem;animation-duration:6s"></div><div class="aurora-orb is-lavanda o2" style="width:10rem;height:10rem;bottom:-4rem;left:-2rem;animation-duration:7s"></div></div></div><div class="ds-motion-name">Aurora drift<span class="ds-meta">contínuo</span></div><div class="ds-meta">.aurora-orb · @keyframes auroraDrift 18–26s alternate · blur 90px · + y −60 → 60 scrub 1.5</div></div><div class="ds-motion-card" data-anim="element" data-spotlight><div class="ds-motion-stage"><div class="hero-badge" style="position:relative;left:auto;bottom:auto;width:130px;height:130px"><svg viewBox="0 0 150 150"><defs><path id="circ2" d="M75,75 m-58,0 a58,58 0 1,1 116,0 a58,58 0 1,1 -116,0"/></defs><text><textPath href="#circ2">Aulas • Turmas • Clínicas • Torneios •</textPath></text></svg><div class="hero-badge-core"><span class="iconify" data-icon="solar:tennis-bold"></span></div></div></div><div class="ds-motion-name">Selo giratório<span class="ds-meta">contínuo</span></div><div class="ds-meta">.hero-badge · spinSlow 18s linear · entrada scale 0 → 1, rotate −90° back.out(1.6)</div></div><div class="ds-motion-card" data-anim="element" data-spotlight><div class="ds-motion-stage"><div class="ds-demo-img duo"><img class="img-full-cover" src="assets/img/bt-05.jpg" alt="" data-anim="img-paralax"></div></div><div class="ds-motion-name">Parallax de imagem<span class="ds-meta">scroll</span></div><div class="ds-meta">Elyse [data-anim="img-paralax"] · yPercent −8 → 8, scale 1.12 · scrub 1 · role a página</div></div><div class="ds-motion-card" data-anim="element" data-spotlight><div class="ds-motion-stage"><a class="btn-outline" href="#padroes">Ver Padrão B <span class="iconify" data-icon="solar:arrow-right-linear"></span></a></div><div class="ds-motion-name">Fotos com pin<span class="ds-meta">scroll</span></div><div class="ds-meta">Quoti .mwg001 · pré-scroll 500px + pin com scrub · cards ±7–13° · containerAnimation · imagem com parallax interno</div></div><div class="ds-motion-card" data-anim="element" data-spotlight><div class="ds-motion-stage"><div class="ds-demo-title" style="font-size:1.6rem;color:var(--gray-light)">Mova o mouse<br>neste card</div></div><div class="ds-motion-name">Cursor + spotlight<span class="ds-meta">mouse</span></div><div class="ds-meta">.cursor-ball quickTo .35s, cresce em links · [data-spotlight] radial 420px · [data-magnetic] elastic</div></div><div class="ds-motion-card" data-anim="element" data-spotlight><div class="ds-motion-stage"><div class="timeline" style="height:8rem;padding-left:2rem"><div class="timeline-line"><div class="timeline-line-fill" style="transform:scaleY(1)"></div></div><div class="timeline-year">2014 → 2026</div></div></div><div class="ds-motion-name">Linha da timeline<span class="ds-meta">scroll</span></div><div class="ds-meta">.timeline-line-fill · scaleY 0 → 1 · scrub 1 · gradiente lavanda → roxo</div></div>
+    </div>
+    <div class="ds-sub"><h3>Comportamentos globais</h3><p>Rodando nesta página agora.</p></div>
+    <table class="ds-table" data-anim="element">
+      <tr><th>Comportamento</th><th>Detalhe</th></tr>
+      <tr><td>Cortina de entrada</td><td>.page-curtain · roxo → fundo sobe (slideToTop do Elyse) 1.1s, logo com slideUpCSS</td></tr>
+      <tr><td>Hero</td><td>caracteres mascarados (stagger .045, power4.out) → descrição com blur → ações → selo giratório back.out → linhas de quadra se desenham → bolinha percorre o arco no scroll</td></tr>
+      <tr><td>Nav</td><td>.scrolled após 80px (blur 20px) · .is-hidden ao descer e volta ao subir (≥ 992px)</td></tr>
+      <tr><td>Scroll suave</td><td>Lenis duration 1.2 · easing t ⇒ min(1, 1.001 − 2^(−10t)) · sincronizado ao ScrollTrigger</td></tr>
+      <tr><td>Cursor bolinha</td><td>.cursor-ball · quickTo .35s · mix-blend difference · cresce para 56px em links e botões</td></tr>
+      <tr><td>Spotlight</td><td>[data-spotlight] · radial 420px seguindo --mx/--my</td></tr>
+      <tr><td>Magnético</td><td>[data-magnetic="0.35"] · elastic.out(1, 0.4) .6s</td></tr>
+      <tr><td>Fundo em cada dobra</td><td>.aurora-orb (keyframes + scrub) · .gold-line-decor (parallax em 3 velocidades) · .bg-court scrub · .testimonial-bg-text [data-giant] · .ball-arc [data-ball] · .bg-grain fixo · .sand-edge</td></tr>
+    </table>
+  </div>
+</section>
+
+<!-- ================= 07 · ÍCONES ================= -->
+<section class="ds-section is-alt has-bg" id="icones">
+  <div class="sand-edge is-top" aria-hidden="true" style="--sand-color:#0A0A14"><svg viewBox="0 0 2880 90" preserveAspectRatio="none"><path class="is-ghost" d="M0,0 H2880 V58 C2640,90 2400,22 2160,60 C1920,90 1680,28 1440,58 C1200,90 960,22 720,60 C480,90 240,28 0,58 Z"/><path d="M0,0 H2880 V40 C2640,84 2400,10 2160,45 C1920,80 1680,14 1440,40 C1200,84 960,10 720,45 C480,80 240,14 0,40 Z"/></svg></div>
+  <div class="bg-layer" aria-hidden="true"><div class="aurora-orb o1" ></div><div class="aurora-orb is-lavanda o2"></div><div class="aurora-orb is-deep o3"></div><span class="gold-line-decor" style="left:7%"></span><span class="gold-line-decor" style="left:31%"></span><span class="gold-line-decor" style="left:58%"></span><span class="gold-line-decor" style="left:86%"></span><div class="testimonial-bg-text" data-giant>ÍCONES · ÍCONES · ÍCONES</div></div>
+  <div class="ds-container">
+    <div class="ds-head">
+      <div><div class="section-tag"><span class="section-tag-line"></span><span class="section-tag-text">07 — Ícones</span></div>
+      <h2 class="section-title" data-anim="split">Solar, <span class="italic">o mesmo set</span> do Blade</h2></div>
+      <p class="ds-lead" data-anim="element">Iconify 3.1 com o set <b>Solar</b> (bold/linear) e <b>Remix</b> só para marcas. Markup: <span class="ds-code">&lt;span class="iconify" data-icon="solar:tennis-bold"&gt;</span>. Herdam <span class="ds-code">currentColor</span>.</p>
+    </div>
+    <div class="ds-icons" data-anim="stagger-wrap"><div class="ds-icon" data-anim="stagger"><span class="iconify" data-icon="solar:tennis-bold"></span><code>solar:tennis-bold</code></div><div class="ds-icon" data-anim="stagger"><span class="iconify" data-icon="solar:tennis-2-bold"></span><code>solar:tennis-2-bold</code></div><div class="ds-icon" data-anim="stagger"><span class="iconify" data-icon="solar:cup-star-bold"></span><code>solar:cup-star-bold</code></div><div class="ds-icon" data-anim="stagger"><span class="iconify" data-icon="solar:cup-first-bold"></span><code>solar:cup-first-bold</code></div><div class="ds-icon" data-anim="stagger"><span class="iconify" data-icon="solar:medal-ribbon-star-bold"></span><code>solar:medal-ribbon-star-bold</code></div><div class="ds-icon" data-anim="stagger"><span class="iconify" data-icon="solar:diploma-bold"></span><code>solar:diploma-bold</code></div><div class="ds-icon" data-anim="stagger"><span class="iconify" data-icon="solar:calendar-bold"></span><code>solar:calendar-bold</code></div><div class="ds-icon" data-anim="stagger"><span class="iconify" data-icon="solar:clock-circle-bold"></span><code>solar:clock-circle-bold</code></div><div class="ds-icon" data-anim="stagger"><span class="iconify" data-icon="solar:stopwatch-bold"></span><code>solar:stopwatch-bold</code></div><div class="ds-icon" data-anim="stagger"><span class="iconify" data-icon="solar:map-point-bold"></span><code>solar:map-point-bold</code></div><div class="ds-icon" data-anim="stagger"><span class="iconify" data-icon="solar:sun-2-bold"></span><code>solar:sun-2-bold</code></div><div class="ds-icon" data-anim="stagger"><span class="iconify" data-icon="solar:water-sun-bold"></span><code>solar:water-sun-bold</code></div><div class="ds-icon" data-anim="stagger"><span class="iconify" data-icon="solar:user-bold"></span><code>solar:user-bold</code></div><div class="ds-icon" data-anim="stagger"><span class="iconify" data-icon="solar:users-group-rounded-bold"></span><code>solar:users-group-rounded-bold</code></div><div class="ds-icon" data-anim="stagger"><span class="iconify" data-icon="solar:running-round-bold"></span><code>solar:running-round-bold</code></div><div class="ds-icon" data-anim="stagger"><span class="iconify" data-icon="solar:heart-pulse-bold"></span><code>solar:heart-pulse-bold</code></div><div class="ds-icon" data-anim="stagger"><span class="iconify" data-icon="solar:target-bold"></span><code>solar:target-bold</code></div><div class="ds-icon" data-anim="stagger"><span class="iconify" data-icon="solar:bolt-bold"></span><code>solar:bolt-bold</code></div><div class="ds-icon" data-anim="stagger"><span class="iconify" data-icon="solar:fire-bold"></span><code>solar:fire-bold</code></div><div class="ds-icon" data-anim="stagger"><span class="iconify" data-icon="solar:graph-up-bold"></span><code>solar:graph-up-bold</code></div><div class="ds-icon" data-anim="stagger"><span class="iconify" data-icon="solar:star-bold"></span><code>solar:star-bold</code></div><div class="ds-icon" data-anim="stagger"><span class="iconify" data-icon="solar:shield-check-bold"></span><code>solar:shield-check-bold</code></div><div class="ds-icon" data-anim="stagger"><span class="iconify" data-icon="solar:ticket-bold"></span><code>solar:ticket-bold</code></div><div class="ds-icon" data-anim="stagger"><span class="iconify" data-icon="solar:camera-bold"></span><code>solar:camera-bold</code></div><div class="ds-icon" data-anim="stagger"><span class="iconify" data-icon="solar:play-bold"></span><code>solar:play-bold</code></div><div class="ds-icon" data-anim="stagger"><span class="iconify" data-icon="solar:phone-bold"></span><code>solar:phone-bold</code></div><div class="ds-icon" data-anim="stagger"><span class="iconify" data-icon="solar:chat-round-dots-bold"></span><code>solar:chat-round-dots-bold</code></div><div class="ds-icon" data-anim="stagger"><span class="iconify" data-icon="solar:arrow-right-linear"></span><code>solar:arrow-right-linear</code></div><div class="ds-icon" data-anim="stagger"><span class="iconify" data-icon="solar:arrow-right-up-linear"></span><code>solar:arrow-right-up-linear</code></div><div class="ds-icon" data-anim="stagger"><span class="iconify" data-icon="solar:add-circle-linear"></span><code>solar:add-circle-linear</code></div><div class="ds-icon" data-anim="stagger"><span class="iconify" data-icon="solar:close-circle-linear"></span><code>solar:close-circle-linear</code></div><div class="ds-icon" data-anim="stagger"><span class="iconify" data-icon="ri:whatsapp-fill"></span><code>ri:whatsapp-fill</code></div><div class="ds-icon" data-anim="stagger"><span class="iconify" data-icon="ri:instagram-line"></span><code>ri:instagram-line</code></div><div class="ds-icon" data-anim="stagger"><span class="iconify" data-icon="ri:youtube-line"></span><code>ri:youtube-line</code></div></div>
+    <div class="ds-sub"><h3>Tamanhos e cor</h3><p>Tamanhos usados no sistema; a cor vem do elemento pai.</p></div>
+    <div class="ds-panel" data-anim="element" style="display:flex;gap:2.5rem;align-items:flex-end;flex-wrap:wrap">
+      <div style="text-align:center"><span class="iconify" data-icon="solar:tennis-bold" style="font-size:1rem;color:var(--lavanda)"></span><div class="ds-meta">1rem · inline</div></div>
+      <div style="text-align:center"><span class="iconify" data-icon="solar:tennis-bold" style="font-size:1.3rem;color:var(--texto)"></span><div class="ds-meta">1.3rem · botão</div></div>
+      <div style="text-align:center"><span class="iconify" data-icon="solar:tennis-bold" style="font-size:2.3rem;color:var(--lavanda)"></span><div class="ds-meta">2.3rem · .service-icon</div></div>
+      <div style="text-align:center"><span class="sticker"><span class="iconify" data-icon="solar:tennis-bold"></span></span><div class="ds-meta">2rem · .sticker</div></div>
+      <div style="text-align:center"><span class="hero-badge-core" style="display:inline-grid"><span class="iconify" data-icon="solar:tennis-bold"></span></span><div class="ds-meta">1.6rem · selo do hero</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= FOOTER ================= -->
+<footer class="footer has-bg">
+  <div class="bg-layer"><div class="aurora-orb o2"></div><span class="gold-line-decor" style="left:20%"></span><span class="gold-line-decor" style="left:80%"></span></div>
+  <div class="ds-container" style="display:flex;justify-content:space-between;align-items:flex-end;gap:2rem;flex-wrap:wrap">
+    <div><div class="section-tag"><span class="section-tag-line"></span><span class="section-tag-text">DS Abbott · v1 · nov 2026</span></div><h2 class="section-title" data-anim="split" style="margin:0">Pronto para <span class="italic">entrar em quadra</span></h2></div>
+    <div class="footer-socials"><a href="#" aria-label="Instagram"><span class="iconify" data-icon="ri:instagram-line"></span></a><a href="#" aria-label="WhatsApp"><span class="iconify" data-icon="ri:whatsapp-line"></span></a><a href="#" aria-label="YouTube"><span class="iconify" data-icon="ri:youtube-line"></span></a></div>
+  </div>
+  <div class="footer-giant" data-anim="slideUp-once">ABBOTT</div>
+  <div class="footer-bottom ds-container"><span>Guilherme Abbott · Professor de beach tênis</span><span>Fotos: Wikimedia Commons (CC BY-SA / CC0) — placeholders</span></div>
+</footer>
+
+<script src="https://code.iconify.design/3/3.1.1/iconify.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/SplitText.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/DrawSVGPlugin.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/MotionPathPlugin.min.js"></script>
+<script src="https://unpkg.com/lenis@1.3.4/dist/lenis.min.js"></script>
+<script src="assets/js/abbott.js"></script>
+<script>
+/* Scaffold do DS: replay da galeria + nav ativa */
+(function () {
+  document.querySelectorAll('[data-replay]').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      var name = btn.dataset.replay;
+      var scope = btn.closest('.ds-motion-card, .ds-bgdemo') || document;
+      var target = btn.dataset.target ? (document.querySelector(btn.dataset.target)) : scope.querySelector('[data-demo]');
+      if (!target) return;
+      if (name === 'css') { // reinicia animação CSS
+        target.querySelectorAll('*').forEach(function (n) { n.style.animation = 'none'; });
+        target.style.animation = 'none'; void target.offsetWidth; target.style.animation = '';
+        target.querySelectorAll('*').forEach(function (n) { n.style.animation = ''; });
+        return;
+      }
+      if (name === 'reveal') { target.classList.remove('visible'); setTimeout(function () { target.classList.add('visible'); }, 60); return; }
+      if (name === 'pulse') { target.classList.remove('pulse'); void target.offsetWidth; target.classList.add('pulse'); return; }
+      if (window.DSAbbott) window.DSAbbott.replay(name, target);
+    });
+  });
+  var links = document.querySelectorAll('.ds-topnav a');
+  var map = {}; links.forEach(function (a) { map[a.getAttribute('href').slice(1)] = a; });
+  var io = new IntersectionObserver(function (es) {
+    es.forEach(function (e) { if (e.isIntersecting && map[e.target.id]) { links.forEach(function (l) { l.classList.remove('is-active'); }); map[e.target.id].classList.add('is-active'); } });
+  }, { rootMargin: '-45% 0px -50% 0px' });
+  Object.keys(map).forEach(function (id) { var s = document.getElementById(id); if (s) io.observe(s); });
+})();
+</script>
+</body>
+</html>

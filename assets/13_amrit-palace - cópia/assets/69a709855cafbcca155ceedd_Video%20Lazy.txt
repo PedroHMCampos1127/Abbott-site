@@ -1,0 +1,34 @@
+(function () {
+  'use strict';
+
+  var videos = document.querySelectorAll('video');
+  if (videos.length === 0) return;
+
+  var style = document.createElement('style');
+  style.textContent = ':root{--plyr-color-main:var(--colors--player-color)}.plyr{border-radius:8px!important}';
+  document.head.appendChild(style);
+
+  videos.forEach(function (video) {
+    video.disablePictureInPicture = true;
+  });
+
+  var script = document.createElement('script');
+  script.src = 'https://cdn.jsdelivr.net/npm/lazy-load-video@latest/dist/custom-video.js';
+  script.async = true;
+  document.head.appendChild(script);
+
+  var hero = document.querySelector('.hero.first-screen');
+  var heroVideo = hero && hero.querySelector('.background_video video');
+  if (hero && heroVideo) {
+    var visibilityObserver = new IntersectionObserver(function (entries) {
+      var entry = entries[0];
+      if (!entry) return;
+      if (entry.isIntersecting) {
+        heroVideo.play().catch(function () {});
+      } else {
+        heroVideo.pause();
+      }
+    }, { threshold: 0 });
+    visibilityObserver.observe(hero);
+  }
+})();
