@@ -1,0 +1,7 @@
+# Arquivos do projeto que não devem ser publicados no site (Cloudflare Workers)
+.git
+.gitignore
+.assetsignore
+README.md
+design-system
+**/.DS_Store

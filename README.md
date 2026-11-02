@@ -41,12 +41,12 @@ Depois acesse `http://localhost:8000` (ou `http://IP-DO-MAC:8000` no celular).
 
 ## Deploy
 
-Qualquer hospedagem de site estático serve (Netlify, Vercel, GitHub Pages, Cloudflare Pages).
-Não há build: a pasta publicada é a raiz do projeto.
+Publicado na Cloudflare (Workers, assets estáticos): **https://abbott-site.pedro-hmc.workers.dev**
 
-Depois de publicar:
-- trocar `og:image` no `<head>` do `index.html` pelo endereço completo da imagem;
-- conferir o vídeo da raquete no Safari/iPhone.
+- Cada `git push` na branch `main` publica sozinho.
+- Não há build: a pasta publicada é a raiz do projeto.
+- `.assetsignore` lista o que não vai para o ar (README, design-system, arquivos do git).
+- Se o site ganhar domínio próprio, atualizar `canonical`, `og:url` e `og:image` no `<head>` do `index.html`.
 
 ## Dependências (CDN, versões fixas)
 
