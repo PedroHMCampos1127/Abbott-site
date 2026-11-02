@@ -992,6 +992,164 @@ html.js [data-a] { visibility: hidden; }
   .slot[data-cat~="vago"] { animation: none; }
 }
 </style>
+<style>
+/* =====================================================================
+   DOBRA 4 — Parcerias: raquete 3D (vídeo) + cupom GABBOTT
+   DS Abbott: .section-tag/.section-title, .btn-primary, .btn-outline, .tag-pill, .sticker,
+   .hero-badge (selo giratório), .ball, .bg-court, .gold-line-decor, .testimonial-bg-text, shineSweep
+   ===================================================================== */
+.parc { position: relative; background: var(--bg-cards); padding: 8rem 0 9rem; overflow: hidden; isolation: isolate; }
+.parc > *:not(.bg-layer) { position: relative; z-index: 2; }
+.parc .testimonial-bg-text { top: 50%; -webkit-text-stroke-color: rgba(183, 156, 255, 0.08); }
+.parc-grid { display: grid; grid-template-columns: 1fr 1.05fr; gap: 3rem; align-items: center; }
+.parc .section-title { font-size: clamp(2.6rem, 4vw, 4.2rem); line-height: 0.95; margin-bottom: 1.4rem; }
+.parc-copy { max-width: 520px; }
+.parc-lead { color: var(--gray-light); font-size: 0.92rem; line-height: 1.75; max-width: 44ch; }
+.parc-lead strong { color: var(--texto); font-weight: 600; }
+
+/* ---------- CUPOM (ticket) ---------- */
+.coupon-wrap { position: relative; margin: 2.4rem 0 2rem; max-width: 470px; }
+.coupon {
+  --notch: 16px;
+  position: relative; display: grid; grid-template-columns: 1fr auto; border-radius: var(--radius-card);
+  filter: drop-shadow(7px 7px 0 var(--lavanda)); /* sombra dura do DS, acompanha os recortes */
+  transform: rotate(-2deg); will-change: transform;
+}
+.coupon-main, .coupon-stub {
+  position: relative; background: var(--roxo); overflow: hidden;
+  -webkit-mask: radial-gradient(circle var(--notch) at var(--mx-n, 100%) 0, transparent 98%, #000) top / 100% 51% no-repeat,
+               radial-gradient(circle var(--notch) at var(--mx-n, 100%) 100%, transparent 98%, #000) bottom / 100% 51% no-repeat;
+          mask: radial-gradient(circle var(--notch) at var(--mx-n, 100%) 0, transparent 98%, #000) top / 100% 51% no-repeat,
+               radial-gradient(circle var(--notch) at var(--mx-n, 100%) 100%, transparent 98%, #000) bottom / 100% 51% no-repeat;
+}
+.coupon-main { padding: 1.4rem 1.4rem 1.3rem 1.7rem; border-radius: var(--radius-card) 0 0 var(--radius-card); }
+.coupon-stub { --mx-n: 0%; padding: 1.2rem 1.4rem; border-radius: 0 var(--radius-card) var(--radius-card) 0; display: grid; place-items: center; background: var(--roxo-dark); }
+.coupon-main::before { /* textura de linhas de quadra no ticket */
+  content: ''; position: absolute; inset: 0; pointer-events: none; opacity: 0.18;
+  background:
+    linear-gradient(90deg, transparent calc(50% - 0.5px), rgba(242, 239, 250, 0.6) calc(50% - 0.5px), rgba(242, 239, 250, 0.6) calc(50% + 0.5px), transparent calc(50% + 0.5px)),
+    linear-gradient(transparent 14px, rgba(242, 239, 250, 0.6) 14px, rgba(242, 239, 250, 0.6) 15px, transparent 15px, transparent calc(100% - 15px), rgba(242, 239, 250, 0.6) calc(100% - 15px), rgba(242, 239, 250, 0.6) calc(100% - 14px), transparent calc(100% - 14px));
+}
+.coupon-main::after { /* brilho que passa (DS shineSweep) */
+  content: ''; position: absolute; top: 0; left: 0; width: 35%; height: 100%; pointer-events: none;
+  background: linear-gradient(100deg, transparent, rgba(255, 255, 255, 0.32), transparent);
+  transform: translateX(-150%) skewX(-20deg); animation: shineSweep 4.5s var(--ease-inout) infinite;
+}
+.coupon-perf { position: absolute; top: var(--notch); bottom: var(--notch); right: 0; width: 0; border-right: 2px dashed rgba(242, 239, 250, 0.45); z-index: 2; }
+.coupon-kicker { position: relative; display: flex; align-items: center; gap: 0.7rem; font-size: 0.64rem; letter-spacing: 0.3em; text-transform: uppercase; color: rgba(242, 239, 250, 0.85); }
+.coupon-kicker::before { content: ''; width: 26px; height: 1px; background: var(--texto); }
+.coupon-code {
+  position: relative; display: block; font-family: var(--display); font-size: clamp(3.6rem, 5.6vw, 5.2rem); letter-spacing: 0.06em; line-height: 0.9;
+  margin: 0.5rem 0 0.4rem; color: var(--texto); white-space: nowrap; user-select: all;
+}
+.coupon-code .char-mask { padding: 0.08em 0.02em 0.04em; margin: -0.08em -0.02em -0.04em; }
+.coupon-note { position: relative; font-family: var(--serif); font-style: italic; font-size: 0.95rem; color: var(--texto); opacity: 0.9; }
+.coupon-copy {
+  position: relative; display: grid; place-items: center; gap: 0.5rem; width: 5.6rem; height: 5.6rem; border-radius: 50%;
+  background: var(--lavanda); color: var(--fundo); border: 2px solid var(--fundo); box-shadow: 4px 4px 0 0 var(--fundo);
+  font-size: 0.62rem; letter-spacing: 0.22em; text-transform: uppercase; font-weight: 600; cursor: pointer;
+  transition: transform 0.5s var(--ease-out-expo), box-shadow 0.5s var(--ease-out-expo), background 0.3s ease;
+}
+.coupon-copy:hover, .coupon-copy:focus-visible { transform: rotate(-8deg) scale(1.06); box-shadow: 6px 6px 0 0 var(--fundo); background: var(--texto); }
+.coupon-copy:active { transform: scale(0.94); }
+.coupon-copy svg { width: 1.4rem; height: 1.4rem; display: block; margin: 0 auto 0.3rem; }
+.coupon-copy .text-swap { display: grid; overflow: hidden; height: 1.3em; line-height: 1.3em; }
+.coupon-copy .text-swap > span { grid-area: 1 / 1; transition: transform 0.55s var(--ease-out-expo); }
+.coupon-copy .text-swap > span:nth-child(2) { transform: translateY(110%); }
+.coupon-copy.is-copied .text-swap > span:nth-child(1) { transform: translateY(-110%); }
+.coupon-copy.is-copied .text-swap > span:nth-child(2) { transform: translateY(0); }
+.coupon-stamp { /* sticker do DS */
+  position: absolute; z-index: 4; top: -1.6rem; right: 4.2rem; padding: 0.55rem 0.95rem; border-radius: var(--radius-pill);
+  background: var(--texto); color: var(--fundo); border: 2px solid var(--fundo); box-shadow: 3px 3px 0 0 var(--roxo);
+  font-size: 0.6rem; letter-spacing: 0.22em; text-transform: uppercase; font-weight: 600; transform: rotate(5deg); white-space: nowrap;
+}
+.coupon-toast {
+  position: absolute; left: 0; bottom: -2.6rem; display: inline-flex; align-items: center; gap: 0.5rem;
+  font-size: 0.75rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--lavanda); opacity: 0; transform: translateY(8px);
+}
+.coupon-toast svg { width: 1rem; height: 1rem; }
+.burst { position: absolute; width: 12px; height: 12px; border-radius: 50%; pointer-events: none; z-index: 20;
+  background: radial-gradient(circle at 35% 30%, #fff 0%, var(--lavanda) 40%, var(--roxo) 100%); box-shadow: 0 0 10px var(--lavanda); }
+
+/* Ações */
+.parc-actions { display: flex; align-items: center; gap: 2rem; flex-wrap: wrap; margin-top: 2.8rem; }
+
+/* Passo a passo */
+.steps { list-style: none; display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.2rem; margin-top: 2.6rem; max-width: 520px; position: relative; padding-top: 1.4rem; }
+.steps-line { position: absolute; top: 0; left: 0; right: 0; height: 1px; background: var(--line-strong); }
+.steps-line span { position: absolute; inset: 0; background: linear-gradient(90deg, var(--lavanda), var(--roxo)); transform-origin: left; transform: scaleX(0); }
+.steps li { position: relative; }
+.steps li::before { content: ''; position: absolute; top: calc(-1.4rem - 4px); left: 0; width: 9px; height: 9px; border-radius: 50%; background: var(--lavanda); box-shadow: 0 0 10px var(--lavanda); }
+.steps b { display: block; font-family: var(--serif); font-style: italic; font-weight: 400; color: var(--lavanda); font-size: 0.95rem; }
+.steps strong { display: block; font-family: var(--display); font-weight: 400; font-size: 1.2rem; letter-spacing: 0.05em; margin: 0.2rem 0 0.3rem; }
+.steps span { font-size: 0.76rem; line-height: 1.5; color: var(--gray-light); }
+
+/* ---------- PALCO DA RAQUETE 3D ---------- */
+.racket-stage { position: relative; aspect-ratio: 1 / 1.05; width: 100%; max-width: 640px; margin-left: auto; }
+.racket-glow { position: absolute; left: 50%; top: 46%; width: 78%; aspect-ratio: 1; border-radius: 50%; transform: translate(-50%, -50%);
+  background: radial-gradient(closest-side, rgba(109, 63, 224, 0.55), rgba(109, 63, 224, 0.18) 55%, transparent 100%); filter: blur(10px); }
+.racket-ring { position: absolute; left: 50%; top: 46%; width: 76%; aspect-ratio: 1; transform: translate(-50%, -50%); }
+.racket-ring svg { width: 100%; height: 100%; overflow: visible; }
+.racket-ring text { font-family: var(--sans); font-size: 6.6px; letter-spacing: 0.42em; text-transform: uppercase; fill: rgba(242, 239, 250, 0.55); }
+.racket-ring circle { fill: none; stroke: var(--line); stroke-width: 0.4; }
+.racket-orbit { position: absolute; inset: 0; pointer-events: none; }
+.racket-orbit svg { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; }
+.racket-orbit path { fill: none; stroke: var(--lavanda); stroke-width: 1.2; stroke-dasharray: 2 9; stroke-linecap: round; opacity: 0.45; vector-effect: non-scaling-stroke; }
+.racket-orbit .ball { z-index: 1; }
+.racket-orbit.is-front { z-index: 4; }
+.racket-float { position: absolute; left: 50%; top: 46%; width: 92%; aspect-ratio: 1; transform: translate(-50%, -50%); z-index: 3; will-change: transform; }
+.racket-video { width: 100%; height: 100%; object-fit: contain; display: block; pointer-events: none;
+  filter: drop-shadow(0 30px 40px rgba(0, 0, 0, 0.55)) drop-shadow(0 0 40px rgba(109, 63, 224, 0.35)); }
+.racket-video.is-mp4 { filter: none; }
+.racket-float.is-mp4 { mix-blend-mode: screen; } /* Safari: o mp4 tem fundo escuro; a mistura fica no invólucro para alcançar a luz e o anel atrás */
+.racket-shadow { position: absolute; left: 50%; bottom: 14%; width: 38%; height: 5%; border-radius: 50%; transform: translateX(-50%);
+  background: radial-gradient(closest-side, rgba(0, 0, 0, 0.75), transparent); z-index: 2; }
+.racket-shadow::after { content: ''; position: absolute; inset: -40% -30%; border-radius: 50%; border: 1px solid rgba(183, 156, 255, 0.25); }
+.racket-tag { position: absolute; z-index: 5; display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.45rem 1rem; border-radius: var(--radius-pill);
+  background: rgba(23, 18, 43, 0.75); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); border: 1px solid var(--line-strong);
+  color: var(--texto); font-size: 0.78rem; font-weight: 500; white-space: nowrap; will-change: transform; }
+.racket-tag i { width: 6px; height: 6px; border-radius: 50%; background: var(--lavanda); box-shadow: 0 0 8px var(--lavanda); }
+.racket-tag.t1 { left: -4%; top: 16%; } .racket-tag.t2 { right: -4%; top: 10%; } .racket-tag.t3 { left: -8%; top: 52%; }
+.racket-tag.t4 { right: -8%; top: 46%; } .racket-tag.t5 { left: 0; bottom: 16%; } .racket-tag.t6 { right: -2%; bottom: 22%; }
+.racket-label { position: absolute; z-index: 5; left: 50%; bottom: 0; transform: translateX(-50%); text-align: center; white-space: nowrap; }
+.racket-label small { display: block; font-size: 0.6rem; letter-spacing: 0.3em; text-transform: uppercase; color: var(--gray-light); }
+.racket-label span { font-family: var(--serif); font-style: italic; font-size: 1.15rem; color: var(--lavanda); }
+.racket-hint { position: absolute; z-index: 5; right: 0; bottom: 4%; font-size: 0.6rem; letter-spacing: 0.24em; text-transform: uppercase; color: var(--gray); display: flex; align-items: center; gap: 0.5rem; }
+.racket-hint svg { width: 1rem; height: 1rem; animation: spinSlow 4s linear infinite; }
+
+html.js [data-p] { visibility: hidden; }
+
+/* ---------- Responsivo ---------- */
+@media (max-width: 1024px) {
+  .parc { padding: 6rem 0 6rem; }
+  .parc-grid { grid-template-columns: 1fr; gap: 2rem; }
+  .racket-stage { order: -1; max-width: 520px; margin: 0 auto 1rem; }
+  .racket-tag.t5, .racket-tag.t6 { display: none; }
+}
+@media (max-width: 767px) {
+  .coupon-main { padding: 1.4rem 1.1rem 1.3rem 1.3rem; }
+  .coupon-stub { padding: 1rem 0.8rem; }
+  .coupon-copy { width: 5rem; height: 5rem; font-size: 0.55rem; }
+  .coupon-code { font-size: clamp(3rem, 14vw, 4.4rem); }
+  .coupon-stamp { right: 2.4rem; }
+  .steps { grid-template-columns: 1fr; gap: 1.4rem; padding-top: 0; padding-left: 1.4rem; }
+  .steps-line { top: 0; bottom: 0; left: 0; right: auto; width: 1px; height: auto; }
+  .steps-line span { transform-origin: top; }
+  .steps li::before { top: 0.35rem; left: calc(-1.4rem - 4px); }
+  .racket-tag { font-size: 0.7rem; padding: 0.35rem 0.75rem; }
+  .racket-tag.t3, .racket-tag.t4 { display: none; }
+  .racket-stage { aspect-ratio: 1 / 1.15; margin-bottom: 0; }
+  .racket-float { width: 128%; top: 44%; }
+  .racket-ring { width: 96%; top: 44%; }
+  .racket-glow { width: 100%; top: 44%; }
+  .racket-shadow { bottom: 11%; width: 46%; }
+  .racket-tag.t1 { left: 0; top: 6%; } .racket-tag.t2 { right: 0; top: 4%; }
+  .racket-hint { display: none; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .coupon-main::after { animation: none; }
+}
+</style>
 </head>
 <body>
 
@@ -1314,6 +1472,74 @@ html.js [data-a] { visibility: hidden; }
             </div>
           </div>
         </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= DOBRA 4: PARCERIAS ================= -->
+  <section class="parc" id="parcerias" aria-labelledby="parc-title">
+    <div class="bg-layer" aria-hidden="true">
+      <span class="gold-line-decor" style="left:7%"></span><span class="gold-line-decor" style="left:46%"></span><span class="gold-line-decor" style="left:88%"></span>
+      <svg class="bg-court is-scrub" viewBox="0 0 1600 900" preserveAspectRatio="none"><rect x="120" y="160" width="1360" height="580"/><line class="is-accent" x1="800" y1="120" x2="800" y2="780"/><line x1="120" y1="450" x2="380" y2="450"/><line x1="1220" y1="450" x2="1480" y2="450"/></svg>
+      <div class="testimonial-bg-text" data-giant>GABBOTT · GABBOTT · GABBOTT</div>
+    </div>
+
+    <div class="wrap parc-grid">
+      <div class="parc-copy">
+        <p class="section-tag" data-p="tag"><span class="section-tag-line"></span><span class="section-tag-text">Parceria · Loja de Beach Tennis</span></p>
+        <h2 class="section-title" id="parc-title" data-p="split">Aproveite <span class="italic">o cupom do professor</span></h2>
+        <p class="parc-lead" data-p="text">Raquete, bolsa, grip e roupa na <strong>Loja de Beach Tennis</strong>. Use o cupom <strong>GABBOTT</strong> ao finalizar a compra: dependendo da época ele dá desconto ou avisa a loja que você veio pelo Guilherme. Quer um desconto maior? Fala com ele antes de comprar.</p>
+
+        <div class="coupon-wrap" data-p="coupon">
+          <span class="coupon-stamp" aria-hidden="true">Cupom do professor</span>
+          <div class="coupon">
+            <div class="coupon-main">
+              <span class="coupon-kicker">Seu código</span>
+              <span class="coupon-code" data-code aria-label="Cupom GABBOTT">GABBOTT</span>
+              <span class="coupon-note">válido na Loja de Beach Tennis</span>
+              <span class="coupon-perf" aria-hidden="true"></span>
+            </div>
+            <div class="coupon-stub">
+              <button type="button" class="coupon-copy" data-copy="GABBOTT" aria-label="Copiar o cupom GABBOTT">
+                <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="8" y="8" width="12" height="12" rx="2.5"/><path d="M16 8V6a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h2"/></svg><span class="text-swap"><span>Copiar</span><span>Copiado</span></span></span>
+              </button>
+            </div>
+          </div>
+          <p class="coupon-toast" role="status" aria-live="polite"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg><span>Cupom copiado. Cole no checkout da loja.</span></p>
+        </div>
+
+        <div class="parc-actions" data-p="actions">
+          <a href="https://www.lojadebeachtennis.com.br/?srsltid=AU7gw4WVleW2ogSe_XYm0XcTaROjjoeQHSlNn8_yE09gfDf2i-S81QsN" class="btn-primary" data-magnetic target="_blank" rel="noopener"><span class="btn-label">Ir para a loja</span><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12h16M14 6l6 6-6 6"/></svg><span class="sr-only"> (abre o site da Loja de Beach Tennis)</span></a>
+          <a href="https://wa.me/5515997421167?text=Oi%2C%20Guilherme%21%20Vi%20no%20site%20a%20parceria%20com%20a%20Loja%20de%20Beach%20Tennis%20%28cupom%20GABBOTT%29.%20Consegue%20um%20desconto%20maior%20pra%20mim%3F" class="btn-outline" target="_blank" rel="noopener">Pedir um desconto maior <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12h16M14 6l6 6-6 6"/></svg><span class="sr-only"> (abre o WhatsApp)</span></a>
+        </div>
+
+        <ol class="steps" data-p="steps">
+          <span class="steps-line" aria-hidden="true"><span></span></span>
+          <li><b>01</b><strong>Copie o cupom</strong><span>Toque em copiar no ticket acima.</span></li>
+          <li><b>02</b><strong>Escolha na loja</strong><span>Raquetes, bolsas, grips e mais.</span></li>
+          <li><b>03</b><strong>Aplique no checkout</strong><span>Cole GABBOTT antes de pagar.</span></li>
+        </ol>
+      </div>
+
+      <div class="racket-stage" data-p="stage">
+        <div class="racket-glow" aria-hidden="true"></div>
+        <div class="racket-ring" aria-hidden="true">
+          <svg viewBox="0 0 200 200"><defs><path id="ringPath" d="M100,100 m-92,0 a92,92 0 1,1 184,0 a92,92 0 1,1 -184,0"/></defs><circle cx="100" cy="100" r="80"/><text textLength="574" lengthAdjust="spacing"><textPath href="#ringPath">Cupom GABBOTT • Loja de Beach Tennis • Cupom GABBOTT • Loja de Beach Tennis •</textPath></text></svg>
+        </div>
+        <div class="racket-orbit" aria-hidden="true">
+          <svg viewBox="0 0 600 630" preserveAspectRatio="none"><path d="M300,372 C457,372 585,340 585,300 C585,260 457,228 300,228 C143,228 15,260 15,300 C15,340 143,372 300,372 Z"/></svg>
+          <div class="ball"></div>
+        </div>
+        <div class="racket-float">
+          <video class="racket-video" data-racket muted loop playsinline preload="metadata" aria-label="Raquete de beach tênis BeeTrue Poison Bee girando em 3D">
+            <source src="video/raquete-360.webm" type="video/webm">
+            <source src="video/raquete-360.mp4" type="video/mp4">
+          </video>
+        </div>
+        <div class="racket-shadow" aria-hidden="true"></div>
+        <div class="racket-tags" aria-hidden="true"><span class="racket-tag t1" data-depth="0.6"><i></i>Raquetes</span><span class="racket-tag t2" data-depth="1.1"><i></i>Bolsas</span><span class="racket-tag t3" data-depth="1.6"><i></i>Óculos</span><span class="racket-tag t4" data-depth="0.6"><i></i>Grip</span><span class="racket-tag t5" data-depth="1.1"><i></i>Vestuário</span><span class="racket-tag t6" data-depth="1.6"><i></i>Acessórios</span></div>
+        <p class="racket-label" aria-hidden="true"><small>Na loja</small><span>BeeTrue Poison Bee</span></p>
+        <p class="racket-hint" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M20 12a8 8 0 1 1-2.3-5.6"/><path d="M20 4v4h-4"/></svg>Role para girar</p>
       </div>
     </div>
   </section>
@@ -1644,8 +1870,8 @@ html.js [data-a] { visibility: hidden; }
       if (on) l.setAttribute('aria-current', 'page'); else l.removeAttribute('aria-current');
     });
   }
-  ['#professor', '#aulas'].forEach(function (id, i, all) {
-    ScrollTrigger.create({ trigger: id, start: 'top 55%', end: 'bottom 55%',
+  ['#professor', '#aulas', '#parcerias'].forEach(function (id, i, all) {
+    ScrollTrigger.create({ trigger: id, start: 'top 55%', end: 'bottom 55%', refreshPriority: -1,
       onToggle: function (self) { if (self.isActive) setActive(id); else if (self.direction < 0) setActive(i ? all[i - 1] : '#top'); } });
   });
 
@@ -2037,6 +2263,204 @@ html.js [data-a] { visibility: hidden; }
       if (getComputedStyle(el).visibility === 'hidden' && r.top < window.innerHeight * 0.5 && r.bottom > 0) {
         el.__w = el.__w || Date.now();
         if (Date.now() - el.__w > 3000) gsap.set(el, { autoAlpha: 1 });
+      }
+    });
+  }, 1000);
+})();
+</script>
+<script>
+/* =====================================================================
+   DOBRA 4 — Parcerias: raquete 3D (vídeo 360°), cupom GABBOTT copiável,
+   órbita da bolinha, entrada coreografada. Fábricas do DS Abbott.
+   ===================================================================== */
+(function () {
+  'use strict';
+  var root = document.getElementById('parcerias'); if (!root) return;
+  var hasG = !!(window.gsap && window.ScrollTrigger && window.SplitText);
+  var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var fine = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+  var $ = function (s, c) { return (c || root).querySelector(s); };
+  var $$ = function (s, c) { return Array.prototype.slice.call((c || root).querySelectorAll(s)); };
+  var expo = hasG && gsap.parseEase('dsExpo') ? 'dsExpo' : 'expo.out';
+  var inOut = hasG && gsap.parseEase('dsInOut') ? 'dsInOut' : 'power3.inOut';
+
+  /* ---------- Vídeo: webm transparente; no Safari usa o mp4 (fundo escuro + blend) ---------- */
+  var video = $('[data-racket]');
+  var ua = navigator.userAgent;
+  var isSafari = /^((?!chrome|chromium|crios|fxios|android|edg).)*safari/i.test(ua);
+  if (isSafari) {
+    var webm = video.querySelector('source[type="video/webm"]'); if (webm) webm.remove();
+    video.classList.add('is-mp4'); video.parentElement.classList.add('is-mp4'); video.load();
+  }
+  var inView = false;
+  function play() { if (reduce) return; var p = video.play(); if (p && p.catch) p.catch(function () {}); }
+  if ('IntersectionObserver' in window) {
+    new IntersectionObserver(function (es) {
+      es.forEach(function (e) { inView = e.isIntersecting; if (inView) { video.preload = 'auto'; play(); } else video.pause(); });
+    }, { rootMargin: '200px 0px' }).observe(video);
+  } else play();
+  if (reduce) { video.addEventListener('loadeddata', function () { video.currentTime = 0; }); }
+
+  /* ---------- Copiar cupom ---------- */
+  var btn = $('[data-copy]'), toast = $('.coupon-toast');
+  function fallbackCopy(text) {
+    var ta = document.createElement('textarea'); ta.value = text; ta.setAttribute('readonly', ''); ta.style.position = 'fixed'; ta.style.opacity = '0';
+    document.body.appendChild(ta); ta.select(); try { document.execCommand('copy'); } catch (e) {} ta.remove();
+  }
+  function burst() {
+    if (!hasG || reduce) return;
+    var wrap = $('.coupon-wrap'), r = btn.getBoundingClientRect(), w = wrap.getBoundingClientRect();
+    var cx = r.left - w.left + r.width / 2, cy = r.top - w.top + r.height / 2;
+    for (var i = 0; i < 14; i++) {
+      var b = document.createElement('span'); b.className = 'burst'; wrap.appendChild(b);
+      var ang = Math.random() * Math.PI * 2, dist = 60 + Math.random() * 90, s = 0.5 + Math.random() * 0.8;
+      gsap.set(b, { left: cx - 6, top: cy - 6, scale: s });
+      gsap.timeline({ onComplete: (function (el) { return function () { el.remove(); }; })(b) })
+        .to(b, { x: Math.cos(ang) * dist, duration: 1.1, ease: 'power2.out' }, 0)
+        .to(b, { y: Math.sin(ang) * dist * 0.7 - 40, duration: 0.45, ease: 'power2.out' }, 0)
+        .to(b, { y: '+=' + (90 + Math.random() * 60), duration: 0.7, ease: 'power2.in' }, 0.45)
+        .to(b, { autoAlpha: 0, scale: 0, duration: 0.3 }, 0.85);
+    }
+  }
+  var copiedT;
+  btn.addEventListener('click', function () {
+    var code = btn.dataset.copy;
+    if (navigator.clipboard && window.isSecureContext) navigator.clipboard.writeText(code).catch(function () { fallbackCopy(code); });
+    else fallbackCopy(code);
+    btn.classList.add('is-copied'); btn.setAttribute('aria-label', 'Cupom GABBOTT copiado');
+    if (hasG) {
+      gsap.fromTo(toast, { autoAlpha: 0, y: 8 }, { autoAlpha: 1, y: 0, duration: 0.6, ease: expo });
+      gsap.fromTo('.coupon', { rotation: -2 }, { rotation: -2, keyframes: [{ rotation: 1, duration: 0.12 }, { rotation: -4, duration: 0.14 }, { rotation: -2, duration: 0.5, ease: 'elastic.out(1, 0.4)' }] });
+      var chars = root.__codeChars;
+      if (chars) gsap.fromTo(chars, { yPercent: 0 }, { keyframes: [{ yPercent: -18, duration: 0.18, ease: 'power2.out' }, { yPercent: 0, duration: 0.5, ease: 'bounce.out' }], stagger: 0.04 });
+    } else { toast.style.opacity = 1; }
+    burst();
+    clearTimeout(copiedT);
+    copiedT = setTimeout(function () {
+      btn.classList.remove('is-copied'); btn.setAttribute('aria-label', 'Copiar o cupom GABBOTT');
+      if (hasG) gsap.to(toast, { autoAlpha: 0, duration: 0.5 }); else toast.style.opacity = 0;
+    }, 2800);
+  });
+
+  if (!hasG) return;
+  if (reduce) { gsap.set('[data-p]', { autoAlpha: 1 }); return; }
+
+  /* ---------- Movimento contínuo do palco ---------- */
+  var stage = $('.racket-stage'), float = $('.racket-float'), glow = $('.racket-glow'), shadow = $('.racket-shadow');
+  var ring = $('.racket-ring svg'), orbit = $('.racket-orbit'), orbitPath = $('.racket-orbit path'), ball = $('.racket-orbit .ball');
+  gsap.set([float, glow, $('.racket-ring')], { xPercent: -50, yPercent: -50, x: 0, y: 0 });
+  gsap.set(shadow, { xPercent: -50, x: 0 });
+  // flutua (bob) e a sombra respira junto
+  gsap.to(video, { y: -18, duration: 2.6, ease: 'sine.inOut', yoyo: true, repeat: -1 });
+  gsap.to(shadow, { scaleX: 0.82, opacity: 0.7, duration: 2.6, ease: 'sine.inOut', yoyo: true, repeat: -1 });
+  gsap.to(glow, { scale: 1.08, duration: 3.4, ease: 'sine.inOut', yoyo: true, repeat: -1 });
+  var ringSpin = gsap.to(ring, { rotation: 360, duration: 40, ease: 'none', repeat: -1, transformOrigin: '50% 50%' });
+  // bolinha orbitando: passa na frente e atrás da raquete
+  var orbitTl = gsap.to(ball, { motionPath: { path: orbitPath, align: orbitPath, alignOrigin: [0.5, 0.5] }, duration: 6, ease: 'none', repeat: -1,
+    onUpdate: function () {
+      var p = this.progress(); var front = p < 0.25 || p > 0.75;
+      orbit.classList.toggle('is-front', front);
+      gsap.set(ball, { scale: front ? 1 : 0.65, opacity: front ? 1 : 0.55 });
+    } });
+
+  // Scroll mais rápido = raquete gira mais rápido
+  var rate = { v: 1 };
+  ScrollTrigger.create({ trigger: root, start: 'top bottom', end: 'bottom top',
+    onUpdate: function (self) {
+      var target = 1 + Math.min(Math.abs(self.getVelocity()) / 700, 3);
+      gsap.to(rate, { v: target, duration: 0.3, overwrite: true, onUpdate: function () { video.playbackRate = rate.v; },
+        onComplete: function () { gsap.to(rate, { v: 1, duration: 1.4, ease: 'power2.out', onUpdate: function () { video.playbackRate = rate.v; } }); } });
+      ringSpin.timeScale(rate.v * 1.5);
+      orbitTl.timeScale(rate.v);
+    } });
+
+  // Mouse: parallax em camadas (raquete, aro, etiquetas)
+  if (fine) {
+    var fx = gsap.quickTo(float, 'x', { duration: 1, ease: 'power3' }), fy = gsap.quickTo(float, 'y', { duration: 1, ease: 'power3' });
+    var tags = $$('.racket-tag').map(function (t) {
+      var d = parseFloat(t.dataset.depth) || 1;
+      return { d: d, x: gsap.quickTo(t, 'x', { duration: 1.2, ease: 'power3' }), y: gsap.quickTo(t, 'y', { duration: 1.2, ease: 'power3' }) };
+    });
+    stage.addEventListener('mousemove', function (e) {
+      var r = stage.getBoundingClientRect(); var nx = (e.clientX - r.left) / r.width - 0.5, ny = (e.clientY - r.top) / r.height - 0.5;
+      fx(nx * 28); fy(ny * 22);
+      tags.forEach(function (t) { t.x(nx * -30 * t.d); t.y(ny * -24 * t.d); });
+      gsap.to(rate, { v: 1 + Math.abs(nx) * 1.6, duration: 0.6, overwrite: true, onUpdate: function () { video.playbackRate = rate.v; } });
+    });
+    stage.addEventListener('mouseleave', function () {
+      fx(0); fy(0); tags.forEach(function (t) { t.x(0); t.y(0); });
+      gsap.to(rate, { v: 1, duration: 1, overwrite: true, onUpdate: function () { video.playbackRate = rate.v; } });
+    });
+    // ticket: endireita e levanta no hover
+    var coupon = $('.coupon');
+    coupon.addEventListener('mouseenter', function () { gsap.to(coupon, { rotation: 0, scale: 1.02, duration: 0.6, ease: expo }); });
+    coupon.addEventListener('mouseleave', function () { gsap.to(coupon, { rotation: -2, scale: 1, duration: 0.8, ease: 'elastic.out(1, 0.5)' }); });
+    var cursor = document.querySelector('.cursor-ball');
+    if (cursor) $$('.coupon-copy, .parc a').forEach(function (el) {
+      el.addEventListener('mouseenter', function () { cursor.classList.add('is-hover'); });
+      el.addEventListener('mouseleave', function () { cursor.classList.remove('is-hover'); });
+    });
+  }
+
+  /* ---------- Entrada coreografada ---------- */
+  function init() {
+    $$('.gold-line-decor').forEach(function (el, i) {
+      gsap.fromTo(el, { yPercent: -20 }, { yPercent: 20, ease: 'none', scrollTrigger: { trigger: root, start: 'top bottom', end: 'bottom top', scrub: 0.5 + (i % 3) * 0.6 } });
+    });
+    gsap.fromTo($$('.bg-court > *'), { drawSVG: '0%' }, { drawSVG: '100%', ease: 'none', stagger: 0.05, scrollTrigger: { trigger: root, start: 'top 85%', end: 'center 40%', scrub: 1 } });
+    gsap.fromTo($('[data-giant]'), { xPercent: 0 }, { xPercent: -30, ease: 'none', scrollTrigger: { trigger: root, start: 'top bottom', end: 'bottom top', scrub: 1 } });
+    gsap.fromTo(stage, { y: 60 }, { y: -40, ease: 'none', scrollTrigger: { trigger: root, start: 'top bottom', end: 'bottom top', scrub: 1 } });
+
+    var tl = gsap.timeline({ defaults: { ease: expo }, scrollTrigger: { trigger: root, start: 'top 62%', once: true } });
+
+    // Palco: luz acende, aro desenha, raquete sobe do escuro girando
+    gsap.set(stage, { autoAlpha: 1 });
+    tl.fromTo(glow, { scale: 0, opacity: 0 }, { scale: 1, opacity: 1, duration: 1.6 }, 0)
+      .fromTo($('.racket-ring'), { autoAlpha: 0, rotation: -120, scale: 0.7 }, { autoAlpha: 1, rotation: 0, scale: 1, duration: 1.8 }, 0.1)
+      .fromTo(float, { autoAlpha: 0, yPercent: -30, scale: 0.6, filter: 'blur(18px)' }, { autoAlpha: 1, yPercent: -50, scale: 1, filter: 'blur(0px)', duration: 1.6, clearProps: 'filter' }, 0.25)
+      .fromTo(shadow, { scaleX: 0, opacity: 0 }, { scaleX: 1, opacity: 1, duration: 1.2 }, 0.6)
+      .fromTo(orbitPath, { drawSVG: '0%' }, { drawSVG: '100%', duration: 1.6, ease: inOut }, 0.6)
+      .fromTo(ball, { autoAlpha: 0 }, { autoAlpha: 1, duration: 0.6 }, 1.4)
+      .fromTo($$('.racket-tag'), { autoAlpha: 0, scale: 0.4 }, { autoAlpha: 1, scale: 1, duration: 0.8, stagger: 0.09, ease: 'back.out(1.7)' }, 1.0)
+      .fromTo($$('.racket-label, .racket-hint'), { autoAlpha: 0, y: 20 }, { autoAlpha: 1, y: 0, duration: 1 }, 1.4);
+
+    // Texto da esquerda
+    var tag = $('[data-p="tag"]');
+    tl.fromTo(tag, { autoAlpha: 0, x: 90 }, { autoAlpha: 1, x: 0, duration: 1.2 }, 0.1)
+      .fromTo($('.section-tag-line', tag), { scaleX: 0 }, { scaleX: 1, duration: 1 }, 0.3);
+    var t = $('[data-p="split"]'); gsap.set(t, { autoAlpha: 1 });
+    var sp = SplitText.create(t, { type: 'lines', mask: 'lines', linesClass: 'split-line' });
+    tl.fromTo(sp.lines, { yPercent: 110, rotate: 2.5, transformOrigin: '0% 100%' }, { yPercent: 0, rotate: 0, duration: 1.2, stagger: 0.12, ease: 'power4.out' }, 0.2)
+      .fromTo($('[data-p="text"]'), { autoAlpha: 0, x: 110, filter: 'blur(10px)' }, { autoAlpha: 1, x: 0, filter: 'blur(0px)', duration: 1.2, clearProps: 'filter' }, 0.5);
+
+    // Ticket: entra de lado como um cartão jogado na mesa, letras do código sobem, carimbo e botão estouram
+    var cw = $('[data-p="coupon"]'); gsap.set(cw, { autoAlpha: 1 });
+    var code = $('[data-code]');
+    var cs = SplitText.create(code, { type: 'chars', mask: 'chars', charsClass: 'char' }); root.__codeChars = cs.chars;
+    tl.fromTo('.coupon', { autoAlpha: 0, x: 160, rotation: 14 }, { autoAlpha: 1, x: 0, rotation: -2, duration: 1.3 }, 0.7)
+      .fromTo(cs.chars, { yPercent: 115, rotate: 10 }, { yPercent: 0, rotate: 0, duration: 1.2, stagger: 0.06, ease: 'power4.out' }, 1.0)
+      .fromTo($$('.coupon-kicker, .coupon-note'), { autoAlpha: 0, y: 14 }, { autoAlpha: 1, y: 0, duration: 0.9, stagger: 0.1 }, 1.2)
+      .fromTo('.coupon-perf', { scaleY: 0 }, { scaleY: 1, duration: 0.9, ease: inOut }, 1.1)
+      .fromTo('.coupon-copy', { scale: 0, rotate: -90 }, { scale: 1, rotate: 0, duration: 0.9, ease: 'back.out(1.7)' }, 1.35)
+      .fromTo('.coupon-stamp', { scale: 0, rotate: -30 }, { scale: 1, rotate: 5, duration: 0.8, ease: 'back.out(1.7)' }, 1.6);
+
+    var act = $('[data-p="actions"]'); gsap.set(act, { autoAlpha: 1 });
+    tl.fromTo(act.children, { autoAlpha: 0, y: 30 }, { autoAlpha: 1, y: 0, duration: 1, stagger: 0.12 }, 1.55);
+    var steps = $('[data-p="steps"]'); gsap.set(steps, { autoAlpha: 1 });
+    var vertical = window.innerWidth <= 767;
+    tl.fromTo('.steps-line span', vertical ? { scaleY: 0, scaleX: 1 } : { scaleX: 0 }, vertical ? { scaleY: 1, duration: 1.4, ease: inOut } : { scaleX: 1, duration: 1.4, ease: inOut }, 1.7)
+      .fromTo($$('li', steps), { autoAlpha: 0, x: 40 }, { autoAlpha: 1, x: 0, duration: 1, stagger: 0.15 }, 1.8);
+
+    ScrollTrigger.refresh();
+  }
+  Promise.race([document.fonts ? document.fonts.ready : Promise.resolve(), new Promise(function (r) { setTimeout(r, 1500); })]).then(function () { setTimeout(init, 0); });
+
+  // Segurança: nada fica escondido
+  setInterval(function () {
+    $$('[data-p]').forEach(function (el) {
+      var r = el.getBoundingClientRect();
+      if (getComputedStyle(el).visibility === 'hidden' && r.top < window.innerHeight * 0.5 && r.bottom > 0) {
+        el.__w = el.__w || Date.now(); if (Date.now() - el.__w > 3000) gsap.set(el, { autoAlpha: 1 });
       }
     });
   }, 1000);
