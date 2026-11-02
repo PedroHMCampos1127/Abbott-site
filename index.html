@@ -446,6 +446,269 @@ html.no-intro .page-curtain { display: none !important; }
   .bg-grain { animation: none; }
 }
 </style>
+<style>
+/* =====================================================================
+   DOBRA 2 — Conheça o professor (+ passagem e fotos passando)
+   Classes e valores do DS Abbott: .marquee-section, .sides/.left_side/.right_side,
+   .spec-list/.spec-row, .about-stats, .duo, .img-overlay, .sticker, .button/.button_box,
+   .pain-point_wrap/.mwg001-*, .sand-edge, .testimonial-bg-text, .gold-line-decor, .bg-court
+   ===================================================================== */
+:root {
+  --fundo-2: #0E0B1C;
+  --cartoes-2: #201838;
+  --lavanda-dim: #8E78C9;
+  --radius-sm: 3px;
+  --radius-card: 1.25rem;
+  --shadow-hard: 7px 7px 0 0 var(--lavanda);
+  --shadow-hard-roxo: 7px 7px 0 0 var(--roxo);
+  --grad-roxo: linear-gradient(135deg, var(--roxo-light) 0%, var(--roxo) 45%, var(--roxo-dark) 100%);
+  --ease-amrit: cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  --gutter: 5rem;
+  /* Painel escuro da dobra: o mesmo degradê da metade esquerda da hero, esticado para 100% do painel
+     (o painel tem 50% da tela, então a cor casa com a hero logo acima) */
+  --grad-panel: linear-gradient(90deg, #040308 0%, #05040A 20%, #06050C 40%, #08060F 60%, #090712 76%, #0B0815 90%, var(--hero-seam) 100%);
+  --bg-cards: #08060F;
+}
+
+/* Lenis (recomendação oficial) */
+html.lenis, html.lenis body { height: auto; }
+.lenis.lenis-smooth { scroll-behavior: auto !important; }
+.lenis.lenis-stopped { overflow: hidden; }
+
+/* ---------- NAV em rolagem (DS .scrolled + esconde ao descer, Quoti) ---------- */
+.nav.scrolled {
+  padding: 1rem 3rem;
+  background: rgba(5, 4, 10, 0.72);
+  backdrop-filter: blur(20px) saturate(140%); -webkit-backdrop-filter: blur(20px) saturate(140%);
+  border-bottom: 1px solid var(--line);
+}
+.nav.is-hidden { transform: translateY(-100%); }
+
+/* ---------- Base de texto das seções (DS) ---------- */
+.section-tag { display: inline-flex; align-items: center; gap: 1rem; margin-bottom: 1.5rem; }
+.section-tag-line { width: 30px; height: 1px; background: var(--lavanda); transform-origin: left; flex: none; }
+.section-tag-text { font-size: 0.65rem; letter-spacing: 0.35em; text-transform: uppercase; color: var(--lavanda); }
+.section-title {
+  font-family: var(--display); font-size: clamp(2.5rem, 4.4vw, 4.6rem); letter-spacing: 0.04em; line-height: 1;
+  margin-bottom: 2rem; font-weight: 400;
+}
+.section-title .italic { font-family: var(--serif); font-style: italic; font-weight: 400; color: var(--lavanda); letter-spacing: 0; text-transform: none; }
+.about-text { font-size: 1rem; line-height: 1.9; color: var(--gray-light); }
+.split-line-mask { padding: 0.16em 0.02em 0.08em; margin: -0.16em -0.02em -0.08em; }
+
+/* Estado inicial das revelações (só com JS) */
+html.js [data-r] { visibility: hidden; }
+html:not(.js) .img-overlay { display: none; }
+
+/* ---------- PASSAGEM: faixas cruzadas (DS .marquee-section, Blade) ---------- */
+.marquee-pass { position: relative; z-index: 6; padding: 2.6rem 0 3.4rem; background: var(--grad-hero-left); overflow-x: clip; }
+.marquee-drift { will-change: transform; position: relative; }
+.marquee-drift.is-a { z-index: 3; }
+.marquee-drift.is-b { z-index: 2; }
+.marquee-section {
+  padding: 1.6rem 0; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line);
+  overflow: hidden; position: relative; background: var(--fundo);
+}
+.marquee-section.is-tilted { transform: rotate(-2deg) scale(1.04); background: var(--roxo); border: 0; z-index: 3; box-shadow: 0 18px 50px -20px rgba(0, 0, 0, 0.8); }
+.marquee-section.is-tilted-reverse { transform: rotate(1.5deg) scale(1.04); margin-top: -3.2rem; background: var(--cartoes); z-index: 2; }
+.marquee-track { display: flex; animation: marqueeScroll 30s linear infinite; width: max-content; }
+.marquee-track.is-reverse { animation-direction: reverse; animation-duration: 38s; }
+.marquee-section:hover .marquee-track { animation-play-state: paused; }
+.marquee-item { display: flex; align-items: center; gap: 2.5rem; padding: 0 2.5rem; white-space: nowrap; }
+.marquee-item span { font-family: var(--display); font-size: 1.6rem; letter-spacing: 0.2em; color: var(--gray-light); text-transform: uppercase; }
+.marquee-section.is-tilted .marquee-item span { color: var(--texto); }
+.marquee-item span.is-outline { color: transparent; -webkit-text-stroke: 1px var(--lavanda); }
+.marquee-item span.is-serif { font-family: var(--serif); font-style: italic; text-transform: none; letter-spacing: 0; font-size: 1.7rem; color: var(--lavanda); }
+.marquee-section.is-tilted .marquee-item span.is-serif { color: var(--texto); }
+.marquee-item .dot { width: 8px; height: 8px; background: var(--lavanda); border-radius: 50%; flex-shrink: 0; box-shadow: 0 0 12px var(--lavanda); }
+@keyframes marqueeScroll { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+
+/* ---------- SPLIT "Conheça o professor" (DS .sides, Amrit + Sable) ---------- */
+.about { position: relative; background: var(--bg-cards); }
+.sides { display: flex; width: 100%; min-height: 100vh; position: relative; }
+.left_side {
+  width: 50%; padding: 8rem 5rem 6rem; display: flex; flex-direction: column; justify-content: center;
+  position: relative; overflow: hidden; isolation: isolate;
+}
+.left_side > *:not(.bg-layer) { position: relative; z-index: 2; }
+.right_side { width: 50%; position: relative; overflow: hidden; min-height: 70vh; background: var(--cartoes); }
+.sides.is-reverse { flex-direction: row-reverse; }
+.about-row-1 .left_side { background: var(--grad-panel); }
+.sides.is-reverse .left_side { background: var(--grad-roxo); }
+.sides.is-reverse .left_side .section-tag-text, .sides.is-reverse .left_side .section-title .italic { color: var(--texto); }
+.sides.is-reverse .left_side .section-tag-line { background: var(--texto); }
+.sides.is-reverse .left_side .about-text { color: rgba(242, 239, 250, 0.82); }
+.about .about-text { max-width: 46ch; }
+.about .section-title { font-size: clamp(2.8rem, 5vw, 5.4rem); line-height: 0.95; margin-bottom: 1.75rem; }
+
+/* Foto: duotone do DS (.duo) — 0.62 como na foto da hero; hover revela a cor real */
+.duo { position: absolute; inset: 0; overflow: hidden; isolation: isolate; background: var(--cartoes); }
+.duo img { width: 100%; height: 100%; object-fit: cover; filter: grayscale(100%) contrast(1.08) brightness(0.9); transition: filter 0.8s var(--ease-out-expo); }
+.duo::before { content: ''; position: absolute; inset: 0; z-index: 1; background: var(--roxo); mix-blend-mode: color; opacity: 0.62; transition: opacity 0.8s var(--ease-out-expo); pointer-events: none; }
+.right_side:hover .duo img { filter: grayscale(0%) contrast(1) brightness(1); }
+.right_side:hover .duo::before { opacity: 0.15; }
+.about-photo-move { position: absolute; inset: -7% 0; will-change: transform; }
+.about-row-1 .right_side, .about-row-1 .duo { background: #0A0A0A; } /* mesmo preto do fundo de estúdio da foto */
+.about-row-1 .duo::before { display: none; } /* sem duotone: cor original */
+.about-row-1 .duo img, .about-row-1 .right_side:hover .duo img {
+  object-fit: contain; object-position: 50% 100%; filter: none;
+  position: absolute; left: 0; bottom: 0; height: 88%; /* foto menor, com respiro em cima */
+  -webkit-mask-image: linear-gradient(90deg, transparent 0%, #000 7%, #000 93%, transparent 100%);
+  mask-image: linear-gradient(90deg, transparent 0%, #000 7%, #000 93%, transparent 100%);
+}
+.about-row-2 .duo img { object-position: 42% 72%; }
+.about-row-2 .duo::before { opacity: 0.45; } /* roxo mais leve que o padrão 0.62 */
+.right_side::after { /* leve vinheta para a foto assentar no escuro */
+  content: ''; position: absolute; inset: 0; z-index: 2; pointer-events: none;
+  background: linear-gradient(to top, rgba(5, 4, 10, 0.55) 0%, transparent 30%);
+}
+/* Cortina dupla do Elyse (.img-overlay), na horizontal: recolhe para a esquerda → a foto nasce da direita */
+.img-overlay { position: absolute; left: 0; top: 0; width: 101%; height: 100%; z-index: 4; background: var(--fundo); pointer-events: none; transform-origin: 0 50%; }
+.img-overlay.is-roxo { background: var(--roxo); z-index: 5; }
+
+/* Legenda vertical na borda da foto */
+.photo-label {
+  position: absolute; z-index: 6; right: 1.6rem; top: 50%; transform: translateY(-50%) rotate(180deg);
+  writing-mode: vertical-rl; font-size: 0.62rem; letter-spacing: 0.4em; text-transform: uppercase; color: rgba(242, 239, 250, 0.7);
+  display: flex; align-items: center; gap: 1rem;
+}
+.photo-label::before { content: ''; width: 1px; height: 46px; background: var(--lavanda); opacity: 0.7; }
+
+/* Stickers na emenda (DS .sticker, Quoti) */
+.about-stickers { position: absolute; z-index: 7; left: 50%; bottom: 14%; transform: translateX(-50%); display: flex; flex-direction: column; gap: 0.6rem; pointer-events: none; }
+.sticker {
+  display: inline-grid; place-items: center; width: 4.6rem; height: 4.6rem; border-radius: 50%;
+  background: var(--lavanda); color: var(--fundo); border: 2px solid var(--fundo);
+  box-shadow: 4px 4px 0 0 var(--roxo); font-family: var(--display); font-size: 1.45rem; letter-spacing: 0.06em; line-height: 1;
+}
+.sticker.is-roxo { background: var(--roxo); color: var(--texto); box-shadow: 4px 4px 0 0 var(--lavanda); transform: rotate(-10deg); margin-left: 2.2rem; }
+
+/* Lista de especificações (DS .spec-list / .spec-row, layout do Sable) */
+.spec-caption { margin-top: 2.6rem; font-size: 0.68rem; letter-spacing: 0.3em; text-transform: uppercase; color: var(--gray-light); display: flex; align-items: center; gap: 0.8rem; }
+.spec-caption b { font-family: var(--serif); font-style: italic; font-weight: 400; letter-spacing: 0; text-transform: none; font-size: 1rem; color: var(--lavanda); }
+.sides.is-reverse .spec-caption { color: rgba(242, 239, 250, 0.75); }
+.sides.is-reverse .spec-caption b { color: var(--texto); }
+.spec-list { list-style: none; border-top: 1px solid var(--line-strong); margin-top: 1rem; max-width: 560px; }
+.spec-row {
+  display: flex; justify-content: space-between; align-items: baseline; gap: 1rem; padding: 1.15rem 0;
+  border-bottom: 1px solid var(--line-strong); position: relative; overflow: hidden;
+}
+.spec-row::before { content: ''; position: absolute; inset: 0; background: var(--lavanda-a08); transform: translateX(-101%); transition: transform 0.6s var(--ease-out-expo); }
+.spec-row:hover::before { transform: translateX(0); }
+.spec-row strong { font-weight: 600; font-size: 0.95rem; position: relative; }
+.spec-row span { color: var(--gray-light); font-size: 0.9rem; position: relative; text-align: right; }
+.sides.is-reverse .spec-list, .sides.is-reverse .spec-row { border-color: rgba(242, 239, 250, 0.28); }
+.sides.is-reverse .spec-row::before { background: rgba(242, 239, 250, 0.1); }
+.sides.is-reverse .spec-row span { color: rgba(242, 239, 250, 0.8); }
+
+/* Números (DS .about-stats) */
+.about-stats { display: flex; gap: 3rem 6rem; padding-top: 2.2rem; margin-top: 2.4rem; border-top: 1px solid rgba(242, 239, 250, 0.28); flex-wrap: wrap; }
+.stat-number { font-family: var(--display); font-size: 3.4rem; color: var(--texto); letter-spacing: 0.03em; line-height: 1; }
+.stat-label { font-size: 0.7rem; letter-spacing: 0.2em; text-transform: uppercase; color: rgba(242, 239, 250, 0.75); margin-top: 0.4rem; max-width: 16ch; line-height: 1.5; }
+
+/* Botão moldura que respira (DS .button / .button_box, Amrit) */
+.about-cta { margin-top: 2.6rem; }
+.button {
+  display: inline-block; border: 1px solid var(--lavanda-a20); transform-origin: 50%; border-radius: var(--radius-sm);
+  padding: 4px; font-size: 0.8rem; font-weight: 500; transition: all 0.45s var(--ease-amrit); cursor: pointer;
+}
+.button:hover, .button:focus-visible { padding: 7px; transform: scale(1.02); border-color: var(--lavanda); }
+.button_box {
+  display: flex; align-items: center; justify-content: center; gap: 0.6rem;
+  background-color: var(--texto); color: var(--fundo); border-radius: var(--radius-sm); padding: 16px 42px;
+  letter-spacing: 0.08em; text-transform: uppercase; font-size: 0.75rem; font-weight: 600;
+}
+.sides.is-reverse .button { border-color: rgba(242, 239, 250, 0.35); }
+.sides.is-reverse .button:hover, .sides.is-reverse .button:focus-visible { border-color: var(--texto); }
+
+/* Fundo dos painéis (DS: linhas, quadra, texto gigante) */
+html.js .bg-court.is-scrub > * { visibility: visible; }
+.testimonial-bg-text {
+  position: absolute; top: 50%; left: 0; transform: translateY(-50%);
+  font-family: var(--display); font-size: 22vw; line-height: 0.8; white-space: nowrap;
+  color: transparent; -webkit-text-stroke: 1px rgba(183, 156, 255, 0.09);
+  pointer-events: none; user-select: none; will-change: transform;
+}
+.sides.is-reverse .testimonial-bg-text { font-size: 16vw; -webkit-text-stroke-color: rgba(242, 239, 250, 0.12); top: auto; bottom: -2vw; transform: none; }
+
+/* Borda de areia (DS .sand-edge) entre o split e as fotos passando */
+.sand-edge { position: absolute; left: 0; width: 100%; height: 90px; z-index: 8; pointer-events: none; line-height: 0; overflow: hidden; }
+.sand-edge.is-bottom { bottom: -1px; transform: scaleY(-1); }
+.sand-edge svg { width: 200%; height: 100%; animation: sandWave 24s linear infinite; }
+.sand-edge path { fill: var(--sand-color, var(--fundo)); }
+.sand-edge path.is-ghost { opacity: 0.35; }
+@keyframes sandWave { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+
+/* ---------- FOTOS PASSANDO (DS .pain-point_wrap / .mwg001, Quoti) ---------- */
+.pain-point_wrap { position: relative; overflow: hidden; background: var(--bg-cards); isolation: isolate; }
+.pain-point_wrap > *:not(.bg-layer) { position: relative; z-index: 2; }
+.pain-point_contain { padding: 0 var(--gutter); max-width: 980px; margin-bottom: clamp(1.5rem, 4vh, 3.5rem); }
+.pain-point_contain .section-title { margin-bottom: 1rem; }
+.pain-point_lead { color: var(--gray-light); font-size: 1rem; line-height: 1.8; max-width: 44ch; }
+.mwg001-container { height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: flex-start; padding-bottom: 2.5rem; }
+.pain-point_card { height: min(46vh, calc(26vw * 5 / 4.2)); aspect-ratio: auto; }
+.mwg001-cards { display: flex; gap: 2rem; white-space: nowrap; width: max-content; padding-left: 110vw; padding-right: 110vw; }
+.pain-point_card {
+  position: relative;
+  width: 26vw; min-width: 280px; aspect-ratio: 4.2 / 5; display: flex; flex-direction: column; justify-content: space-between; gap: 1rem;
+  padding: 1rem 1rem 1.6rem; border: 2px solid var(--lavanda); border-radius: var(--radius-card);
+  background: var(--roxo); color: var(--texto); box-shadow: var(--shadow-hard);
+  white-space: normal; will-change: transform; transform: translateZ(0);
+}
+.pain-point_card.is-lavanda { background: var(--lavanda); color: var(--fundo); border-color: var(--texto); box-shadow: var(--shadow-hard-roxo); }
+.pain-point_card.is-dark { background: var(--cartoes); border-color: var(--roxo); box-shadow: var(--shadow-hard-roxo); }
+.pain-point_img { flex: 1; border-radius: calc(var(--radius-card) - 0.5rem); overflow: hidden; border: 2px solid var(--fundo); position: relative; }
+.pain-point_img img { width: 100%; height: 100%; object-fit: cover; filter: grayscale(25%) contrast(1.05); }
+.pain-point_title { font-family: var(--display); font-size: 2rem; letter-spacing: 0.04em; line-height: 0.95; padding: 0 0.5rem; }
+.pain-point_text { font-size: 0.85rem; line-height: 1.5; opacity: 0.85; padding: 0 0.5rem; }
+.pain-point_year {
+  position: absolute; top: 1.6rem; right: 1.6rem; z-index: 2;
+  font-family: var(--display); font-size: 0.95rem; letter-spacing: 0.15em; line-height: 1;
+  padding: 0.45rem 0.7rem 0.35rem; border-radius: var(--radius-pill); background: var(--fundo); color: var(--lavanda);
+}
+.pain-point_card a { text-decoration: underline; text-underline-offset: 3px; }
+.cards-progress { position: absolute; left: var(--gutter); right: var(--gutter); bottom: 2.2rem; height: 1px; background: var(--line); }
+.cards-progress span { position: absolute; inset: 0; background: linear-gradient(90deg, var(--lavanda), var(--roxo)); transform: scaleX(0); transform-origin: left; }
+.cards-progress em { position: absolute; right: 0; top: 0.9rem; font-style: normal; font-size: 0.62rem; letter-spacing: 0.3em; text-transform: uppercase; color: var(--gray-light); }
+.ball-arc-wrap { position: absolute; inset: 0; pointer-events: none; }
+.pain-point_wrap .ball { opacity: 1; }
+
+/* ---------- Responsivo da dobra ---------- */
+@media (max-width: 1200px) {
+  .left_side { padding: 7rem 3.5rem 5rem; }
+}
+@media (max-width: 1024px) {
+  :root { --gutter: 1.5rem; }
+  .nav.scrolled { padding: 0.9rem 1.5rem; }
+  .sides, .sides.is-reverse { flex-direction: column; min-height: 0; }
+  .left_side, .right_side { width: 100%; }
+  .left_side { padding: 5rem 1.5rem 4rem; }
+  .right_side { min-height: 78vh; }
+  .about-row-2 .right_side { min-height: 70vh; }
+  .about-stickers { left: auto; right: 1.25rem; top: auto; bottom: calc(78vh - 2.3rem); transform: none; flex-direction: row; }
+  .sticker.is-roxo { margin-left: 0; }
+  .sticker { width: 4rem; height: 4rem; font-size: 1.25rem; }
+  .photo-label { right: 1rem; }
+  .pain-point_card { width: 50vw; height: auto; aspect-ratio: 4.2 / 5; max-height: 56vh; }
+  .cards-progress { bottom: 2rem; }
+}
+@media (max-width: 767px) {
+  .pain-point_card { width: 78vw; }
+  .sand-edge { height: 50px; }
+  .marquee-item span { font-size: 1.25rem; }
+  .marquee-item span.is-serif { font-size: 1.35rem; }
+  .marquee-item { gap: 1.6rem; padding: 0 1.6rem; }
+  .spec-row { flex-direction: column; gap: 0.25rem; }
+  .spec-row span { text-align: left; }
+  .about-stats { gap: 2rem; }
+}
+/* Sem pin (movimento reduzido): os cards viram uma faixa com rolagem lateral */
+.no-pin .mwg001-container { height: auto; padding: 4rem 0 6rem; overflow-x: auto; }
+.no-pin .mwg001-cards { padding: 1rem var(--gutter); }
+@media (prefers-reduced-motion: reduce) {
+  .img-overlay { display: none; }
+}
+</style>
 </head>
 <body>
 
@@ -538,6 +801,106 @@ html.no-intro .page-curtain { display: none !important; }
 
     <div class="hero-scroll" data-hero="scroll" aria-hidden="true"><span class="hero-scroll-line"></span>Role para descer</div>
   </section>
+
+  <!-- ================= PASSAGEM: faixas cruzadas (DS .marquee-section) ================= -->
+  <div class="marquee-pass" aria-hidden="true">
+    <div class="marquee-drift is-a"><div class="marquee-section is-tilted"><div class="marquee-track">
+      <div class="marquee-item"><span>Turmas masculinas</span><span class="dot"></span></div><div class="marquee-item"><span class="is-serif">femininas</span><span class="dot"></span></div><div class="marquee-item"><span class="is-outline">Mista</span><span class="dot"></span></div><div class="marquee-item"><span>Turma kids</span><span class="dot"></span></div><div class="marquee-item"><span class="is-serif">competitivo</span><span class="dot"></span></div><div class="marquee-item"><span>Do D ao A</span><span class="dot"></span></div><div class="marquee-item"><span class="is-serif">na areia</span><span class="dot"></span></div><div class="marquee-item"><span>Turmas masculinas</span><span class="dot"></span></div><div class="marquee-item"><span class="is-serif">femininas</span><span class="dot"></span></div><div class="marquee-item"><span class="is-outline">Mista</span><span class="dot"></span></div><div class="marquee-item"><span>Turma kids</span><span class="dot"></span></div><div class="marquee-item"><span class="is-serif">competitivo</span><span class="dot"></span></div><div class="marquee-item"><span>Do D ao A</span><span class="dot"></span></div><div class="marquee-item"><span class="is-serif">na areia</span><span class="dot"></span></div>
+    </div></div></div>
+    <div class="marquee-drift is-b"><div class="marquee-section is-tilted-reverse"><div class="marquee-track is-reverse">
+      <div class="marquee-item"><span>CBT</span><span class="dot"></span></div><div class="marquee-item"><span class="is-serif">Curso Verde</span><span class="dot"></span></div><div class="marquee-item"><span>Curso Amarelo</span><span class="dot"></span></div><div class="marquee-item"><span class="is-outline">ITF Coach</span><span class="dot"></span></div><div class="marquee-item"><span class="is-serif">Level 1 e 2</span><span class="dot"></span></div><div class="marquee-item"><span>BT Camp</span><span class="dot"></span></div><div class="marquee-item"><span class="is-outline">Buccelli Academy</span><span class="dot"></span></div><div class="marquee-item"><span>CBT</span><span class="dot"></span></div><div class="marquee-item"><span class="is-serif">Curso Verde</span><span class="dot"></span></div><div class="marquee-item"><span>Curso Amarelo</span><span class="dot"></span></div><div class="marquee-item"><span class="is-outline">ITF Coach</span><span class="dot"></span></div><div class="marquee-item"><span class="is-serif">Level 1 e 2</span><span class="dot"></span></div><div class="marquee-item"><span>BT Camp</span><span class="dot"></span></div><div class="marquee-item"><span class="is-outline">Buccelli Academy</span><span class="dot"></span></div>
+    </div></div></div>
+  </div>
+
+  <!-- ================= DOBRA 2: CONHEÇA O PROFESSOR ================= -->
+  <section class="about" id="professor" aria-labelledby="about-title">
+
+    <!-- Linha 1: texto + formação | retrato -->
+    <div class="sides about-row about-row-1">
+      <div class="left_side">
+        <div class="bg-layer" aria-hidden="true">
+          <div class="bg-dots"></div>
+          <span class="gold-line-decor" style="left:9%"></span><span class="gold-line-decor" style="left:58%"></span><span class="gold-line-decor" style="left:92%"></span>
+          <svg class="bg-court is-scrub" viewBox="0 0 800 900" preserveAspectRatio="none">
+            <rect x="40" y="70" width="720" height="760"/>
+            <line class="is-accent" x1="40" y1="70" x2="40" y2="830"/><line x1="400" y1="70" x2="400" y2="150"/><line x1="400" y1="750" x2="400" y2="830"/>
+          </svg>
+        </div>
+        <p class="section-tag" data-r="tag"><span class="section-tag-line"></span><span class="section-tag-text">Conheça o professor</span></p>
+        <h2 class="section-title" id="about-title" data-r="split">Guilherme <span class="italic">Abbott</span></h2>
+        <p class="about-text" data-r="text">Professor de beach tênis com formação pela Confederação Brasileira de Tênis (CBT) e pela International Tennis Federation (ITF). Dá aulas para turmas masculinas, femininas, mistas e kids, do nível D ao A, com treinos também para quem compete.</p>
+        <p class="spec-caption" data-r="text"><b>Formação</b>certificações</p>
+        <ul class="spec-list" data-r="list">
+          <li class="spec-row"><strong>CBT · Confederação Brasileira de Tênis</strong><span>Curso Verde · Curso Amarelo</span></li>
+          <li class="spec-row"><strong>CBT · Infantojuvenil</strong><span>Níveis 1 e 2</span></li>
+          <li class="spec-row"><strong>ITF · International Tennis Federation</strong><span>Coach Level 1 e 2</span></li>
+        </ul>
+      </div>
+      <div class="right_side" data-r="photo">
+        <div class="about-photo-move"><div class="duo"><img src="img/sobre-retrato.webp" width="867" height="1280" loading="lazy" decoding="async" alt="Retrato de Guilherme Abbott sorrindo, de braços cruzados, com a camisa preta de patrocinadores em fundo escuro"></div></div>
+        <div class="img-overlay is-roxo"></div><div class="img-overlay"></div>
+        <span class="photo-label" data-r="label" aria-hidden="true">CBT · ITF · Professor de beach tênis</span>
+      </div>
+      <div class="about-stickers" aria-hidden="true">
+        <span class="sticker" data-r="sticker">CBT</span>
+        <span class="sticker is-roxo" data-r="sticker">ITF</span>
+      </div>
+    </div>
+
+    <!-- Linha 2: foto em quadra | painel roxo com experiência -->
+    <div class="sides is-reverse about-row about-row-2">
+      <div class="left_side">
+        <div class="bg-layer" aria-hidden="true">
+          <span class="gold-line-decor" style="left:12%"></span><span class="gold-line-decor" style="left:72%"></span>
+          <div class="testimonial-bg-text" data-giant>ABBOTT · ABBOTT</div>
+        </div>
+        <p class="section-tag" data-r="tag"><span class="section-tag-line"></span><span class="section-tag-text">Experiência em quadra</span></p>
+        <h2 class="section-title" data-r="split">Da turma kids <span class="italic">ao competitivo</span></h2>
+        <p class="about-text" data-r="text">Turmas separadas por nível e categoria, de segunda a quinta, entre a tarde e a noite. Além das aulas, atuou como professor no BT Camp e fez o curso da Buccelli Academy.</p>
+        <ul class="spec-list" data-r="list">
+          <li class="spec-row"><strong>Turmas</strong><span>Masculina · Feminina · Mista · Kids</span></li>
+          <li class="spec-row"><strong>Níveis</strong><span>D · D+ · C · B · A</span></li>
+          <li class="spec-row"><strong>Experiências</strong><span>Professor no BT Camp · Buccelli Academy</span></li>
+        </ul>
+        <div class="about-stats" data-r="list">
+          <div><div class="stat-number"><span data-number="6">6</span></div><div class="stat-label">certificações CBT e ITF</div></div>
+          <div><div class="stat-number"><span data-number="4">4</span></div><div class="stat-label">dias de turma por semana</div></div>
+        </div>
+        <div class="about-cta" data-r="text"><a class="button" href="#aulas"><span class="button_box" data-letters-hover>Ver turmas e horários</span></a></div>
+      </div>
+      <div class="right_side" data-r="photo">
+        <div class="about-photo-move"><div class="duo"><img src="img/sobre-quadra.webp" width="1400" height="2100" loading="lazy" decoding="async" alt="Guilherme Abbott agachado na areia, segurando a raquete, concentrado durante um jogo"></div></div>
+        <div class="img-overlay is-roxo"></div><div class="img-overlay"></div>
+        <span class="photo-label" data-r="label" aria-hidden="true">Na areia · leitura de jogo</span>
+      </div>
+      <div class="sand-edge is-bottom" aria-hidden="true" style="--sand-color:#08060F"><svg viewBox="0 0 2880 90" preserveAspectRatio="none"><path class="is-ghost" d="M0,0 H2880 V58 C2640,90 2400,22 2160,60 C1920,90 1680,28 1440,58 C1200,90 960,22 720,60 C480,90 240,28 0,58 Z"/><path d="M0,0 H2880 V40 C2640,84 2400,10 2160,45 C1920,80 1680,14 1440,40 C1200,84 960,10 720,45 C480,80 240,14 0,40 Z"/></svg></div>
+    </div>
+
+    <!-- Fotos passando (DS Padrão B · Quoti) -->
+    <div class="pain-point_wrap">
+      <div class="bg-layer" aria-hidden="true">
+        <span class="gold-line-decor" style="left:5%"></span><span class="gold-line-decor" style="left:26%"></span><span class="gold-line-decor" style="left:52%"></span><span class="gold-line-decor" style="left:79%"></span>
+        <div class="ball-arc-wrap" data-ball><svg class="ball-arc" viewBox="0 0 1600 900" preserveAspectRatio="none"><path d="M80,700 C500,80 1000,120 1540,820"/></svg><div class="ball"></div></div>
+        <div class="testimonial-bg-text" data-giant>NA QUADRA · NA QUADRA · NA QUADRA</div>
+      </div>
+      <div class="mwg001-container">
+        <div class="pain-point_contain">
+          <p class="section-tag" data-r="tag"><span class="section-tag-line"></span><span class="section-tag-text">Na quadra e fora dela</span></p>
+          <h2 class="section-title" data-r="split">Momentos que contam <span class="italic">a história</span></h2>
+          <p class="pain-point_lead" data-r="text">Turmas, eventos e a comunidade do beach tênis em volta do Guilherme.</p>
+        </div>
+        <div class="mwg001-cards">
+          <article class="pain-point_card"><span class="pain-point_year">01</span><div class="pain-point_img"><img src="img/card-coach-series.webp" style="object-position:50% 62%" loading="lazy" decoding="async" alt="Grupo de alunos com camisetas roxas diante do painel do RMC Beach Tennis Coach Series, primeira edição"></div><h3 class="pain-point_title">Coach Series</h3><p class="pain-point_text">RMC Beach Tennis · 1ª edição</p></article>
+          <article class="pain-point_card is-lavanda"><span class="pain-point_year">02</span><div class="pain-point_img"><img src="img/card-turma-raquetes.webp" style="object-position:50% 68%" loading="lazy" decoding="async" alt="Turma grande reunida na areia, com várias raquetes levantadas"></div><h3 class="pain-point_title">Raquetes pro alto</h3><p class="pain-point_text">Turma reunida depois do treino</p></article>
+          <article class="pain-point_card is-dark"><span class="pain-point_year">03</span><div class="pain-point_img"><img src="img/card-conversa.webp" style="object-position:40% 30%" loading="lazy" decoding="async" alt="Três jogadores de camiseta roxa conversando na quadra de areia"></div><h3 class="pain-point_title">Conversa de quadra</h3><p class="pain-point_text">Entre um ponto e outro</p></article>
+          <article class="pain-point_card"><span class="pain-point_year">04</span><div class="pain-point_img"><img src="img/card-parceria.webp" style="object-position:50% 66%" loading="lazy" decoding="async" alt="Guilherme sorrindo atrás de uma mesa com raquetes, bolas, bonés e roupas de beach tênis"></div><h3 class="pain-point_title">Parceria</h3><p class="pain-point_text">Loja de Beach Tennis · cupom GABBOTT</p></article>
+          <article class="pain-point_card is-lavanda"><span class="pain-point_year">05</span><div class="pain-point_img"><img src="img/card-turma-areia.webp" style="object-position:50% 66%" loading="lazy" decoding="async" alt="Alunos sentados e em pé na areia, posando juntos com raquetes em um dia de sol"></div><h3 class="pain-point_title">Dia de sol</h3><p class="pain-point_text">Todo mundo na foto</p></article>
+          <article class="pain-point_card is-dark"><span class="pain-point_year">06</span><div class="pain-point_img"><img src="img/card-comunidade.webp" style="object-position:50% 62%" loading="lazy" decoding="async" alt="Grupo de jogadores e professores de beach tênis reunidos em uma arena coberta"></div><h3 class="pain-point_title">Comunidade</h3><p class="pain-point_text">Gente que vive o beach tênis</p></article>
+        </div>
+        <div class="cards-progress" aria-hidden="true"><span></span><em>Role para ver</em></div>
+      </div>
+    </div>
+  </section>
 </main>
 
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
@@ -545,6 +908,8 @@ html.no-intro .page-curtain { display: none !important; }
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/DrawSVGPlugin.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/MotionPathPlugin.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/CustomEase.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js"></script>
+<script src="https://unpkg.com/lenis@1.3.4/dist/lenis.min.js"></script>
 <script>
 /* =====================================================================
    Interações da hero — baseado em assets/DS Abbott/assets/js/abbott.js
@@ -762,10 +1127,12 @@ html.no-intro .page-curtain { display: none !important; }
 
   // 8) Arco tracejado aparece e a bolinha começa o loop
   var loop = ballLoop();
+  window.__abbottBall = loop;
   if (arcWrap) master.to(arcWrap.querySelector('.ball-arc'), { opacity: 1, duration: 1.2, ease: 'power2.out' }, 2.5);
   if (loop) master.call(function () { if (isDesktop()) loop.play(0); }, null, 3.1);
 
   // Fim: devolve o título ao HTML original (o hover que preenche o contorno precisa do texto inteiro)
+  master.call(function () { window.__abbottIntroDone = true; document.dispatchEvent(new Event('abbott:intro-done')); }, null, 2.0);
   master.call(function () {
     splits.forEach(function (sp) { sp.revert(); });
     gsap.set(titleLines, { autoAlpha: 1 });
@@ -790,6 +1157,227 @@ html.no-intro .page-curtain { display: none !important; }
   if (document.fonts && document.fonts.ready) {
     Promise.race([document.fonts.ready, new Promise(function (r) { setTimeout(r, 1200); })]).then(start);
   } else { start(); }
+})();
+</script>
+<script>
+/* =====================================================================
+   DOBRA 2 — rolagem (Lenis + ScrollTrigger), nav em rolagem, passagem,
+   "Conheça o professor" (entrada da direita para a esquerda) e fotos passando.
+   Fábricas e valores do assets/DS Abbott/assets/js/abbott.js
+   ===================================================================== */
+(function () {
+  'use strict';
+  var d = document.documentElement;
+  if (!window.gsap || !window.ScrollTrigger || !window.SplitText) return; // o fallback da hero já mostra tudo
+  gsap.registerPlugin(ScrollTrigger, SplitText, DrawSVGPlugin, MotionPathPlugin);
+
+  var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var $ = function (s, c) { return (c || document).querySelector(s); };
+  var $$ = function (s, c) { return Array.prototype.slice.call((c || document).querySelectorAll(s)); };
+  var EASE_OUT = 'expo.out';
+  var inOut = gsap.parseEase('dsInOut') ? 'dsInOut' : 'power3.inOut';
+  var expo = gsap.parseEase('dsExpo') ? 'dsExpo' : 'expo.out';
+
+  if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
+  window.scrollTo(0, 0);
+
+  /* ---------- Lenis (DS) — travado enquanto a intro roda ---------- */
+  var lenis = null;
+  if (window.Lenis && !reduce) {
+    lenis = new Lenis({ duration: 1.2, easing: function (t) { return Math.min(1, 1.001 - Math.pow(2, -10 * t)); } });
+    lenis.on('scroll', ScrollTrigger.update);
+    gsap.ticker.add(function (time) { lenis.raf(time * 1000); });
+    gsap.ticker.lagSmoothing(0);
+    if (!d.classList.contains('no-intro')) {
+      lenis.stop();
+      var unlock = function () { lenis.start(); };
+      document.addEventListener('abbott:intro-done', unlock, { once: true });
+      setTimeout(unlock, 6500); // segurança
+    }
+  }
+
+  /* ---------- Âncoras ---------- */
+  $$('a[href^="#"]').forEach(function (a) {
+    a.addEventListener('click', function (e) {
+      var id = a.getAttribute('href');
+      if (id.length < 2) return;
+      var target = id === '#top' ? document.body : document.querySelector(id);
+      if (!target) return;
+      e.preventDefault();
+      var top = id === '#top' ? 0 : target.getBoundingClientRect().top + window.scrollY;
+      if (lenis) lenis.scrollTo(top, { duration: 1.6 }); else window.scrollTo({ top: top, behavior: 'smooth' });
+    });
+  });
+
+  /* ---------- NAV: .scrolled (Blade) + some ao descer (Quoti) + item ativo ---------- */
+  var nav = $('#nav');
+  var lastY = 0;
+  function onScroll() {
+    var y = window.scrollY;
+    nav.classList.toggle('scrolled', y > 80);
+    if (window.innerWidth >= 992) nav.classList.toggle('is-hidden', y > 300 && y > lastY + 4);
+    if (y < lastY - 4) nav.classList.remove('is-hidden');
+    lastY = y;
+  }
+  window.addEventListener('scroll', onScroll, { passive: true });
+  var links = $$('.nav-links a, .mobile-nav a:not(.nav-cta)');
+  function setActive(hash) {
+    links.forEach(function (l) {
+      var on = l.getAttribute('href') === hash;
+      l.classList.toggle('is-active', on);
+      if (on) l.setAttribute('aria-current', 'page'); else l.removeAttribute('aria-current');
+    });
+  }
+  ScrollTrigger.create({ trigger: '#professor', start: 'top 55%', end: 'bottom 55%',
+    onToggle: function (self) { setActive(self.isActive ? '#professor' : '#top'); } });
+
+  /* ---------- Bolinha da hero pausa fora da tela (desempenho) ---------- */
+  ScrollTrigger.create({ trigger: '.hero', start: 'top top', end: 'bottom top',
+    onLeave: function () { if (window.__abbottBall) window.__abbottBall.pause(); },
+    onEnterBack: function () { if (window.__abbottBall && window.innerWidth > 1024 && window.__abbottIntroDone) window.__abbottBall.resume(); } });
+
+  /* ---------- Movimento reduzido: tudo visível, sem pin ---------- */
+  if (reduce) {
+    gsap.set('[data-r]', { autoAlpha: 1 });
+    $$('.pain-point_wrap').forEach(function (w) { w.classList.add('no-pin'); });
+    return;
+  }
+
+  function init() {
+    /* Passagem: as duas faixas derivam em sentidos opostos com o scroll */
+    gsap.fromTo('.marquee-drift.is-a', { xPercent: 2 }, { xPercent: -4, ease: 'none',
+      scrollTrigger: { trigger: '.marquee-pass', start: 'top bottom', end: 'bottom top', scrub: 1 } });
+    gsap.fromTo('.marquee-drift.is-b', { xPercent: -3 }, { xPercent: 3, ease: 'none',
+      scrollTrigger: { trigger: '.marquee-pass', start: 'top bottom', end: 'bottom top', scrub: 1 } });
+
+    /* Fundo: linhas finas (Blade), quadra que se desenha (Quoti), texto gigante, bolinha */
+    $$('.about .gold-line-decor').forEach(function (el, i) {
+      gsap.fromTo(el, { yPercent: -20 }, { yPercent: 20, ease: 'none',
+        scrollTrigger: { trigger: el.parentElement, start: 'top bottom', end: 'bottom top', scrub: 0.5 + (i % 3) * 0.6 } });
+    });
+    $$('.bg-court.is-scrub').forEach(function (svg) {
+      gsap.fromTo(svg.querySelectorAll('rect, line'), { drawSVG: '0%' }, { drawSVG: '100%', ease: 'none', stagger: 0.05,
+        scrollTrigger: { trigger: svg.closest('.sides'), start: 'top 85%', end: 'bottom 40%', scrub: 1 } });
+    });
+    $$('[data-giant]').forEach(function (el) {
+      gsap.fromTo(el, { xPercent: 0 }, { xPercent: -35, ease: 'none',
+        scrollTrigger: { trigger: el.closest('.sides, .pain-point_wrap'), start: 'top bottom', end: 'bottom top', scrub: 1 } });
+    });
+    $$('[data-ball]').forEach(function (wrap) {
+      var path = wrap.querySelector('path'); var ball = wrap.querySelector('.ball');
+      gsap.to(ball, { motionPath: { path: path, align: path, alignOrigin: [0.5, 0.5] }, ease: 'none',
+        scrollTrigger: { trigger: wrap.closest('.pain-point_wrap'), start: 'top 80%', end: 'bottom 20%', scrub: 1.2 } });
+    });
+
+    /* "Conheça o professor": tudo entra da DIREITA para a esquerda */
+    $$('.about-row').forEach(function (row) {
+      var photo = $('[data-r="photo"]', row);
+      var overlays = $$('.img-overlay', photo);
+      var img = $('img', photo);
+      var mover = $('.about-photo-move', photo);
+      var tl = gsap.timeline({ defaults: { ease: expo }, scrollTrigger: { trigger: row, start: 'top 70%', once: true } });
+
+      // Foto: o recorte abre da direita, a cortina roxa e a azul-noite recolhem para a esquerda (Elyse, na horizontal)
+      gsap.set(photo, { autoAlpha: 1, clipPath: 'inset(0% 0% 0% 100%)' });
+      tl.to(photo, { clipPath: 'inset(0% 0% 0% 0%)', duration: 1.3, ease: inOut }, 0)
+        .fromTo(overlays, { scaleX: 1 }, { scaleX: 0, duration: 1.5, ease: inOut, stagger: 0.18 }, 0.2)
+        .fromTo(img, { scale: 1.35, xPercent: 10 }, { scale: 1, xPercent: 0, duration: 2.1 }, 0.1);
+
+      // Texto: eyebrow, título em linhas mascaradas, parágrafos, lista, números e botão — todos vindo da direita
+      var tag = $('[data-r="tag"]', row);
+      tl.fromTo(tag, { autoAlpha: 0, x: 90 }, { autoAlpha: 1, x: 0, duration: 1.2 }, 0.35)
+        .fromTo($('.section-tag-line', tag), { scaleX: 0 }, { scaleX: 1, duration: 1 }, 0.6);
+
+      var title = $('[data-r="split"]', row);
+      gsap.set(title, { autoAlpha: 1 });
+      var sp = SplitText.create(title, { type: 'lines', mask: 'lines', linesClass: 'split-line' });
+      tl.fromTo(sp.lines, { yPercent: 110, x: 70, rotate: 2.5, transformOrigin: '0% 100%' },
+        { yPercent: 0, x: 0, rotate: 0, duration: 1.3, stagger: 0.12, ease: 'power4.out' }, 0.45);
+
+      $$('[data-r="text"]', row).forEach(function (el, i) {
+        tl.fromTo(el, { autoAlpha: 0, x: 110, filter: 'blur(10px)' },
+          { autoAlpha: 1, x: 0, filter: 'blur(0px)', duration: 1.3, clearProps: 'filter' }, 0.7 + i * 0.12);
+      });
+      $$('[data-r="list"]', row).forEach(function (list, i) {
+        gsap.set(list, { autoAlpha: 1 });
+        tl.fromTo(list.children, { autoAlpha: 0, x: 140 }, { autoAlpha: 1, x: 0, duration: 1.2, stagger: 0.09 }, 0.9 + i * 0.2);
+      });
+
+      // Números (Elyse data-number) contam junto com a entrada
+      $$('[data-number]', row).forEach(function (el) {
+        var o = { v: 0 }; var target = parseFloat(el.dataset.number); el.textContent = '0';
+        tl.to(o, { v: target, duration: 2.2, ease: 'power2.out', onUpdate: function () { el.textContent = Math.round(o.v); } }, 1.3);
+      });
+
+      // Legenda vertical e stickers (Quoti back.out 1.7)
+      var label = $('[data-r="label"]', row);
+      if (label) tl.fromTo(label, { autoAlpha: 0, y: 40 }, { autoAlpha: 1, y: 0, duration: 1.2 }, 1.3);
+      $$('[data-r="sticker"]', row).forEach(function (s, i) {
+        tl.fromTo(s, { autoAlpha: 0, scale: 0, rotate: i ? -60 : 40 }, { autoAlpha: 1, scale: 1, rotate: i ? -10 : 0, duration: 0.8, ease: 'back.out(1.7)' }, 1.45 + i * 0.18);
+      });
+
+      // Depois da entrada: parallax da foto no scroll (Elyse img-paralax)
+      gsap.fromTo(mover, { yPercent: -5 }, { yPercent: 5, ease: 'none',
+        scrollTrigger: { trigger: row, start: 'top bottom', end: 'bottom top', scrub: 1 } });
+    });
+
+    /* Botão: letras acendem no hover (Amrit letters-fade-in-hover) */
+    $$('[data-letters-hover]').forEach(function (el) {
+      var s = SplitText.create(el, { type: 'words,chars', charsClass: 'char' });
+      var host = el.closest('a, button') || el;
+      host.addEventListener('mouseenter', function () { gsap.fromTo(s.chars, { opacity: 0 }, { opacity: 1, duration: 0.2, ease: 'power1.out', stagger: { amount: 0.3 } }); });
+    });
+
+    /* Fotos passando: título + DS initHorizontalCards (Quoti mwg001) */
+    $$('.pain-point_wrap').forEach(function (root) {
+      var head = $('.pain-point_contain', root);
+      var htl = gsap.timeline({ defaults: { ease: expo }, scrollTrigger: { trigger: root, start: 'top 60%', once: true } });
+      var tag = $('[data-r="tag"]', head);
+      htl.fromTo(tag, { autoAlpha: 0, x: 90 }, { autoAlpha: 1, x: 0, duration: 1.2 }, 0)
+        .fromTo($('.section-tag-line', tag), { scaleX: 0 }, { scaleX: 1, duration: 1 }, 0.2);
+      var t = $('[data-r="split"]', head); gsap.set(t, { autoAlpha: 1 });
+      var s = SplitText.create(t, { type: 'lines', mask: 'lines', linesClass: 'split-line' });
+      htl.fromTo(s.lines, { yPercent: 110, rotate: 2.5, transformOrigin: '0% 100%' }, { yPercent: 0, rotate: 0, duration: 1.1, stagger: 0.1, ease: inOut }, 0.1)
+        .fromTo($('[data-r="text"]', head), { autoAlpha: 0, x: 110, filter: 'blur(10px)' }, { autoAlpha: 1, x: 0, filter: 'blur(0px)', duration: 1.3, clearProps: 'filter' }, 0.45);
+
+      var container = $('.mwg001-container', root);
+      var strip = $('.mwg001-cards', root);
+      var cards = $$('.pain-point_card', root);
+      var bar = $('.cards-progress span', root);
+      var pre = Math.min(500, window.innerWidth * 0.35);
+      var getDist = function () { return (strip.scrollWidth - window.innerWidth) * 0.77; };
+
+      gsap.fromTo(strip, { x: 0 }, { x: -pre, ease: 'none',
+        scrollTrigger: { trigger: container, start: 'top bottom', end: 'top top', scrub: true, invalidateOnRefresh: true } });
+      var main = gsap.fromTo(strip, { x: -pre }, { x: function () { return -(getDist() + pre); }, ease: 'none',
+        scrollTrigger: { trigger: container, pin: true, scrub: true, start: 'top top', end: function () { return '+=' + getDist(); }, invalidateOnRefresh: true,
+          onUpdate: function (self) { gsap.set(bar, { scaleX: self.progress }); } } });
+
+      cards.forEach(function (card, i) {
+        var sign = i % 2 ? 1 : -1;
+        var v = { x: (12 + (i * 7) % 14) * sign, y: (6 + (i * 5) % 6) * -sign, r: (7 + (i * 3) % 7) * sign };
+        gsap.fromTo(card, { rotation: v.r, xPercent: v.x, yPercent: v.y }, { rotation: -v.r, xPercent: -v.x, yPercent: -v.y, ease: 'none',
+          scrollTrigger: { trigger: card, containerAnimation: main, start: 'left 140%', end: 'right -40%', scrub: true } });
+        var im = $('.pain-point_img img', card);
+        if (im) gsap.fromTo(im, { scale: 1.25, xPercent: -6 }, { scale: 1.05, xPercent: 6, ease: 'none',
+          scrollTrigger: { trigger: card, containerAnimation: main, start: 'left right', end: 'right left', scrub: true } });
+      });
+    });
+
+    ScrollTrigger.refresh();
+  }
+
+  Promise.race([document.fonts ? document.fonts.ready : Promise.resolve(), new Promise(function (r) { setTimeout(r, 1500); })]).then(init);
+  window.addEventListener('load', function () { ScrollTrigger.refresh(); });
+
+  // Segurança: se algo ficar escondido (erro), mostra depois de alguns segundos na tela
+  setInterval(function () {
+    $$('[data-r]').forEach(function (el) {
+      var r = el.getBoundingClientRect();
+      if (getComputedStyle(el).visibility === 'hidden' && r.top < window.innerHeight * 0.4 && r.bottom > 0 && !el.__waited) { el.__waited = Date.now(); }
+      if (el.__waited && Date.now() - el.__waited > 3000 && getComputedStyle(el).visibility === 'hidden') gsap.set(el, { autoAlpha: 1, clipPath: 'none' });
+    });
+  }, 1000);
 })();
 </script>
 </body>
