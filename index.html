@@ -709,6 +709,289 @@ html.js .bg-court.is-scrub > * { visibility: visible; }
   .img-overlay { display: none; }
 }
 </style>
+<style>
+/* =====================================================================
+   DOBRA 3 — Aulas: grade da semana, planos e avulsos
+   DS Abbott: .section-tag/.section-title, .chip, .tag-pill, .slot (agenda), .beliefs-card,
+   .btn-whats (borda cônica), .sticker, .bg-court, .gold-line-decor, .testimonial-bg-text
+   ===================================================================== */
+:root { --radius-md: 0.75rem; --row: 38px; }
+.aulas { position: relative; background: var(--bg-cards); padding: 9rem 0 8rem; overflow: hidden; isolation: isolate; }
+.aulas > *:not(.bg-layer) { position: relative; z-index: 2; }
+.wrap { width: min(1320px, 100% - 2 * var(--gutter)); margin: 0 auto; }
+.aulas .testimonial-bg-text { top: 30%; }
+.aulas-glow { /* luz parada (não deriva) atrás do card de preço */
+  position: absolute; width: 60vw; height: 60vw; right: -18vw; top: 52%; border-radius: 50%;
+  background: radial-gradient(closest-side, rgba(109, 63, 224, 0.16), transparent 100%);
+}
+
+/* Cabeçalho */
+.aulas-head { display: grid; grid-template-columns: 1.1fr 0.9fr; gap: 4rem; align-items: end; margin-bottom: 4.5rem; }
+.aulas-head .section-title { font-size: clamp(2.8rem, 5vw, 5.4rem); line-height: 0.95; margin-bottom: 0; }
+.aulas-lead { color: var(--gray-light); font-size: 1rem; line-height: 1.8; max-width: 46ch; }
+.aulas-facts { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 1.6rem; }
+.tag-pill {
+  display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.45rem 1rem; border-radius: var(--radius-pill);
+  background: var(--roxo-a25); color: var(--lavanda); font-size: 0.85rem; font-weight: 500; border: 1px solid var(--lavanda-a08);
+}
+.tag-pill .pulse-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--lavanda); animation: pulseRing 1.8s ease-out infinite; }
+@keyframes pulseRing { 0% { box-shadow: 0 0 0 0 rgba(183, 156, 255, 0.7); } 100% { box-shadow: 0 0 0 10px rgba(183, 156, 255, 0); } }
+.tag-pill.is-outline { background: transparent; border-color: var(--line-strong); color: var(--texto); }
+
+/* Sub-título de bloco (01 · 02 · 03) */
+.block-head { display: flex; align-items: baseline; justify-content: space-between; gap: 2rem; flex-wrap: wrap; margin-bottom: 1.6rem; }
+.block-head h3 { font-family: var(--display); font-weight: 400; font-size: clamp(1.8rem, 2.6vw, 2.6rem); letter-spacing: 0.04em; line-height: 1; }
+.block-head h3 em { font-family: var(--serif); font-style: italic; color: var(--lavanda); font-size: 0.6em; letter-spacing: 0; margin-right: 0.6rem; vertical-align: 0.35em; }
+.block-head p { color: var(--gray-light); font-size: 0.88rem; max-width: 46ch; }
+
+/* ---------- GRADE DA SEMANA ---------- */
+.board {
+  position: relative; border-radius: var(--radius-card); padding: 1.6rem 1.6rem 1.8rem;
+  background: linear-gradient(180deg, rgba(23, 18, 43, 0.85), rgba(14, 11, 28, 0.9));
+  border: 1px solid var(--line); box-shadow: 0 40px 100px -40px rgba(0, 0, 0, 0.9);
+}
+.board-tools { display: flex; justify-content: space-between; align-items: center; gap: 1.5rem; flex-wrap: wrap; margin-bottom: 1.6rem; }
+.chip-group { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+.chip { padding: 0.55rem 1.1rem; border-radius: var(--radius-pill); border: 1px solid var(--line-strong); font-size: 0.8rem; color: var(--gray-light); transition: all 0.3s ease; cursor: pointer; }
+.chip:hover { border-color: var(--lavanda); color: var(--texto); }
+.chip.is-active { background: var(--lavanda); color: var(--fundo); border-color: var(--lavanda); }
+.legend { display: flex; gap: 1rem; flex-wrap: wrap; font-size: 0.68rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--gray-light); }
+.legend span { display: inline-flex; align-items: center; gap: 0.45rem; }
+.legend i { width: 12px; height: 12px; border-radius: 3px; display: inline-block; }
+
+.board-scroll { position: relative; }
+.board-grid { display: grid; grid-template-columns: 64px repeat(4, minmax(0, 1fr)); column-gap: 10px; }
+.board-headcell { padding: 0 0.2rem 1rem; display: flex; align-items: baseline; gap: 0.6rem; border-bottom: 1px solid var(--line); margin-bottom: 0.4rem; position: relative; }
+.board-headcell b { font-family: var(--display); font-weight: 400; font-size: 2rem; letter-spacing: 0.06em; line-height: 1; }
+.board-headcell small { font-size: 0.68rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--gray); }
+.board-headcell .today-pill { margin-left: auto; font-size: 0.6rem; letter-spacing: 0.2em; text-transform: uppercase; padding: 0.3rem 0.6rem; border-radius: var(--radius-pill); background: var(--lavanda); color: var(--fundo); display: none; }
+.board-headcell.is-today b { color: var(--lavanda); }
+.board-headcell.is-today .today-pill { display: inline-block; }
+.board-rail, .board-day { display: grid; grid-template-rows: repeat(16, var(--row)); position: relative; }
+.board-rail span {
+  font-family: var(--display); font-size: 1rem; letter-spacing: 0.06em; color: var(--gray-light);
+  transform: translateY(-0.55em); grid-row: span 2;
+}
+.board-day {
+  border-radius: var(--radius-md);
+  background-image: repeating-linear-gradient(to bottom, var(--line) 0 1px, transparent 1px calc(var(--row) * 2));
+}
+.board-day.is-today { background-color: rgba(183, 156, 255, 0.04); box-shadow: inset 0 0 0 1px rgba(183, 156, 255, 0.14); }
+
+/* Slot (DS .slot) — posicionado pelo horário: 1 linha = 30 min a partir das 14h */
+.slot {
+  grid-row: var(--r) / span var(--s); margin: 3px 0;
+  border-radius: var(--radius-md); padding: 0.55rem 0.7rem; font-size: 0.75rem; line-height: 1.25;
+  background: var(--cartoes); border: 1px solid var(--line); position: relative; overflow: hidden; cursor: pointer;
+  display: flex; flex-direction: column; justify-content: space-between; gap: 0.2rem; color: var(--texto);
+  transition: transform 0.4s var(--ease-out-expo), border-color 0.3s ease, background 0.3s ease, box-shadow 0.4s var(--ease-out-expo), opacity 0.4s ease, filter 0.4s ease;
+}
+.slot::after { /* brilho que passa no hover */
+  content: ''; position: absolute; top: 0; left: 0; width: 45%; height: 100%; pointer-events: none;
+  background: linear-gradient(100deg, transparent, rgba(255, 255, 255, 0.28), transparent);
+  transform: translateX(-160%) skewX(-20deg); transition: transform 0.8s var(--ease-out-expo);
+}
+.slot:hover::after, .slot:focus-visible::after { transform: translateX(330%) skewX(-20deg); }
+.slot:hover, .slot:focus-visible { transform: translateY(-4px); }
+.slot:focus-visible { outline: 2px solid var(--texto); outline-offset: 2px; }
+.slot-time { font-size: 0.66rem; letter-spacing: 0.14em; text-transform: uppercase; opacity: 0.8; }
+.slot-title { font-family: var(--display); font-size: 1.3rem; letter-spacing: 0.05em; line-height: 0.95; }
+.slot-meta { display: flex; justify-content: space-between; align-items: center; gap: 0.4rem; font-size: 0.68rem; opacity: 0.9; }
+.slot-go { display: inline-flex; align-items: center; gap: 0.25rem; opacity: 0; transform: translateX(-6px); transition: opacity 0.3s ease, transform 0.4s var(--ease-out-expo); white-space: nowrap; }
+.slot:hover .slot-go, .slot:focus-visible .slot-go { opacity: 1; transform: none; }
+.slot-go svg { width: 12px; height: 12px; }
+
+.slot[data-cat~="masc"] { background: var(--roxo); border-color: var(--roxo-light); }
+.slot[data-cat~="fem"] { background: var(--lavanda); border-color: var(--texto); color: var(--fundo); }
+.slot[data-cat~="mista"] { background: linear-gradient(120deg, var(--roxo) 0%, #9a7cf0 60%, var(--lavanda) 130%); border-color: var(--lavanda); }
+.slot[data-cat~="kids"] { background: var(--cartoes-2); border-color: var(--lavanda); }
+.slot[data-cat~="kids"] .slot-title { color: var(--lavanda); }
+.slot[data-cat~="comp"] { box-shadow: 4px 4px 0 0 var(--lavanda); }
+.slot[data-cat~="comp"]:hover { box-shadow: 7px 7px 0 0 var(--lavanda); }
+.slot[data-cat~="fem"][data-cat~="comp"] { box-shadow: 4px 4px 0 0 var(--roxo); }
+.slot-flag { font-size: 0.56rem; letter-spacing: 0.2em; text-transform: uppercase; padding: 0.18rem 0.45rem; border-radius: var(--radius-pill); background: var(--fundo); color: var(--lavanda); white-space: nowrap; }
+.slot:hover:not([data-cat~="comp"]) { box-shadow: 0 16px 34px -14px rgba(109, 63, 224, 0.8); }
+
+/* Horário vago: tracejado que corre (formigas marchando) + ponto pulsando */
+.slot[data-cat~="vago"] {
+  background:
+    linear-gradient(90deg, var(--lavanda) 50%, transparent 0) repeat-x 0 0 / 12px 1px,
+    linear-gradient(90deg, var(--lavanda) 50%, transparent 0) repeat-x 0 100% / 12px 1px,
+    linear-gradient(0deg, var(--lavanda) 50%, transparent 0) repeat-y 0 0 / 1px 12px,
+    linear-gradient(0deg, var(--lavanda) 50%, transparent 0) repeat-y 100% 0 / 1px 12px,
+    rgba(183, 156, 255, 0.05);
+  border-color: transparent; color: var(--lavanda);
+  animation: antsMarch 0.9s linear infinite;
+}
+@keyframes antsMarch { to { background-position: 12px 0, -12px 100%, 0 -12px, 100% 12px, 0 0; } }
+.slot[data-cat~="vago"] .slot-go { opacity: 1; transform: none; }
+.slot[data-cat~="vago"]:hover { background-color: rgba(183, 156, 255, 0.12); }
+.slot .pulse-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--lavanda); animation: pulseRing 1.8s ease-out infinite; display: inline-block; margin-right: 0.35rem; }
+
+/* Sem aula: listrado diagonal */
+.slot.is-off {
+  cursor: default; color: var(--gray); border-style: dashed; border-color: var(--line-strong);
+  background: repeating-linear-gradient(-45deg, rgba(183, 156, 255, 0.07) 0 6px, transparent 6px 12px);
+}
+.slot.is-off:hover { transform: none; }
+.slot.is-off::after { display: none; }
+
+/* Filtro */
+.slot.is-dim { opacity: 0.16; filter: saturate(0.2); pointer-events: none; }
+
+.board-note { margin-top: 1.4rem; font-size: 0.75rem; color: var(--gray); display: flex; gap: 0.5rem; align-items: center; }
+
+/* ---------- MONTE SEU PLANO ---------- */
+.planos { margin-top: 7rem; display: grid; grid-template-columns: 1fr 1fr; gap: 4.5rem; align-items: center; }
+.cfg-step { padding: 1.6rem 0; border-top: 1px solid var(--line-strong); }
+.cfg-step:last-of-type { border-bottom: 1px solid var(--line-strong); }
+.cfg-step legend { display: flex; align-items: baseline; gap: 0.8rem; font-size: 0.68rem; letter-spacing: 0.3em; text-transform: uppercase; color: var(--gray-light); margin-bottom: 1rem; float: left; width: 100%; }
+.cfg-step legend b { font-family: var(--serif); font-style: italic; font-weight: 400; color: var(--lavanda); font-size: 1rem; letter-spacing: 0; text-transform: none; }
+.cfg-step fieldset, fieldset.cfg-step { border: 0; border-top: 1px solid var(--line-strong); min-width: 0; }
+.seg { clear: both; position: relative; display: flex; padding: 4px; border-radius: var(--radius-pill); background: var(--cartoes); border: 1px solid var(--line); isolation: isolate; }
+.seg-thumb { position: absolute; top: 4px; bottom: 4px; left: 0; width: 0; border-radius: var(--radius-pill); background: var(--lavanda); z-index: -1; box-shadow: 0 6px 20px -6px rgba(183, 156, 255, 0.6); }
+.seg label { flex: 1; position: relative; text-align: center; cursor: pointer; padding: 0.75rem 0.6rem; border-radius: var(--radius-pill); font-size: 0.78rem; letter-spacing: 0.06em; color: var(--gray-light); transition: color 0.35s ease; white-space: nowrap; }
+.seg label small { display: block; font-size: 0.6rem; letter-spacing: 0.16em; text-transform: uppercase; opacity: 0.75; margin-top: 2px; }
+.seg input { position: absolute; opacity: 0; pointer-events: none; }
+.seg input:checked + span { color: var(--fundo); font-weight: 600; }
+.seg label:hover { color: var(--texto); }
+.seg input:focus-visible + span { outline: 2px solid var(--texto); outline-offset: 6px; border-radius: 4px; }
+.seg input:disabled + span { opacity: 0.3; cursor: not-allowed; }
+.seg label:has(input:disabled) { cursor: not-allowed; }
+fieldset.is-na .seg { opacity: 0.35; }
+fieldset.is-na .seg-thumb { opacity: 0; }
+.cfg-hint { clear: both; font-size: 0.75rem; color: var(--gray); margin-top: 0.7rem; min-height: 1.1em; }
+.no-seg-thumb .seg input:checked + span { color: var(--lavanda); } /* sem JS: texto lavanda no item escolhido */
+
+.plan-stage { position: relative; perspective: 1200px; display: grid; place-items: center; padding: 2rem 0; }
+.plan-card {
+  position: relative; width: min(100%, 470px); padding: 2.2rem 2.2rem 2rem; border-radius: var(--radius-card);
+  background: var(--roxo); border: 2px solid var(--lavanda); box-shadow: var(--shadow-hard);
+  transform: rotate(-1.5deg); transform-style: preserve-3d; will-change: transform;
+}
+.plan-card-bg { position: absolute; inset: 0; border-radius: inherit; overflow: hidden; pointer-events: none; }
+.plan-card-bg::before { content: 'ABBOTT'; position: absolute; right: -1rem; bottom: -2.4rem; font-family: var(--display); font-size: 9rem; color: transparent; -webkit-text-stroke: 1px rgba(242, 239, 250, 0.14); line-height: 1; }
+.plan-card-bg::after { content: ''; position: absolute; inset: 0; background: radial-gradient(120% 70% at 0% 0%, rgba(255, 255, 255, 0.16), transparent 60%); }
+.plan-kicker { font-size: 0.66rem; letter-spacing: 0.3em; text-transform: uppercase; color: rgba(242, 239, 250, 0.8); display: flex; align-items: center; gap: 0.7rem; }
+.plan-kicker::before { content: ''; width: 26px; height: 1px; background: var(--texto); }
+.plan-summary { font-family: var(--serif); font-style: italic; font-size: 1.35rem; margin: 0.9rem 0 0.4rem; min-height: 1.6em; }
+.price { display: flex; align-items: flex-start; gap: 0.4rem; font-family: var(--display); line-height: 0.85; margin: 0.6rem 0 0.2rem; }
+.price-cur { font-size: 2rem; margin-top: 0.7rem; letter-spacing: 0.04em; }
+.price-num { display: flex; font-size: clamp(6rem, 9vw, 8.6rem); letter-spacing: 0.02em; }
+.odo { display: inline-block; height: 0.85em; overflow: hidden; position: relative; }
+.odo-col { display: flex; flex-direction: column; will-change: transform; }
+.odo-col span { height: 0.85em; display: block; text-align: center; }
+.price-cents { font-size: 2rem; margin-top: 0.7rem; }
+.price-per { font-size: 0.72rem; letter-spacing: 0.24em; text-transform: uppercase; color: rgba(242, 239, 250, 0.8); }
+.plan-save { position: absolute; top: -1.6rem; right: -1.4rem; z-index: 3; width: 7rem; height: 7rem; border-radius: 50%; display: grid; place-items: center; text-align: center;
+  background: var(--lavanda); color: var(--fundo); border: 2px solid var(--fundo); box-shadow: 4px 4px 0 0 var(--fundo); transform: rotate(10deg); }
+.plan-save b { display: block; font-family: var(--display); font-size: 1.7rem; font-weight: 400; line-height: 0.9; }
+.plan-save small { display: block; font-size: 0.55rem; letter-spacing: 0.16em; text-transform: uppercase; line-height: 1.3; padding: 0 0.6rem; }
+.plan-save.is-hidden { visibility: hidden; }
+.plan-cta { margin-top: 1.8rem; display: flex; align-items: center; gap: 1.2rem; flex-wrap: wrap; }
+.plan-foot { margin-top: 1.4rem; font-size: 0.68rem; color: rgba(242, 239, 250, 0.7); letter-spacing: 0.04em; }
+
+/* Botão WhatsApp (DS .btn-whats, borda cônica girando) */
+.btn-whats {
+  display: inline-flex; align-items: center; gap: 0.75rem; padding: 1rem 1.6rem; border-radius: var(--radius-md);
+  background: var(--roxo); color: var(--texto); font-weight: 600; font-size: 0.95rem; position: relative; overflow: hidden; isolation: isolate;
+  transition: transform 0.4s var(--ease-out-expo), box-shadow 0.4s ease;
+}
+.btn-whats svg { width: 1.3rem; height: 1.3rem; }
+.btn-whats::before {
+  content: ''; position: absolute; inset: -2px; border-radius: inherit; z-index: -1;
+  background: conic-gradient(from var(--angle, 0deg), var(--lavanda), var(--roxo), var(--roxo-dark), var(--lavanda));
+  animation: spinAngle 4s linear infinite;
+}
+.btn-whats::after { content: ''; position: absolute; inset: 1.5px; border-radius: calc(var(--radius-md) - 1px); background: var(--roxo); z-index: -1; transition: background 0.4s ease; }
+.btn-whats:hover, .btn-whats:focus-visible { transform: translateY(-3px); box-shadow: 0 18px 40px -12px var(--roxo); }
+.btn-whats:hover::after, .btn-whats:focus-visible::after { background: var(--roxo-dark); }
+.btn-whats.is-dark::after { background: var(--fundo); }
+.btn-whats.is-dark:hover::after { background: var(--cartoes); }
+@property --angle { syntax: '<angle>'; initial-value: 0deg; inherits: false; }
+@keyframes spinAngle { to { --angle: 360deg; } }
+
+/* ---------- AVULSOS + LOCAL (DS .beliefs-card, Elyse) ---------- */
+.extras { margin-top: 7rem; display: grid; grid-template-columns: 1fr 1fr 1.35fr; gap: 1.4rem; }
+.beliefs-card { position: relative; padding: 2rem; min-height: 19rem; display: flex; flex-direction: column; justify-content: space-between; gap: 1.2rem; }
+.beliefs-card-bg {
+  position: absolute; inset: 0; z-index: 0; border-radius: var(--radius-card);
+  background: rgba(183, 156, 255, 0.08); border: 1px solid rgba(183, 156, 255, 0.18);
+  backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+  clip-path: polygon(0 0, calc(100% - 3.2rem) 0, 100% 3.2rem, 100% 100%, 0 100%);
+  transition: background 0.4s ease;
+}
+.beliefs-card:hover .beliefs-card-bg { background: rgba(183, 156, 255, 0.14); }
+.beliefs-card > *:not(.beliefs-card-bg) { position: relative; z-index: 1; }
+.beliefs-card.is-feature .beliefs-card-bg { background: var(--lavanda); border-color: var(--texto); }
+.beliefs-card.is-feature { color: var(--fundo); }
+.beliefs-card.is-feature:hover .beliefs-card-bg { background: #c6b0ff; }
+.beliefs-card-num { font-family: var(--serif); font-style: italic; color: var(--lavanda); font-size: 1rem; }
+.beliefs-card.is-feature .beliefs-card-num { color: var(--roxo-dark); }
+.beliefs-card-heading { font-family: var(--display); font-size: 1.9rem; letter-spacing: 0.05em; line-height: 1; margin: 0.8rem 0 0.5rem; font-weight: 400; }
+.beliefs-card p { font-size: 0.9rem; line-height: 1.6; color: var(--gray-light); }
+.beliefs-card.is-feature p { color: rgba(10, 10, 20, 0.75); }
+.mini-price { font-family: var(--display); font-size: 4.2rem; line-height: 0.9; letter-spacing: 0.02em; display: flex; align-items: flex-start; gap: 0.3rem; }
+.mini-price small { font-size: 1.2rem; margin-top: 0.45rem; }
+.beliefs-card > .feature-sticker, .feature-sticker { position: absolute; top: -1.2rem; right: 1.4rem; z-index: 3; padding: 0.55rem 0.9rem; border-radius: var(--radius-pill); background: var(--roxo); color: var(--texto); border: 2px solid var(--fundo); box-shadow: 3px 3px 0 0 var(--fundo); font-size: 0.62rem; letter-spacing: 0.22em; text-transform: uppercase; transform: rotate(4deg); }
+.link-arrow { display: inline-flex; align-items: center; gap: 0.6rem; font-size: 0.75rem; letter-spacing: 0.15em; text-transform: uppercase; position: relative; padding: 0.3rem 0; width: fit-content; }
+.link-arrow::after { content: ''; position: absolute; left: 0; bottom: 0; width: 100%; height: 1px; background: currentColor; transform: scaleX(0); transform-origin: right; transition: transform 0.5s var(--ease-out-expo); }
+.link-arrow:hover::after, .link-arrow:focus-visible::after { transform: scaleX(1); transform-origin: left; }
+.link-arrow svg { width: 1.1rem; height: 1.1rem; transition: transform 0.3s ease; }
+.link-arrow:hover svg { transform: translateX(4px); }
+
+.local-card { display: grid; grid-template-columns: 1fr 1fr; gap: 1.4rem; align-items: stretch; }
+.map { position: relative; border-radius: var(--radius-md); overflow: hidden; background: var(--fundo); border: 1px solid var(--line); min-height: 15rem; }
+.map svg { position: absolute; inset: 0; width: 100%; height: 100%; }
+.map .street { fill: none; stroke: rgba(183, 156, 255, 0.14); stroke-width: 7; stroke-linecap: round; }
+.map .street.is-thin { stroke-width: 3; stroke: rgba(183, 156, 255, 0.09); }
+.map .route { fill: none; stroke: var(--lavanda); stroke-width: 2.5; stroke-dasharray: 2 7; stroke-linecap: round; }
+.map .block { fill: rgba(183, 156, 255, 0.05); }
+.map .court { fill: rgba(109, 63, 224, 0.35); stroke: var(--lavanda); stroke-width: 1.2; }
+.map-pin { position: absolute; left: 68%; top: 34%; transform: translate(-50%, -100%); width: 34px; height: 44px; color: var(--lavanda); filter: drop-shadow(0 6px 10px rgba(109, 63, 224, 0.8)); }
+.map-pin svg { position: static; width: 100%; height: 100%; animation: ballBounce 1.6s var(--ease-inout) infinite; }
+.map-pin::after { content: ''; position: absolute; left: 50%; bottom: -6px; width: 18px; height: 6px; margin-left: -9px; border-radius: 50%; background: rgba(183, 156, 255, 0.35); animation: pinShadow 1.6s var(--ease-inout) infinite; }
+@keyframes pinShadow { 0%, 100% { transform: scale(1); opacity: 0.6; } 50% { transform: scale(0.6); opacity: 0.3; } }
+.map-label { position: absolute; left: 0.9rem; bottom: 0.9rem; font-size: 0.6rem; letter-spacing: 0.24em; text-transform: uppercase; color: var(--gray-light); }
+.local-info address { font-style: normal; font-size: 0.95rem; line-height: 1.6; color: var(--texto); margin-top: 0.6rem; }
+.local-links { display: flex; flex-direction: column; gap: 0.6rem; color: var(--lavanda); }
+
+/* Estado inicial das revelações desta dobra */
+html.js [data-a] { visibility: hidden; }
+
+/* ---------- Responsivo ---------- */
+@media (max-width: 1200px) {
+  .extras { grid-template-columns: 1fr 1fr; }
+  .extras .local { grid-column: 1 / -1; }
+}
+@media (max-width: 1024px) {
+  .aulas { padding: 6rem 0 5rem; }
+  .aulas-head { grid-template-columns: 1fr; gap: 1.6rem; margin-bottom: 3rem; }
+  .board { padding: 1.2rem 0 1.4rem; border-radius: var(--radius-md); }
+  .board-tools { padding: 0 1.2rem; }
+  .board-scroll { overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; padding: 0 1.2rem 0.5rem 0; }
+  .board-scroll::-webkit-scrollbar { display: none; }
+  .board-grid { grid-template-columns: 46px repeat(4, 74vw); }
+  .board-rail, .board-grid > .board-corner { position: sticky; left: 0; z-index: 6; background: linear-gradient(90deg, #120e22 75%, transparent); }
+  .board-headcell, .board-day { scroll-snap-align: start; scroll-margin-left: 56px; }
+  .board-rail span { padding-left: 0.6rem; font-size: 0.9rem; }
+  .planos { grid-template-columns: 1fr; gap: 3rem; margin-top: 5rem; }
+  .plan-stage { padding-top: 0; }
+  .extras { margin-top: 5rem; }
+}
+@media (max-width: 767px) {
+  .extras { grid-template-columns: 1fr; }
+  .local-card { grid-template-columns: 1fr; }
+  .seg label { padding: 0.7rem 0.3rem; font-size: 0.72rem; }
+  .plan-card { padding: 1.8rem 1.4rem 1.6rem; }
+  .plan-save { width: 5.6rem; height: 5.6rem; right: -0.4rem; top: -2rem; }
+  .plan-save b { font-size: 1.35rem; }
+  .legend { display: none; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .slot[data-cat~="vago"] { animation: none; }
+}
+</style>
 </head>
 <body>
 
@@ -720,7 +1003,6 @@ html.js .bg-court.is-scrub > * { visibility: visible; }
 <div class="bg-grain" aria-hidden="true"></div>
 <div class="cursor-ball" aria-hidden="true"></div>
 
-<!-- TODO: trocar pelo número real do Guilherme (formato 55 + DDD + número, só dígitos) -->
 <header class="nav" id="nav">
   <a href="#top" class="nav-logo" data-nav-item aria-label="Abbott & Beach, ir para o início">ABBOTT <span class="logo-ampersand" aria-hidden="true">&amp;</span> BEACH <span class="logo-ball" aria-hidden="true"></span></a>
   <nav aria-label="Principal">
@@ -731,13 +1013,12 @@ html.js .bg-court.is-scrub > * { visibility: visible; }
       <li data-nav-item><a href="#parcerias">Parcerias</a></li>
     </ul>
   </nav>
-  <a href="https://wa.me/55XXXXXXXXXXX" class="nav-cta" data-nav-item data-magnetic="0.25" target="_blank" rel="noopener">Agendar aula<span class="sr-only"> (abre o WhatsApp)</span></a>
+  <a href="https://wa.me/5515997421167" class="nav-cta" data-nav-item data-magnetic="0.25" target="_blank" rel="noopener">Agendar aula<span class="sr-only"> (abre o WhatsApp)</span></a>
   <button class="nav-hamburger" id="hamburger" data-nav-item type="button" aria-label="Abrir menu" aria-expanded="false" aria-controls="mobileNav"><span></span><span></span><span></span></button>
 </header>
 <nav class="mobile-nav" id="mobileNav" aria-label="Menu">
   <a href="#top" aria-current="page">Início</a><a href="#professor">Professor</a><a href="#aulas">Aulas</a><a href="#parcerias">Parcerias</a>
-  <!-- TODO: número real do WhatsApp -->
-  <a href="https://wa.me/55XXXXXXXXXXX" class="nav-cta" target="_blank" rel="noopener">Agendar aula</a>
+  <a href="https://wa.me/5515997421167" class="nav-cta" target="_blank" rel="noopener">Agendar aula</a>
 </nav>
 
 <main>
@@ -763,8 +1044,7 @@ html.js .bg-court.is-scrub > * { visibility: visible; }
       </h1>
       <p class="hero-desc" data-hero="subtitle">Aulas personalizadas na areia, pensadas para o seu nível e para o que você quer conquistar em quadra.</p>
       <div class="hero-actions" data-hero="actions">
-        <!-- TODO: número real do WhatsApp -->
-        <a href="https://wa.me/55XXXXXXXXXXX" class="btn-primary" data-magnetic target="_blank" rel="noopener">
+        <a href="https://wa.me/5515997421167" class="btn-primary" data-magnetic target="_blank" rel="noopener">
           <span class="btn-label">Agendar aula</span>
           <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12h16M14 6l6 6-6 6"/></svg>
           <span class="sr-only"> (abre o WhatsApp)</span>
@@ -898,6 +1178,142 @@ html.js .bg-court.is-scrub > * { visibility: visible; }
           <article class="pain-point_card is-dark"><span class="pain-point_year">06</span><div class="pain-point_img"><img src="img/card-comunidade.webp" style="object-position:50% 62%" loading="lazy" decoding="async" alt="Grupo de jogadores e professores de beach tênis reunidos em uma arena coberta"></div><h3 class="pain-point_title">Comunidade</h3><p class="pain-point_text">Gente que vive o beach tênis</p></article>
         </div>
         <div class="cards-progress" aria-hidden="true"><span></span><em>Role para ver</em></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= DOBRA 3: AULAS ================= -->
+  <section class="aulas" id="aulas" aria-labelledby="aulas-title">
+    <div class="bg-layer" aria-hidden="true">
+      <div class="aulas-glow"></div>
+      <span class="gold-line-decor" style="left:6%"></span><span class="gold-line-decor" style="left:38%"></span><span class="gold-line-decor" style="left:71%"></span><span class="gold-line-decor" style="left:94%"></span>
+      <svg class="bg-court is-scrub" viewBox="0 0 1600 900" preserveAspectRatio="none"><rect x="120" y="160" width="1360" height="580"/><line class="is-accent" x1="800" y1="120" x2="800" y2="780"/><line x1="120" y1="450" x2="380" y2="450"/><line x1="1220" y1="450" x2="1480" y2="450"/></svg>
+      <div class="testimonial-bg-text" data-giant>AULAS · HORÁRIOS · PLANOS · AULAS</div>
+    </div>
+
+    <div class="wrap">
+      <header class="aulas-head">
+        <div>
+          <p class="section-tag" data-a="tag"><span class="section-tag-line"></span><span class="section-tag-text">Aulas e horários</span></p>
+          <h2 class="section-title" id="aulas-title" data-a="split">Escolha seu horário <span class="italic">e entre em quadra</span></h2>
+        </div>
+        <div>
+          <p class="aulas-lead" data-a="text">Turmas de segunda a quinta, separadas por categoria e nível. Toque em um horário da grade para chamar o Guilherme no WhatsApp com a turma já escrita na mensagem.</p>
+          <div class="aulas-facts" data-a="pills">
+            <span class="tag-pill"><span class="pulse-dot"></span>Seg a Qui</span>
+            <span class="tag-pill">14h30 às 21h30</span>
+            <span class="tag-pill is-outline">Turmas por nível · D ao A</span>
+            <span class="tag-pill is-outline">Arena Resenha · Votorantim</span>
+          </div>
+        </div>
+      </header>
+
+      <!-- 01 · Grade da semana -->
+      <div class="block-head" data-a="text"><h3><em>01</em>Grade da semana</h3><p>Cores por categoria. Os horários com tracejado estão vagos.</p></div>
+      <div class="board" data-a="board">
+        <div class="board-tools">
+          <div class="chip-group" role="group" aria-label="Filtrar turmas">
+            <button type="button" class="chip is-active" data-filter="all" aria-pressed="true">Todas</button>
+            <button type="button" class="chip" data-filter="masc" aria-pressed="false">Masculina</button>
+            <button type="button" class="chip" data-filter="fem" aria-pressed="false">Feminina</button>
+            <button type="button" class="chip" data-filter="mista" aria-pressed="false">Mista</button>
+            <button type="button" class="chip" data-filter="kids" aria-pressed="false">Kids</button>
+            <button type="button" class="chip" data-filter="comp" aria-pressed="false">Competitivo</button>
+            <button type="button" class="chip" data-filter="vago" aria-pressed="false">Horários vagos</button>
+          </div>
+          <div class="legend" aria-hidden="true">
+            <span><i style="background:var(--roxo)"></i>Masc</span><span><i style="background:var(--lavanda)"></i>Fem</span>
+            <span><i style="background:linear-gradient(120deg,var(--roxo),var(--lavanda))"></i>Mista</span>
+            <span><i style="background:var(--cartoes-2);border:1px solid var(--lavanda)"></i>Kids</span>
+            <span><i style="border:1px dashed var(--lavanda)"></i>Vago</span>
+          </div>
+        </div>
+        <div class="board-scroll">
+          <div class="board-grid">
+            <div class="board-corner"></div><div class="board-headcell" data-day="1"><b>Seg</b><small>segunda</small><span class="today-pill">hoje</span></div><div class="board-headcell" data-day="2"><b>Ter</b><small>terça</small><span class="today-pill">hoje</span></div><div class="board-headcell" data-day="3"><b>Qua</b><small>quarta</small><span class="today-pill">hoje</span></div><div class="board-headcell" data-day="4"><b>Qui</b><small>quinta</small><span class="today-pill">hoje</span></div>
+            <div class="board-rail" aria-hidden="true"><span>14h</span><span>15h</span><span>16h</span><span>17h</span><span>18h</span><span>19h</span><span>20h</span><span>21h</span></div><div class="board-day" data-day="1" aria-label="segunda"><a class="slot" data-cat="masc" style="--r:3;--s:2" data-slot href="https://wa.me/5515997421167?text=Oi%2C%20Guilherme%21%20Vi%20no%20site%20a%20turma%20Masculino%20B%20de%20segunda%20%C3%A0s%2015h%20e%20quero%20saber%20se%20tem%20vaga." target="_blank" rel="noopener" aria-label="Masculino B, segunda, das 15h – 16h. Chamar no WhatsApp"><span class="slot-time">15h – 16h</span><span class="slot-title">Masculino <b style="font-weight:400;opacity:.75">B</b></span><span class="slot-meta"><span>Nível B</span><span class="slot-go">Chamar <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12h16M14 6l6 6-6 6"/></svg></span></span></a><a class="slot" data-cat="kids" style="--r:5;--s:2" data-slot href="https://wa.me/5515997421167?text=Oi%2C%20Guilherme%21%20Vi%20no%20site%20a%20turma%20Turma%20kids%20de%20segunda%20%C3%A0s%2016h%20e%20quero%20saber%20se%20tem%20vaga." target="_blank" rel="noopener" aria-label="Turma kids, segunda, das 16h – 17h. Chamar no WhatsApp"><span class="slot-time">16h – 17h</span><span class="slot-title">Turma kids</span><span class="slot-meta"><span>Crianças</span><span class="slot-go">Chamar <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12h16M14 6l6 6-6 6"/></svg></span></span></a><a class="slot" data-cat="masc" style="--r:7;--s:2" data-slot href="https://wa.me/5515997421167?text=Oi%2C%20Guilherme%21%20Vi%20no%20site%20a%20turma%20Masculino%20D/C%20de%20segunda%20%C3%A0s%2017h%20e%20quero%20saber%20se%20tem%20vaga." target="_blank" rel="noopener" aria-label="Masculino D/C, segunda, das 17h – 18h. Chamar no WhatsApp"><span class="slot-time">17h – 18h</span><span class="slot-title">Masculino <b style="font-weight:400;opacity:.75">D/C</b></span><span class="slot-meta"><span>Nível D/C</span><span class="slot-go">Chamar <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12h16M14 6l6 6-6 6"/></svg></span></span></a><a class="slot" data-cat="mista" style="--r:9;--s:2" data-slot href="https://wa.me/5515997421167?text=Oi%2C%20Guilherme%21%20Vi%20no%20site%20a%20turma%20Mista%20D%2B%20de%20segunda%20%C3%A0s%2018h%20e%20quero%20saber%20se%20tem%20vaga." target="_blank" rel="noopener" aria-label="Mista D+, segunda, das 18h – 19h. Chamar no WhatsApp"><span class="slot-time">18h – 19h</span><span class="slot-title">Mista <b style="font-weight:400;opacity:.75">D+</b></span><span class="slot-meta"><span>Nível D+</span><span class="slot-go">Chamar <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12h16M14 6l6 6-6 6"/></svg></span></span></a><a class="slot" data-cat="vago" style="--r:11;--s:2" data-slot href="https://wa.me/5515997421167?text=Oi%2C%20Guilherme%21%20Vi%20no%20site%20que%20a%20segunda%20%C3%A0s%2019h%20est%C3%A1%20com%20hor%C3%A1rio%20vago.%20Quero%20saber%20mais." target="_blank" rel="noopener" aria-label="Horário vago na segunda, das 19h – 20h. Chamar no WhatsApp"><span class="slot-time">19h – 20h</span><span class="slot-title"><span class="pulse-dot"></span>Horário vago</span><span class="slot-meta"><span class="slot-go">Quero esse <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12h16M14 6l6 6-6 6"/></svg></span></span></a><a class="slot" data-cat="vago" style="--r:13;--s:2" data-slot href="https://wa.me/5515997421167?text=Oi%2C%20Guilherme%21%20Vi%20no%20site%20que%20a%20segunda%20%C3%A0s%2020h%20est%C3%A1%20com%20hor%C3%A1rio%20vago.%20Quero%20saber%20mais." target="_blank" rel="noopener" aria-label="Horário vago na segunda, das 20h – 21h. Chamar no WhatsApp"><span class="slot-time">20h – 21h</span><span class="slot-title"><span class="pulse-dot"></span>Horário vago</span><span class="slot-meta"><span class="slot-go">Quero esse <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12h16M14 6l6 6-6 6"/></svg></span></span></a></div><div class="board-day" data-day="2" aria-label="terça"><a class="slot" data-cat="masc comp" style="--r:2;--s:3" data-slot href="https://wa.me/5515997421167?text=Oi%2C%20Guilherme%21%20Vi%20no%20site%20a%20turma%20Masculino%20A%20de%20ter%C3%A7a%20%C3%A0s%2014h30%20e%20quero%20saber%20se%20tem%20vaga." target="_blank" rel="noopener" aria-label="Masculino A, terça, das 14h30 – 16h, competitivo. Chamar no WhatsApp"><span class="slot-time">14h30 – 16h</span><span class="slot-title">Masculino <b style="font-weight:400;opacity:.75">A</b></span><span class="slot-meta"><span class="slot-flag">Competitivo</span><span class="slot-go">Chamar <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12h16M14 6l6 6-6 6"/></svg></span></span></a><a class="slot" data-cat="fem" style="--r:5;--s:2" data-slot href="https://wa.me/5515997421167?text=Oi%2C%20Guilherme%21%20Vi%20no%20site%20a%20turma%20Feminino%20D%20de%20ter%C3%A7a%20%C3%A0s%2016h%20e%20quero%20saber%20se%20tem%20vaga." target="_blank" rel="noopener" aria-label="Feminino D, terça, das 16h – 17h. Chamar no WhatsApp"><span class="slot-time">16h – 17h</span><span class="slot-title">Feminino <b style="font-weight:400;opacity:.75">D</b></span><span class="slot-meta"><span>Nível D</span><span class="slot-go">Chamar <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12h16M14 6l6 6-6 6"/></svg></span></span></a><a class="slot" data-cat="fem" style="--r:7;--s:2" data-slot href="https://wa.me/5515997421167?text=Oi%2C%20Guilherme%21%20Vi%20no%20site%20a%20turma%20Feminino%20D/C%20de%20ter%C3%A7a%20%C3%A0s%2017h%20e%20quero%20saber%20se%20tem%20vaga." target="_blank" rel="noopener" aria-label="Feminino D/C, terça, das 17h – 18h. Chamar no WhatsApp"><span class="slot-time">17h – 18h</span><span class="slot-title">Feminino <b style="font-weight:400;opacity:.75">D/C</b></span><span class="slot-meta"><span>Nível D/C</span><span class="slot-go">Chamar <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12h16M14 6l6 6-6 6"/></svg></span></span></a><div class="slot is-off" data-cat="off" style="--r:9;--s:2" data-slot><span class="slot-time">18h – 19h</span><span class="slot-title">Sem aula</span><span class="slot-meta">intervalo</span></div><a class="slot" data-cat="mista" style="--r:11;--s:2" data-slot href="https://wa.me/5515997421167?text=Oi%2C%20Guilherme%21%20Vi%20no%20site%20a%20turma%20Mista%20D%2B%20de%20ter%C3%A7a%20%C3%A0s%2019h%20e%20quero%20saber%20se%20tem%20vaga." target="_blank" rel="noopener" aria-label="Mista D+, terça, das 19h – 20h. Chamar no WhatsApp"><span class="slot-time">19h – 20h</span><span class="slot-title">Mista <b style="font-weight:400;opacity:.75">D+</b></span><span class="slot-meta"><span>Nível D+</span><span class="slot-go">Chamar <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12h16M14 6l6 6-6 6"/></svg></span></span></a><a class="slot" data-cat="masc comp" style="--r:13;--s:3" data-slot href="https://wa.me/5515997421167?text=Oi%2C%20Guilherme%21%20Vi%20no%20site%20a%20turma%20Masculino%20C%20de%20ter%C3%A7a%20%C3%A0s%2020h%20e%20quero%20saber%20se%20tem%20vaga." target="_blank" rel="noopener" aria-label="Masculino C, terça, das 20h – 21h30, treino competitivo. Chamar no WhatsApp"><span class="slot-time">20h – 21h30</span><span class="slot-title">Masculino <b style="font-weight:400;opacity:.75">C</b></span><span class="slot-meta"><span class="slot-flag">Treino competitivo</span><span class="slot-go">Chamar <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12h16M14 6l6 6-6 6"/></svg></span></span></a></div><div class="board-day" data-day="3" aria-label="quarta"><a class="slot" data-cat="fem" style="--r:4;--s:3" data-slot href="https://wa.me/5515997421167?text=Oi%2C%20Guilherme%21%20Vi%20no%20site%20a%20turma%20Feminino%20A%20de%20quarta%20%C3%A0s%2015h30%20e%20quero%20saber%20se%20tem%20vaga." target="_blank" rel="noopener" aria-label="Feminino A, quarta, das 15h30 – 17h, 1h30. Chamar no WhatsApp"><span class="slot-time">15h30 – 17h</span><span class="slot-title">Feminino <b style="font-weight:400;opacity:.75">A</b></span><span class="slot-meta"><span class="slot-flag">1h30</span><span class="slot-go">Chamar <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12h16M14 6l6 6-6 6"/></svg></span></span></a><a class="slot" data-cat="masc" style="--r:7;--s:2" data-slot href="https://wa.me/5515997421167?text=Oi%2C%20Guilherme%21%20Vi%20no%20site%20a%20turma%20Masculino%20D/C%20de%20quarta%20%C3%A0s%2017h%20e%20quero%20saber%20se%20tem%20vaga." target="_blank" rel="noopener" aria-label="Masculino D/C, quarta, das 17h – 18h. Chamar no WhatsApp"><span class="slot-time">17h – 18h</span><span class="slot-title">Masculino <b style="font-weight:400;opacity:.75">D/C</b></span><span class="slot-meta"><span>Nível D/C</span><span class="slot-go">Chamar <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12h16M14 6l6 6-6 6"/></svg></span></span></a><a class="slot" data-cat="fem" style="--r:9;--s:2" data-slot href="https://wa.me/5515997421167?text=Oi%2C%20Guilherme%21%20Vi%20no%20site%20a%20turma%20Feminino%20D%20de%20quarta%20%C3%A0s%2018h%20e%20quero%20saber%20se%20tem%20vaga." target="_blank" rel="noopener" aria-label="Feminino D, quarta, das 18h – 19h. Chamar no WhatsApp"><span class="slot-time">18h – 19h</span><span class="slot-title">Feminino <b style="font-weight:400;opacity:.75">D</b></span><span class="slot-meta"><span>Nível D</span><span class="slot-go">Chamar <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12h16M14 6l6 6-6 6"/></svg></span></span></a><a class="slot" data-cat="mista" style="--r:11;--s:2" data-slot href="https://wa.me/5515997421167?text=Oi%2C%20Guilherme%21%20Vi%20no%20site%20a%20turma%20Mista%20C%20de%20quarta%20%C3%A0s%2019h%20e%20quero%20saber%20se%20tem%20vaga." target="_blank" rel="noopener" aria-label="Mista C, quarta, das 19h – 20h. Chamar no WhatsApp"><span class="slot-time">19h – 20h</span><span class="slot-title">Mista <b style="font-weight:400;opacity:.75">C</b></span><span class="slot-meta"><span>Nível C</span><span class="slot-go">Chamar <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12h16M14 6l6 6-6 6"/></svg></span></span></a><a class="slot" data-cat="vago" style="--r:13;--s:2" data-slot href="https://wa.me/5515997421167?text=Oi%2C%20Guilherme%21%20Vi%20no%20site%20que%20a%20quarta%20%C3%A0s%2020h%20est%C3%A1%20com%20hor%C3%A1rio%20vago.%20Quero%20saber%20mais." target="_blank" rel="noopener" aria-label="Horário vago na quarta, das 20h – 21h. Chamar no WhatsApp"><span class="slot-time">20h – 21h</span><span class="slot-title"><span class="pulse-dot"></span>Horário vago</span><span class="slot-meta"><span class="slot-go">Quero esse <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12h16M14 6l6 6-6 6"/></svg></span></span></a></div><div class="board-day" data-day="4" aria-label="quinta"><a class="slot" data-cat="fem" style="--r:5;--s:2" data-slot href="https://wa.me/5515997421167?text=Oi%2C%20Guilherme%21%20Vi%20no%20site%20a%20turma%20Feminino%20D%20de%20quinta%20%C3%A0s%2016h%20e%20quero%20saber%20se%20tem%20vaga." target="_blank" rel="noopener" aria-label="Feminino D, quinta, das 16h – 17h. Chamar no WhatsApp"><span class="slot-time">16h – 17h</span><span class="slot-title">Feminino <b style="font-weight:400;opacity:.75">D</b></span><span class="slot-meta"><span>Nível D</span><span class="slot-go">Chamar <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12h16M14 6l6 6-6 6"/></svg></span></span></a><a class="slot" data-cat="mista" style="--r:7;--s:2" data-slot href="https://wa.me/5515997421167?text=Oi%2C%20Guilherme%21%20Vi%20no%20site%20a%20turma%20Mista%20D%2B%20de%20quinta%20%C3%A0s%2017h%20e%20quero%20saber%20se%20tem%20vaga." target="_blank" rel="noopener" aria-label="Mista D+, quinta, das 17h – 18h. Chamar no WhatsApp"><span class="slot-time">17h – 18h</span><span class="slot-title">Mista <b style="font-weight:400;opacity:.75">D+</b></span><span class="slot-meta"><span>Nível D+</span><span class="slot-go">Chamar <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12h16M14 6l6 6-6 6"/></svg></span></span></a><a class="slot" data-cat="fem" style="--r:9;--s:2" data-slot href="https://wa.me/5515997421167?text=Oi%2C%20Guilherme%21%20Vi%20no%20site%20a%20turma%20Feminino%20C%20de%20quinta%20%C3%A0s%2018h%20e%20quero%20saber%20se%20tem%20vaga." target="_blank" rel="noopener" aria-label="Feminino C, quinta, das 18h – 19h. Chamar no WhatsApp"><span class="slot-time">18h – 19h</span><span class="slot-title">Feminino <b style="font-weight:400;opacity:.75">C</b></span><span class="slot-meta"><span>Nível C</span><span class="slot-go">Chamar <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12h16M14 6l6 6-6 6"/></svg></span></span></a><a class="slot" data-cat="mista" style="--r:11;--s:2" data-slot href="https://wa.me/5515997421167?text=Oi%2C%20Guilherme%21%20Vi%20no%20site%20a%20turma%20Mista%20D%2B%20de%20quinta%20%C3%A0s%2019h%20e%20quero%20saber%20se%20tem%20vaga." target="_blank" rel="noopener" aria-label="Mista D+, quinta, das 19h – 20h. Chamar no WhatsApp"><span class="slot-time">19h – 20h</span><span class="slot-title">Mista <b style="font-weight:400;opacity:.75">D+</b></span><span class="slot-meta"><span>Nível D+</span><span class="slot-go">Chamar <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12h16M14 6l6 6-6 6"/></svg></span></span></a><a class="slot" data-cat="masc" style="--r:13;--s:2" data-slot href="https://wa.me/5515997421167?text=Oi%2C%20Guilherme%21%20Vi%20no%20site%20a%20turma%20Masculino%20A%20de%20quinta%20%C3%A0s%2020h%20e%20quero%20saber%20se%20tem%20vaga." target="_blank" rel="noopener" aria-label="Masculino A, quinta, das 20h – 21h. Chamar no WhatsApp"><span class="slot-time">20h – 21h</span><span class="slot-title">Masculino <b style="font-weight:400;opacity:.75">A</b></span><span class="slot-meta"><span>Nível A</span><span class="slot-go">Chamar <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12h16M14 6l6 6-6 6"/></svg></span></span></a></div>
+          </div>
+        </div>
+        <p class="board-note"><span class="pulse-dot" style="width:7px;height:7px;border-radius:50%;background:var(--lavanda);display:inline-block"></span>Aulas de 1h, exceto as indicadas (1h30). Vagas por turma sob consulta.</p>
+      </div>
+
+      <!-- 02 · Monte seu plano -->
+      <div class="planos" id="planos">
+        <form class="cfg" data-a="cfg" onsubmit="return false" aria-labelledby="planos-title">
+          <div class="block-head" style="margin-bottom:1.2rem"><h3 id="planos-title"><em>02</em>Monte seu plano</h3></div>
+          <p class="aulas-lead" style="margin-bottom:1.8rem">Escolha a modalidade, quantas vezes por semana e o plano. Quanto maior o plano, menor o valor por mês.</p>
+          <fieldset class="cfg-step"><legend><b>a.</b> Modalidade</legend>
+            <div class="seg" data-seg="mod"><span class="seg-thumb" aria-hidden="true"></span><label><input type="radio" name="mod" value="turma" checked><span>Turma<small>1h</small></span></label><label><input type="radio" name="mod" value="treino"><span>Treino<small>1h30</small></span></label><label><input type="radio" name="mod" value="personal"><span>Personal<small>individual</small></span></label></div>
+          </fieldset>
+          <fieldset class="cfg-step" data-step="freq"><legend><b>b.</b> Vezes por semana</legend>
+            <div class="seg" data-seg="freq"><span class="seg-thumb" aria-hidden="true"></span><label><input type="radio" name="freq" value="0" checked><span>1x</span></label><label><input type="radio" name="freq" value="1"><span>2x</span></label><label><input type="radio" name="freq" value="2"><span>3x</span></label></div>
+            <p class="cfg-hint" data-hint="freq" aria-live="polite"></p>
+          </fieldset>
+          <fieldset class="cfg-step"><legend><b>c.</b> Plano</legend>
+            <div class="seg" data-seg="plano"><span class="seg-thumb" aria-hidden="true"></span><label><input type="radio" name="plano" value="mensal" checked><span>Mensal</span></label><label><input type="radio" name="plano" value="trimestral"><span>Trimestral</span></label><label><input type="radio" name="plano" value="semestral"><span>Semestral</span></label><label><input type="radio" name="plano" value="anual"><span>Anual</span></label></div>
+            <p class="cfg-hint" data-hint="plano" aria-live="polite"></p>
+          </fieldset>
+        </form>
+        <div class="plan-stage" data-a="plan">
+          <div class="plan-card" data-tilt>
+            <div class="plan-card-bg" aria-hidden="true"></div>
+            <div class="plan-save is-hidden" data-save aria-live="polite"><div><b data-save-val>R$ 0</b><small>a menos por mês que o mensal</small></div></div>
+            <p class="plan-kicker">Seu plano</p>
+            <p class="plan-summary" data-summary>Turma · 1x por semana · mensal</p>
+            <div class="price" aria-live="polite" aria-atomic="true">
+              <span class="price-cur">R$</span>
+              <span class="price-num" data-price aria-label="305 reais">305</span>
+              <span class="price-cents">,00</span>
+            </div>
+            <p class="price-per">por mês</p>
+            <div class="plan-cta">
+              <a class="btn-whats is-dark" data-plan-link href="https://wa.me/5515997421167?text=Oi%2C%20Guilherme%21%20Vi%20no%20site%20e%20quero%20o%20plano%3A%20Turma%20%C2%B7%201x%20por%20semana%20%C2%B7%20mensal." target="_blank" rel="noopener" data-magnetic="0.2"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20.5 11.6a8.5 8.5 0 0 1-12.6 7.4L3.5 20.5l1.5-4.3a8.5 8.5 0 1 1 15.5-4.6Z"/><path d="M9 8.6c.2 2.7 3.2 5.9 6.2 6.4l1.3-1.5-2-1-1 .9c-1-.5-2-1.5-2.4-2.5l.9-1-.9-2.1Z"/></svg><span>Quero esse plano</span></a>
+            </div>
+            <p class="plan-foot">Valores da tabela 2025 da arena Resenha. Confirme o valor atual com o Guilherme.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- 03 · Avulsos + local -->
+      <div class="block-head" style="margin-top:7rem" data-a="text"><h3><em>03</em>Sem compromisso</h3><p>Para conhecer a aula antes de fechar um plano, ou encaixar um treino extra.</p></div>
+      <div class="extras" data-a="extras">
+        <article class="beliefs-card is-feature">
+          <div class="beliefs-card-bg"></div>
+          <span class="feature-sticker">Comece por aqui</span>
+          <div><span class="beliefs-card-num">a.</span><h4 class="beliefs-card-heading">Aula experimental</h4><p>Uma aula para sentir o nível, conhecer o método e escolher a turma certa.</p></div>
+          <div class="mini-price"><small>R$</small>50</div>
+          <a class="btn-whats" href="https://wa.me/5515997421167?text=Oi%2C%20Guilherme%21%20Vi%20no%20site%20e%20quero%20agendar%20uma%20aula%20experimental." target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20.5 11.6a8.5 8.5 0 0 1-12.6 7.4L3.5 20.5l1.5-4.3a8.5 8.5 0 1 1 15.5-4.6Z"/><path d="M9 8.6c.2 2.7 3.2 5.9 6.2 6.4l1.3-1.5-2-1-1 .9c-1-.5-2-1.5-2.4-2.5l.9-1-.9-2.1Z"/></svg><span>Agendar experimental</span></a>
+        </article>
+        <article class="beliefs-card">
+          <div class="beliefs-card-bg"></div>
+          <div><span class="beliefs-card-num">b.</span><h4 class="beliefs-card-heading">Aula avulsa</h4><p>Uma aula só, quando quiser treinar sem fechar plano.</p></div>
+          <div class="mini-price"><small>R$</small>75</div>
+          <a class="link-arrow" style="color:var(--lavanda)" href="https://wa.me/5515997421167?text=Oi%2C%20Guilherme%21%20Vi%20no%20site%20e%20quero%20marcar%20uma%20aula%20avulsa." target="_blank" rel="noopener">Marcar avulsa <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12h16M14 6l6 6-6 6"/></svg></a>
+        </article>
+        <article class="beliefs-card local">
+          <div class="beliefs-card-bg"></div>
+          <div class="local-card">
+            <div class="local-info">
+              <span class="beliefs-card-num">c.</span><h4 class="beliefs-card-heading">Onde acontece</h4>
+              <p style="color:var(--lavanda);font-family:var(--serif);font-style:italic;font-size:1.05rem">Arena Resenha</p>
+              <address>Rua Adolpho Massaglia, 515<br>Vossoroca · Votorantim, SP</address>
+              <div class="local-links" style="margin-top:1.2rem">
+                <a class="link-arrow" href="https://www.google.com/maps/search/?api=1&amp;query=Rua%20Adolpho%20Massaglia%2C%20515%2C%20Vossoroca%2C%20Votorantim%2C%20SP" target="_blank" rel="noopener">Abrir no mapa <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12h16M14 6l6 6-6 6"/></svg></a>
+                <a class="link-arrow" href="https://www.instagram.com/resenha.foodfunsports/" target="_blank" rel="noopener">Instagram da arena <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12h16M14 6l6 6-6 6"/></svg></a>
+              </div>
+            </div>
+            <div class="map" aria-hidden="true">
+              <svg viewBox="0 0 300 260" preserveAspectRatio="xMidYMid slice">
+                <rect class="block" x="18" y="20" width="90" height="70" rx="6"/><rect class="block" x="130" y="18" width="70" height="56" rx="6"/><rect class="block" x="222" y="120" width="70" height="80" rx="6"/><rect class="block" x="20" y="150" width="110" height="80" rx="6"/>
+                <path class="street" d="M-10,112 C80,100 160,118 310,96"/><path class="street" d="M118,-10 C112,80 128,180 112,270"/><path class="street is-thin" d="M-10,210 C90,200 200,224 310,214"/><path class="street is-thin" d="M212,-10 C214,60 206,150 214,270"/>
+                <rect class="court" x="178" y="58" width="52" height="28" rx="2"/><line x1="204" y1="58" x2="204" y2="86" stroke="var(--lavanda)" stroke-width="1"/>
+                <path class="route" data-route d="M20,236 C60,214 92,188 114,150 C130,120 150,108 176,104 C192,101 200,96 204,90"/>
+              </svg>
+              <div class="map-pin"><svg viewBox="0 0 24 32" fill="currentColor"><path d="M12 0C5.4 0 0 5.2 0 11.7 0 20.5 12 32 12 32s12-11.5 12-20.3C24 5.2 18.6 0 12 0Zm0 16.5a5 5 0 1 1 0-10 5 5 0 0 1 0 10Z"/></svg></div>
+              <span class="map-label">Ilustração · Votorantim</span>
+            </div>
+          </div>
+        </article>
       </div>
     </div>
   </section>
@@ -1228,8 +1644,10 @@ html.js .bg-court.is-scrub > * { visibility: visible; }
       if (on) l.setAttribute('aria-current', 'page'); else l.removeAttribute('aria-current');
     });
   }
-  ScrollTrigger.create({ trigger: '#professor', start: 'top 55%', end: 'bottom 55%',
-    onToggle: function (self) { setActive(self.isActive ? '#professor' : '#top'); } });
+  ['#professor', '#aulas'].forEach(function (id, i, all) {
+    ScrollTrigger.create({ trigger: id, start: 'top 55%', end: 'bottom 55%',
+      onToggle: function (self) { if (self.isActive) setActive(id); else if (self.direction < 0) setActive(i ? all[i - 1] : '#top'); } });
+  });
 
   /* ---------- Bolinha da hero pausa fora da tela (desempenho) ---------- */
   ScrollTrigger.create({ trigger: '.hero', start: 'top top', end: 'bottom top',
@@ -1376,6 +1794,250 @@ html.js .bg-court.is-scrub > * { visibility: visible; }
       var r = el.getBoundingClientRect();
       if (getComputedStyle(el).visibility === 'hidden' && r.top < window.innerHeight * 0.4 && r.bottom > 0 && !el.__waited) { el.__waited = Date.now(); }
       if (el.__waited && Date.now() - el.__waited > 3000 && getComputedStyle(el).visibility === 'hidden') gsap.set(el, { autoAlpha: 1, clipPath: 'none' });
+    });
+  }, 1000);
+})();
+</script>
+<script>
+/* =====================================================================
+   DOBRA 3 — Aulas: grade (filtros, dia de hoje), configurador de plano
+   (placar que rola), avulsos e mapa. Fábricas do DS Abbott.
+   ===================================================================== */
+(function () {
+  'use strict';
+  var d = document.documentElement;
+  var hasG = !!(window.gsap && window.ScrollTrigger && window.SplitText);
+  var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var fine = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+  var $ = function (s, c) { return (c || document).querySelector(s); };
+  var $$ = function (s, c) { return Array.prototype.slice.call((c || document).querySelectorAll(s)); };
+  var root = $('#aulas'); if (!root) return;
+  var WA = 'https://wa.me/5515997421167'; // WhatsApp do Guilherme: +55 15 99742-1167
+  var inOut = hasG && gsap.parseEase('dsInOut') ? 'dsInOut' : 'power3.inOut';
+  var expo = hasG && gsap.parseEase('dsExpo') ? 'dsExpo' : 'expo.out';
+
+  /* ================= GRADE ================= */
+  var slots = $$('[data-slot]', root);
+  // Filtros (DS .chip)
+  $$('[data-filter]', root).forEach(function (chip) {
+    chip.addEventListener('click', function () {
+      var f = chip.dataset.filter;
+      $$('[data-filter]', root).forEach(function (c) { var on = c === chip; c.classList.toggle('is-active', on); c.setAttribute('aria-pressed', on ? 'true' : 'false'); });
+      slots.forEach(function (s, i) {
+        var cats = (s.dataset.cat || '').split(' ');
+        var match = f === 'all' ? true : cats.indexOf(f) > -1;
+        s.style.transitionDelay = (i % 6) * 25 + 'ms';
+        s.classList.toggle('is-dim', !match);
+        if (s.tagName === 'A') { if (match) s.removeAttribute('tabindex'); else s.setAttribute('tabindex', '-1'); }
+      });
+    });
+  });
+
+  // Destaca o dia de hoje (só seg–qui)
+  var now = new Date(); var wd = now.getDay();
+  var todayCol = $('.board-day[data-day="' + wd + '"]', root);
+  if (todayCol) {
+    todayCol.classList.add('is-today');
+    var hc = $('.board-headcell[data-day="' + wd + '"]', root); if (hc) hc.classList.add('is-today');
+  }
+  // No celular, a grade já abre no dia de hoje
+  var scroller = $('.board-scroll', root);
+  if (todayCol && scroller && window.innerWidth <= 1024) {
+    setTimeout(function () { scroller.scrollLeft = todayCol.offsetLeft - 56; }, 50);
+  }
+
+  /* ================= CONFIGURADOR DE PLANO ================= */
+  var PRICES = { // tabela 2025 da arena Resenha (valor mensal em cada plano)
+    turma:    { mensal: [305, 485, 665], trimestral: [285, 430, 565], semestral: [255, 405, 535], anual: [245, 370, 470] },
+    treino:   { trimestral: 390, semestral: 380, anual: 360 },
+    personal: { mensal: [400, 780], trimestral: [385, 765], semestral: [370, 750], anual: [350, 735] }
+  };
+  var form = $('.cfg', root);
+  var priceEl = $('[data-price]', root);
+  var saveEl = $('[data-save]', root), saveVal = $('[data-save-val]', root), saveTxt = saveEl && saveEl.querySelector('small');
+  var summaryEl = $('[data-summary]', root), linkEl = $('[data-plan-link]', root), card = $('[data-tilt]', root);
+  var hintFreq = $('[data-hint="freq"]', root), hintPlano = $('[data-hint="plano"]', root);
+  var MOD = { turma: 'Turma', treino: 'Treino 1h30', personal: 'Personal' };
+  var PLAN = { mensal: 'mensal', trimestral: 'trimestral', semestral: 'semestral', anual: 'anual' };
+  var radios = function (n) { return $$('input[name="' + n + '"]', form); };
+  var val = function (n) { var r = form.querySelector('input[name="' + n + '"]:checked'); return r ? r.value : null; };
+  var setVal = function (n, v) { radios(n).forEach(function (r) { r.checked = r.value === v; }); };
+
+  // Placar: cada dígito é uma coluna 0–9 que rola
+  var digits = [];
+  function buildOdo(n) {
+    priceEl.innerHTML = '';
+    String(n).split('').forEach(function (ch) {
+      var w = document.createElement('span'); w.className = 'odo'; w.setAttribute('aria-hidden', 'true');
+      var col = document.createElement('span'); col.className = 'odo-col';
+      for (var i = 0; i < 10; i++) { var s = document.createElement('span'); s.textContent = i; col.appendChild(s); }
+      w.appendChild(col); priceEl.appendChild(w); digits.push(col);
+      if (hasG) gsap.set(col, { yPercent: -parseInt(ch, 10) * 10 });
+    });
+  }
+  function rollTo(n, instant) {
+    var str = String(n);
+    if (str.length !== digits.length) { digits = []; buildOdo(n); return; }
+    str.split('').forEach(function (ch, i) {
+      var y = -parseInt(ch, 10) * 10;
+      if (!hasG || instant) { if (hasG) gsap.set(digits[i], { yPercent: y }); else digits[i].style.transform = 'translateY(' + y + '%)'; }
+      else gsap.to(digits[i], { yPercent: y, duration: 0.9 + i * 0.12, ease: 'expo.out', overwrite: true });
+    });
+    priceEl.setAttribute('aria-label', n + ' reais por mês');
+  }
+
+  function update(animate) {
+    var mod = val('mod');
+    // Regras da tabela: treino 1h30 não tem mensal nem frequência; personal vai até 2x
+    radios('freq').forEach(function (r) { r.disabled = mod === 'treino' || (mod === 'personal' && r.value === '2'); });
+    radios('plano').forEach(function (r) { r.disabled = mod === 'treino' && r.value === 'mensal'; });
+    if (mod === 'personal' && val('freq') === '2') setVal('freq', '1');
+    if (mod === 'treino' && val('plano') === 'mensal') setVal('plano', 'trimestral');
+    $('[data-step="freq"]', form).classList.toggle('is-na', mod === 'treino');
+    hintFreq.textContent = mod === 'treino' ? 'Treino de 1h30 tem valor único por plano.' : mod === 'personal' ? 'Personal: 1x ou 2x por semana.' : '';
+    hintPlano.textContent = mod === 'treino' ? 'Treino de 1h30: planos trimestral, semestral ou anual.' : '';
+
+    var plano = val('plano'), f = parseInt(val('freq'), 10);
+    var price = mod === 'treino' ? PRICES.treino[plano] : PRICES[mod][plano][f];
+    var base = mod === 'treino' ? PRICES.treino.trimestral : PRICES[mod].mensal[f];
+    var save = base - price;
+    var summary = MOD[mod] + (mod === 'treino' ? '' : ' · ' + (f + 1) + 'x por semana') + ' · ' + PLAN[plano];
+    summaryEl.textContent = summary;
+    linkEl.href = WA + '?text=' + encodeURIComponent('Oi, Guilherme! Vi no site e quero o plano: ' + summary + ' (R$ ' + price + ',00 por mês).');
+    rollTo(price, !animate);
+
+    if (save > 0) {
+      saveVal.textContent = 'R$ ' + save;
+      if (saveTxt) saveTxt.textContent = 'a menos por mês que o ' + (mod === 'treino' ? 'trimestral' : 'mensal');
+      var wasHidden = saveEl.classList.contains('is-hidden');
+      saveEl.classList.remove('is-hidden');
+      if (hasG && animate) gsap.fromTo(saveEl, { scale: wasHidden ? 0 : 0.85, rotate: wasHidden ? -40 : 4 }, { scale: 1, rotate: 10, duration: 0.8, ease: 'back.out(1.7)', overwrite: true });
+    } else if (hasG && animate && !saveEl.classList.contains('is-hidden')) {
+      gsap.to(saveEl, { scale: 0, rotate: -30, duration: 0.35, ease: 'power2.in', onComplete: function () { saveEl.classList.add('is-hidden'); gsap.set(saveEl, { scale: 1, rotate: 10 }); } });
+    } else { saveEl.classList.add('is-hidden'); }
+
+    if (hasG && animate && !reduce) gsap.fromTo(card, { rotationY: -10 }, { rotationY: 0, duration: 1, ease: 'elastic.out(1, 0.6)' });
+    moveThumbs(animate);
+  }
+
+  // Pílula que desliza por trás da opção escolhida
+  function moveThumbs(animate) {
+    $$('.seg', form).forEach(function (seg) {
+      var thumb = $('.seg-thumb', seg);
+      var lab = seg.querySelector('input:checked'); if (!lab) return; lab = lab.parentElement;
+      var x = lab.offsetLeft, w = lab.offsetWidth;
+      if (hasG && animate && !reduce) gsap.to(thumb, { x: x, width: w, duration: 0.6, ease: 'expo.out' });
+      else if (hasG) gsap.set(thumb, { x: x, width: w });
+      else { thumb.style.transform = 'translateX(' + x + 'px)'; thumb.style.width = w + 'px'; }
+    });
+  }
+  form.addEventListener('change', function () { update(true); });
+  window.addEventListener('resize', function () { moveThumbs(false); });
+  buildOdo(305);
+  update(false);
+
+  // Card de preço inclina com o mouse
+  if (hasG && fine && !reduce) {
+    var stage = $('.plan-stage', root);
+    gsap.set(card, { rotation: -1.5, transformPerspective: 1200 });
+    var rx = gsap.quickTo(card, 'rotationX', { duration: 0.8, ease: 'power3' });
+    var ry = gsap.quickTo(card, 'rotationY', { duration: 0.8, ease: 'power3' });
+    stage.addEventListener('mousemove', function (e) {
+      var r = stage.getBoundingClientRect();
+      ry(((e.clientX - r.left) / r.width - 0.5) * 12);
+      rx(-((e.clientY - r.top) / r.height - 0.5) * 10);
+    });
+    stage.addEventListener('mouseleave', function () { rx(0); ry(0); });
+  }
+
+  /* Pino do mapa no fim da rota (o SVG usa "slice", então calcula na tela) */
+  var route = $('[data-route]', root), pin = $('.map-pin', root), map = $('.map', root);
+  function placePin() {
+    if (!route || !pin) return;
+    var m = route.getScreenCTM(); if (!m) return;
+    var pt = route.getPointAtLength(route.getTotalLength()); var r = map.getBoundingClientRect();
+    pin.style.left = (pt.x * m.a + m.e - r.left) + 'px'; pin.style.top = (pt.y * m.d + m.f - r.top) + 'px';
+  }
+  placePin(); window.addEventListener('resize', placePin); window.addEventListener('load', placePin);
+
+  /* ================= REVELAÇÕES ================= */
+  if (!hasG || reduce) { if (hasG) gsap.set('[data-a]', { autoAlpha: 1 }); return; }
+
+  function init() {
+    // Fundo da dobra
+    $$('.aulas .gold-line-decor').forEach(function (el, i) {
+      gsap.fromTo(el, { yPercent: -20 }, { yPercent: 20, ease: 'none', scrollTrigger: { trigger: root, start: 'top bottom', end: 'bottom top', scrub: 0.5 + (i % 3) * 0.6 } });
+    });
+    gsap.fromTo($$('.aulas .bg-court > *'), { drawSVG: '0%' }, { drawSVG: '100%', ease: 'none', stagger: 0.05,
+      scrollTrigger: { trigger: root, start: 'top 85%', end: 'center 40%', scrub: 1 } });
+    gsap.fromTo('.aulas [data-giant]', { xPercent: 0 }, { xPercent: -30, ease: 'none', scrollTrigger: { trigger: root, start: 'top bottom', end: 'bottom top', scrub: 1 } });
+
+    // Cabeçalho
+    var head = $('.aulas-head', root);
+    var tl = gsap.timeline({ defaults: { ease: expo }, scrollTrigger: { trigger: head, start: 'top 78%', once: true } });
+    var tag = $('[data-a="tag"]', head);
+    tl.fromTo(tag, { autoAlpha: 0, x: 90 }, { autoAlpha: 1, x: 0, duration: 1.2 }, 0)
+      .fromTo($('.section-tag-line', tag), { scaleX: 0 }, { scaleX: 1, duration: 1 }, 0.2);
+    var t = $('[data-a="split"]', head); gsap.set(t, { autoAlpha: 1 });
+    var sp = SplitText.create(t, { type: 'lines', mask: 'lines', linesClass: 'split-line' });
+    tl.fromTo(sp.lines, { yPercent: 110, rotate: 2.5, transformOrigin: '0% 100%' }, { yPercent: 0, rotate: 0, duration: 1.2, stagger: 0.12, ease: 'power4.out' }, 0.1)
+      .fromTo($('[data-a="text"]', head), { autoAlpha: 0, y: 40, filter: 'blur(10px)' }, { autoAlpha: 1, y: 0, filter: 'blur(0px)', duration: 1.2, clearProps: 'filter' }, 0.4);
+    var pills = $('[data-a="pills"]', head); gsap.set(pills, { autoAlpha: 1 });
+    tl.fromTo(pills.children, { autoAlpha: 0, scale: 0.6, y: 20 }, { autoAlpha: 1, scale: 1, y: 0, duration: 0.8, stagger: 0.08, ease: 'back.out(1.7)' }, 0.7);
+
+    // Títulos de bloco
+    $$('.block-head[data-a="text"]', root).forEach(function (el) {
+      gsap.fromTo(el, { autoAlpha: 0, y: 50, filter: 'blur(10px)' }, { autoAlpha: 1, y: 0, filter: 'blur(0px)', duration: 1.2, ease: expo, clearProps: 'filter',
+        scrollTrigger: { trigger: el, start: 'top 88%', once: true } });
+    });
+
+    // Grade: o quadro abre de baixo (Elyse clip), dias e horas entram, turmas caem em cascata por dia
+    var board = $('[data-a="board"]', root);
+    var btl = gsap.timeline({ defaults: { ease: expo }, scrollTrigger: { trigger: board, start: 'top 80%', once: true } });
+    gsap.set(board, { autoAlpha: 1 });
+    btl.fromTo(board, { clipPath: 'inset(100% 0% 0% 0% round 1.25rem)' }, { clipPath: 'inset(0% 0% 0% 0% round 1.25rem)', duration: 1.3, ease: inOut, clearProps: 'clipPath' }, 0)
+      .fromTo($$('.chip', board), { autoAlpha: 0, y: 16 }, { autoAlpha: 1, y: 0, duration: 0.7, stagger: 0.04 }, 0.6)
+      .fromTo($$('.board-headcell', board), { autoAlpha: 0, y: 30 }, { autoAlpha: 1, y: 0, duration: 1, stagger: 0.08 }, 0.7)
+      .fromTo($$('.board-rail span', board), { autoAlpha: 0, x: -14 }, { autoAlpha: 1, x: 0, duration: 0.8, stagger: 0.04 }, 0.8);
+    $$('.board-day', board).forEach(function (day, di) {
+      btl.fromTo($$('.slot', day), { autoAlpha: 0, yPercent: 40, scale: 0.92 },
+        { autoAlpha: 1, yPercent: 0, scale: 1, duration: 0.9, stagger: 0.07, clearProps: 'transform,opacity,visibility' }, 0.95 + di * 0.12);
+    });
+
+    // Configurador: passos entram da direita; card cai girando e o placar rola de 000
+    var cfg = $('[data-a="cfg"]', root); gsap.set(cfg, { autoAlpha: 1 });
+    var plan = $('[data-a="plan"]', root); gsap.set(plan, { autoAlpha: 1 });
+    var ptl = gsap.timeline({ defaults: { ease: expo }, scrollTrigger: { trigger: '.planos', start: 'top 75%', once: true } });
+    ptl.fromTo(cfg.children, { autoAlpha: 0, x: 80, filter: 'blur(8px)' }, { autoAlpha: 1, x: 0, filter: 'blur(0px)', duration: 1.1, stagger: 0.1, clearProps: 'filter' }, 0)
+      .fromTo(card, { autoAlpha: 0, y: 120, rotation: 8, scale: 0.9 }, { autoAlpha: 1, y: 0, rotation: -1.5, scale: 1, duration: 1.4 }, 0.15)
+      .add(function () { digits.forEach(function (c) { gsap.set(c, { yPercent: 0 }); }); update(true); }, 0.55);
+
+    // Avulsos + local: cascata (DS stagger) + rota do mapa se desenha + pino cai
+    var ex = $('[data-a="extras"]', root); gsap.set(ex, { autoAlpha: 1 });
+    var etl = gsap.timeline({ defaults: { ease: expo }, scrollTrigger: { trigger: ex, start: 'top 80%', once: true } });
+    etl.fromTo(ex.children, { autoAlpha: 0, yPercent: 30, scale: 0.96 }, { autoAlpha: 1, yPercent: 0, scale: 1, duration: 1.1, stagger: 0.12 }, 0)
+      .fromTo($('.feature-sticker', ex), { scale: 0, rotate: -30 }, { scale: 1, rotate: 4, duration: 0.8, ease: 'back.out(1.7)' }, 0.6)
+      .fromTo($('[data-route]', ex), { drawSVG: '0%' }, { drawSVG: '100%', duration: 2, ease: 'power2.inOut' }, 0.6)
+      .fromTo($('.map-pin', ex), { autoAlpha: 0, y: -60 }, { autoAlpha: 1, y: 0, duration: 0.9, ease: 'bounce.out' }, 2.2);
+
+    // Cursor cresce nos novos interativos
+    var cursor = $('.cursor-ball');
+    if (cursor && fine) $$('.seg label, .chip, .slot', root).forEach(function (el) {
+      el.addEventListener('mouseenter', function () { cursor.classList.add('is-hover'); });
+      el.addEventListener('mouseleave', function () { cursor.classList.remove('is-hover'); });
+    });
+    ScrollTrigger.refresh();
+  }
+  Promise.race([document.fonts ? document.fonts.ready : Promise.resolve(), new Promise(function (r) { setTimeout(r, 1500); })]).then(function () { setTimeout(init, 0); });
+
+  // Segurança: nada fica escondido
+  setInterval(function () {
+    $$('[data-a]', root).forEach(function (el) {
+      var r = el.getBoundingClientRect();
+      if (getComputedStyle(el).visibility === 'hidden' && r.top < window.innerHeight * 0.5 && r.bottom > 0) {
+        el.__w = el.__w || Date.now();
+        if (Date.now() - el.__w > 3000) gsap.set(el, { autoAlpha: 1 });
+      }
     });
   }, 1000);
 })();
