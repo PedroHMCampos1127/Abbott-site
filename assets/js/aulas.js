@@ -73,6 +73,7 @@
     personal: { mensal: [400, 780], trimestral: [385, 765], semestral: [370, 750], anual: [350, 735] }
   };
   var form = $('.cfg', root);
+  form.addEventListener('submit', function (e) { e.preventDefault(); }); // o configurador não envia nada
   var priceEl = $('[data-price]', root);
   var saveEl = $('[data-save]', root), saveVal = $('[data-save-val]', root), saveTxt = saveEl && saveEl.querySelector('small');
   var summaryEl = $('[data-summary]', root), linkEl = $('[data-plan-link]', root), card = $('[data-tilt]', root);
