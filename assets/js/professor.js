@@ -185,7 +185,13 @@
       var cards = $$('.pain-point_card', root);
       var bar = $('.cards-progress span', root);
       var pre = Math.min(500, window.innerWidth * 0.35);
-      var getDist = function () { return (strip.scrollWidth - window.innerWidth) * 0.77; };
+      var getDist = function () {
+        var base = (strip.scrollWidth - window.innerWidth) * 0.77; // fórmula do DS
+        // garante que o último card chegue ao centro da tela (no celular a fórmula do DS não alcança)
+        var last = cards[cards.length - 1];
+        var need = last ? last.offsetLeft + last.offsetWidth / 2 - window.innerWidth / 2 - pre : 0;
+        return Math.max(base, need);
+      };
 
       gsap.fromTo(strip, { x: 0 }, { x: -pre, ease: 'none',
         scrollTrigger: { trigger: container, start: 'top bottom', end: 'top top', scrub: true, invalidateOnRefresh: true } });
