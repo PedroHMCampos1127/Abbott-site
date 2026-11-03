@@ -1238,8 +1238,12 @@ html.js [data-p] { visibility: hidden; }
   .mini-price { font-size: 3.2rem; }
   .map { min-height: 10rem; }
 
+  /* Conheça o professor (linha 1): texto com respiro dentro do contorno da quadra */
+  .about-row-1 .left_side { padding-left: 2.4rem; padding-right: 2.4rem; }
+
   /* Parcerias */
   .parc { padding: 4.5rem 0 4.5rem; }
+  .racket-tags { display: none; }
   .racket-stage { margin-bottom: 2.6rem; }
   .coupon-wrap { margin: 1.8rem 0 1.6rem; }
   .parc-actions { margin-top: 2.4rem; gap: 1.2rem 1.6rem; }
