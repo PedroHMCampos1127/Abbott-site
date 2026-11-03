@@ -41,12 +41,12 @@ Depois acesse `http://localhost:8000` (ou `http://IP-DO-MAC:8000` no celular).
 
 ## Deploy
 
-Publicado na Cloudflare (Workers, assets estáticos): **https://abbott-site.pedro-hmc.workers.dev**
+Publicado na Cloudflare (Workers, assets estáticos): **https://guiabbott.com.br** (também em www.guiabbott.com.br e no endereço técnico abbott-site.pedro-hmc.workers.dev)
 
 - Cada `git push` na branch `main` publica sozinho.
 - Não há build: a pasta publicada é a raiz do projeto.
 - `.assetsignore` lista o que não vai para o ar (README, design-system, arquivos do git).
-- Se o site ganhar domínio próprio, atualizar `canonical`, `og:url` e `og:image` no `<head>` do `index.html`.
+- Domínio guiabbott.com.br registrado no Registro.br (titular: Guilherme), DNS na Cloudflare. Se o domínio mudar, atualizar `canonical`, `og:url` e `og:image` no `<head>` do `index.html`.
 
 ## Dependências (CDN, versões fixas)
 
