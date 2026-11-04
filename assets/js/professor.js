@@ -17,7 +17,7 @@
   var expo = gsap.parseEase('dsExpo') ? 'dsExpo' : 'expo.out';
 
   if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
-  if (!d.classList.contains('no-intro')) window.scrollTo(0, 0); // fallback já mostrou a página: não puxa a pessoa de volta ao topo
+  window.scrollTo(0, 0);
 
   /* ---------- Lenis (DS) — travado enquanto a intro roda ---------- */
   var lenis = null;

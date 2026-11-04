@@ -145,8 +145,7 @@
   }
 
   /* ---------- Movimento reduzido: sem intro, tudo no lugar ---------- */
-  // Também quando o fallback de 5s já mostrou a página: não refaz a intro por cima do conteúdo
-  if (reduce || d.classList.contains('no-intro')) {
+  if (reduce) {
     noIntro();
     gsap.set([titleLines, tag, sub, actions, badge, scrollInd, heroImage, navItems], { autoAlpha: 1 });
     gsap.fromTo('.hero-content, .hero-image', { opacity: 0 }, { opacity: 1, duration: 0.4, ease: 'power1.out' });
@@ -237,7 +236,7 @@
   // Começa quando as fontes estiverem prontas (evita o logo da intro piscar em fonte reserva), no máximo 1.2s de espera
   var started = false;
   function start() {
-    if (started || d.classList.contains('no-intro')) return; started = true;
+    if (started) return; started = true;
     d.classList.add('is-ready');
     clearTimeout(window.__introFallback);
     build().play(0); // SplitText só depois das fontes: as linhas medem certo
